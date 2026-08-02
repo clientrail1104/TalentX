@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <script>
+        // Initialize PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         tailwind.config = {
@@ -58,16 +59,13 @@
         ::-webkit-scrollbar-track { background: #0F1117; }
         ::-webkit-scrollbar-thumb { background: #2E3245; border-radius: 3px; }
         
-        /* Strict A4 Standard Format (210mm x 297mm) High-Contrast Universal ATS Canvas */
+        /* Strict High-Contrast Universal ATS Document Canvas */
         .ats-document {
             font-family: 'Arial', sans-serif;
             color: #111111;
             background: #ffffff;
-            line-height: 1.4;
+            line-height: 1.35;
             box-sizing: border-box;
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
         }
 
         /* Page Breaks for Multi-Page Export without blank trailing pages */
@@ -95,13 +93,15 @@
             <div class="flex items-center gap-2">
                 <button onclick="downloadPDF()" class="gemini-btn text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    PDF (A4)
+                    PDF
                 </button>
-                <button onclick="exportDOC()" class="bg-gemini-surface border border-gemini-border hover:border-gemini-accent text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
-                    📄 DOCX
+                <button onclick="exportDOC()" class="gemini-btn text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    DOCX
                 </button>
-                <button onclick="exportTXT()" class="bg-gemini-surface border border-gemini-border hover:border-gemini-accent text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition">
-                    📝 TXT
+                <button onclick="exportTXT()" class="gemini-btn text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    TXT
                 </button>
             </div>
         </div>
@@ -139,7 +139,7 @@
                     <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Instant Import (.TXT, .DOC, .PDF, .JSON)</label>
                     <label class="w-full bg-gemini-bg border border-dashed border-gemini-border hover:border-gemini-purple rounded-xl p-3.5 flex items-center justify-center gap-2 text-xs text-gray-300 cursor-pointer transition">
                         <svg class="w-4 h-4 text-gemini-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span id="importStatus">Upload Resume File</span>
+                        <span id="importStatus">Upload File (TXT, DOC, PDF, JSON)</span>
                         <input type="file" id="fileInput" accept=".txt,.doc,.docx,.pdf,.json" onchange="handleFileImport(event)" class="hidden">
                     </label>
                 </div>
@@ -159,13 +159,13 @@
 
         </section>
 
-        <!-- RIGHT PANEL: Live A4 Paper Canvas -->
+        <!-- RIGHT PANEL: Live Paper Canvas -->
         <section class="lg:col-span-8 bg-gemini-surface/30 border border-gemini-border rounded-2xl p-4 md:p-8 flex justify-center items-start overflow-y-auto max-h-[calc(100vh-100px)]">
             
-            <div id="export-container" class="w-full flex flex-col items-center">
+            <div id="export-container" class="w-full max-w-[800px]">
 
-                <!-- PAGE 1: RESUME DOCUMENT (Strict A4 Page) -->
-                <div id="resume-page" class="ats-document page-break-container p-10 shadow-2xl rounded bg-white text-gray-900 mb-8">
+                <!-- PAGE 1: RESUME DOCUMENT -->
+                <div id="resume-page" class="ats-document page-break-container w-full p-8 shadow-2xl rounded bg-white text-gray-900 mb-8">
                     
                     <!-- Header -->
                     <header class="border-b-2 border-gray-900 pb-3 mb-4 text-center">
@@ -183,16 +183,16 @@
                     </header>
 
                     <!-- Professional Summary -->
-                    <section class="mb-4">
+                    <section class="mb-3.5">
                         <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Professional Summary</h3>
                         <p id="preview-summary" class="text-xs text-gray-800 leading-relaxed">
                             Results-driven Senior Software Engineer with 7+ years of experience engineering high-performance microservices, scalable distributed infrastructure, and intuitive web applications.
                         </p>
                     </section>
 
-                    <!-- Key Achievements -->
-                    <section class="mb-4">
-                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Key Achievements</h3>
+                    <!-- Key Achievements / Impact Metrics -->
+                    <section class="mb-3.5">
+                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Key Achievements & Impact Metrics</h3>
                         <ul id="preview-achievements" class="list-disc list-outside ml-4 text-xs text-gray-800 space-y-1">
                             <li>Awarded Tech Innovator of the Year for engineering a real-time event-driven system that reduced processing latency by 65%.</li>
                             <li>Architected and deployed cloud infrastructure scaling to 12M+ active daily transactions with 99.99% uptime compliance.</li>
@@ -200,11 +200,11 @@
                     </section>
 
                     <!-- Work Experience -->
-                    <section class="mb-4">
+                    <section class="mb-3.5">
                         <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2.5">Professional Experience</h3>
                         
                         <!-- Role 1 -->
-                        <div class="mb-3">
+                        <div class="mb-2.5">
                             <div class="flex justify-between items-baseline">
                                 <span class="font-bold text-xs text-gray-900" id="preview-company-1">Apex Global Systems</span>
                                 <span class="text-xs text-gray-600 italic" id="preview-date-1">2021 – Present</span>
@@ -217,7 +217,7 @@
                         </div>
 
                         <!-- Role 2 -->
-                        <div class="mb-3">
+                        <div>
                             <div class="flex justify-between items-baseline">
                                 <span class="font-bold text-xs text-gray-900" id="preview-company-2">Vanguard Digital Technologies</span>
                                 <span class="text-xs text-gray-600 italic" id="preview-date-2">2018 – 2021</span>
@@ -230,9 +230,9 @@
                         </div>
                     </section>
 
-                    <!-- Technical Skills -->
-                    <section class="mb-4">
-                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Technical Skills</h3>
+                    <!-- Technical Skills & Domain Keywords -->
+                    <section class="mb-3.5">
+                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Technical Skills & Domain Keywords</h3>
                         <div id="preview-skills" class="text-xs text-gray-800 leading-relaxed">
                             <strong>Languages & Frameworks:</strong> JavaScript (ES6+), TypeScript, Node.js, React, Python, PostgreSQL, GraphQL.<br>
                             <strong>Cloud & DevOps:</strong> AWS (Lambda, S3, ECS), Docker, Kubernetes, CI/CD, Redis, Git.
@@ -240,7 +240,7 @@
                     </section>
 
                     <!-- Education -->
-                    <section class="mb-4">
+                    <section class="mb-3.5">
                         <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Education</h3>
                         <div id="preview-education">
                             <div class="flex justify-between items-baseline text-xs">
@@ -252,8 +252,8 @@
                     </section>
 
                     <!-- Certifications -->
-                    <section class="mb-4">
-                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Certifications</h3>
+                    <section class="mb-3.5">
+                        <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-1.5">Certifications & Credentials</h3>
                         <ul id="preview-certifications" class="list-disc list-outside ml-4 text-xs text-gray-800 space-y-1">
                             <li>AWS Certified Solutions Architect – Associate (2023)</li>
                             <li>Certified ScrumMaster (CSM) – Scrum Alliance (2022)</li>
@@ -277,8 +277,8 @@
 
                 </div>
 
-                <!-- PAGE 2: COVER LETTER DOCUMENT (Strict A4 Page) -->
-                <div id="cover-letter-page" class="ats-document page-break-container p-10 shadow-2xl rounded bg-white text-gray-900">
+                <!-- PAGE 2: COVER LETTER DOCUMENT -->
+                <div id="cover-letter-page" class="ats-document page-break-container w-full p-8 shadow-2xl rounded bg-white text-gray-900">
                     
                     <header class="border-b-2 border-gray-900 pb-3 mb-6 text-center">
                         <h1 id="cl-preview-name" class="text-2xl font-bold uppercase tracking-wide text-gray-900 mb-1">ALEX MORGAN</h1>
@@ -303,22 +303,12 @@
                         <p>Dear Hiring Manager,</p>
 
                         <p id="cl-body-1">
-                            I am writing to express my enthusiastic interest in the <span id="cl-body-position-1">Senior Software Engineer</span> position at your organization. With a proven track record of designing scalable infrastructure, executing high-impact technical initiatives, and collaborating across agile teams, I am confident in my ability to immediately contribute to your team's objectives.
+                            I am writing to express my enthusiastic interest in the <span id="cl-body-position-1">Senior Software Engineer</span> position. With a robust background in engineering scalable enterprise solutions, I am fully equipped to drive exceptional value for your organization.
                         </p>
 
-                        <p id="cl-body-2">
-                            Throughout my career, I have focused on driving operational efficiency and building robust solutions. In my recent work, I spearheaded architectural updates, streamlined workflows, and delivered key milestones on tight schedules while maintaining strict quality standards.
-                        </p>
+                        <p>Thank you for your time and consideration.</p>
 
-                        <p id="cl-body-3">
-                            My core competencies span hands-on technical design, system optimization, and cross-functional leadership. I am eager to bring my problem-solving mindset and commitment to engineering excellence to your ongoing projects.
-                        </p>
-
-                        <p id="cl-body-4">
-                            Thank you for your time and consideration. I look forward to the opportunity to discuss how my background, skills, and qualifications align with your hiring needs.
-                        </p>
-
-                        <div class="pt-6">
+                        <div class="pt-4">
                             <p>Sincerely,</p>
                             <p id="cl-signature-name" class="font-bold text-sm mt-2">Alex Morgan</p>
                         </div>
@@ -332,29 +322,29 @@
 
     </main>
 
-    <!-- AI Generator Engine Logic -->
+    <!-- AI Generator & Unified File Importer Engine Logic -->
     <script>
         const database = {
             "fresh graduate": {
                 title: "JUNIOR PROFESSIONAL / FRESH GRADUATE",
-                summary: "Highly motivated Fresh Graduate with a strong foundation in modern theoretical principles, collaborative project execution, and algorithmic problem-solving. Eager to leverage academic excellence and programming proficiency to deliver immediate value.",
+                summary: "Highly motivated Fresh Graduate with a strong foundation in modern theoretical principles and collaborative project execution. Eager to deliver value as a dynamic junior contributor.",
                 achievements: [
-                    "Graduated with Honors (Top 5% of class) with Academic Excellence Scholarship.",
-                    "Led a capstone development team of 5 peers to build a full-stack campus portal adopted by 3,000+ active students."
+                    "Graduated with Honors (Top 5% of class).",
+                    "Led a capstone development team to build a web app adopted by over 3,000 active students."
                 ],
                 company1: "University Capstone Initiative",
                 date1: "2024 – 2025",
                 role1: "Lead Student Developer",
                 bullets1: [
-                    "Engineered a responsive web application utilizing React, Node.js, and MongoDB, handling 1,500+ daily inquiries.",
-                    "Collaborated in an Agile Scrum environment, conducting code reviews and sprint planning."
+                    "Engineered a web application utilizing React, Node.js, and MongoDB.",
+                    "Collaborated in an Agile Scrum environment."
                 ],
-                company2: "Tech Student Hackathon",
+                company2: "Tech Hackathon",
                 date2: "Summer 2024",
                 role2: "Software Contributor",
                 bullets2: [
-                    "Designed an automated data processing script in Python under a strict 24-hour deadline.",
-                    "Secured 2nd place among 45 competing university development teams."
+                    "Designed an automated data script in Python.",
+                    "Secured 2nd place among 45 competing university teams."
                 ],
                 education: {
                     degree: "B.S. in Computer Science",
@@ -362,183 +352,48 @@
                     year: "Graduated May 2025"
                 },
                 certifications: [
-                    "AWS Certified Cloud Practitioner (2025)",
-                    "Certified Associate in Project Management (CAPM) (2024)"
+                    "AWS Certified Cloud Practitioner (2025)"
                 ],
-                skills: "<strong>Programming:</strong> Python, JavaScript, Java, C++, React, Node.js, SQL.<br><strong>Tools:</strong> Git, GitHub, Docker, VS Code, Agile/Scrum.",
+                skills: "<strong>Programming:</strong> Python, JavaScript, React, Node.js, SQL.<br><strong>Tools:</strong> Git, Docker, Agile/Scrum.",
                 references: [
                     { name: "Dr. Arthur Pendelton", title: "CS Professor", company: "UC Berkeley", email: "a.pendelton@berkeley.edu" },
                     { name: "Prof. Clara Sterling", title: "IS Chair", company: "UC Berkeley", email: "c.sterling@berkeley.edu" }
-                ],
-                coverLetter: {
-                    b1: "I am writing to express my strong enthusiasm for the Junior Professional / Fresh Graduate position. As a recent Computer Science graduate from UC Berkeley, I have developed a solid foundation in software engineering principles, full-stack web development, and database architecture.",
-                    b2: "During my academic tenure, I led a capstone development team to engineer a full-stack portal adopted by over 3,000 active students. This experience honed my abilities in React, Node.js, and Agile team collaboration under tight project deadlines.",
-                    b3: "I am eager to apply my technical enthusiasm, algorithmic problem-solving skills, and commitment to fast learning within your engineering team."
-                }
+                ]
             },
             "senior software engineer": {
                 title: "SENIOR SOFTWARE ENGINEER",
-                summary: "Results-driven Senior Software Engineer with 7+ years of experience engineering high-performance microservices, scalable distributed infrastructure, and intuitive web applications. Expert in modern full-stack development and cloud solution architecture.",
+                summary: "Results-driven Senior Software Engineer with 7+ years of experience engineering high-performance microservices, scalable distributed infrastructure, and intuitive web applications.",
                 achievements: [
-                    "Awarded Tech Innovator of the Year for engineering a real-time event-driven system that reduced processing latency by 65%.",
-                    "Architected and deployed cloud infrastructure scaling to 12M+ active daily transactions with 99.99% uptime."
+                    "Awarded Tech Innovator of the Year for reducing latency by 65%.",
+                    "Architected cloud infrastructure scaling to 12M+ active daily transactions."
                 ],
                 company1: "Apex Global Systems",
                 date1: "2021 – Present",
                 role1: "Senior Software Engineer",
                 bullets1: [
-                    "Spearheaded backend architecture overhaul, redesigning RESTful APIs into GraphQL microservices, improving efficiency by 42%.",
-                    "Led an engineering squad of 8 developers, implementing automated unit/integration testing protocols."
+                    "Spearheaded backend architecture overhaul, improving payload efficiency by 42%.",
+                    "Led an engineering squad of 8 developers."
                 ],
                 company2: "Vanguard Digital Technologies",
                 date2: "2018 – 2021",
                 role2: "Software Engineer",
                 bullets2: [
-                    "Engineered reusable UI components using React and TypeScript, accelerating frontend sprint velocity.",
-                    "Automated CI/CD deployment pipelines utilizing Docker and Kubernetes on AWS EC2."
+                    "Engineered reusable UI components using React and TypeScript.",
+                    "Automated CI/CD deployment pipelines utilizing Docker and Kubernetes."
                 ],
                 education: {
-                    degree: "B.S. in Computer Science & Software Engineering",
+                    degree: "B.S. in Computer Science",
                     school: "University of California, Berkeley",
                     year: "Graduated 2018"
                 },
                 certifications: [
-                    "AWS Certified Solutions Architect – Associate (2023)",
-                    "Certified ScrumMaster (CSM) (2022)"
+                    "AWS Certified Solutions Architect (2023)"
                 ],
-                skills: "<strong>Languages & Frameworks:</strong> JavaScript, TypeScript, Node.js, React, Python, PostgreSQL, GraphQL.<br><strong>Cloud & DevOps:</strong> AWS, Docker, Kubernetes, CI/CD, Redis, Git.",
+                skills: "<strong>Languages:</strong> JavaScript, TypeScript, Node.js, React, Python, PostgreSQL.<br><strong>DevOps:</strong> AWS, Docker, Kubernetes, CI/CD.",
                 references: [
-                    { name: "David Miller", title: "VP of Engineering", company: "Apex Global Systems", email: "dmiller@apexglobal.com" },
-                    { name: "Sarah Jenkins", title: "Director of Software Development", company: "Vanguard Digital", email: "s.jenkins@vanguardtech.com" }
-                ],
-                coverLetter: {
-                    b1: "I am writing to present my application for the Senior Software Engineer position. With over seven years of professional experience architecting distributed microservices and scalable cloud solutions, I bring a depth of expertise in modern full-stack execution.",
-                    b2: "At Apex Global Systems, I spearheaded backend architectural overhauls that reduced API latency by 65% and led cross-functional developer squads in executing robust CI/CD and cloud automated pipelines.",
-                    b3: "My expertise in React, TypeScript, Node.js, and AWS aligns directly with your engineering roadmap, and I am excited about the prospect of driving scalable technological outcomes for your product lineup."
-                }
-            },
-            "senior product manager": {
-                title: "SENIOR PRODUCT MANAGER",
-                summary: "Strategic Product Leader with 6+ years of experience leading cross-functional teams to conceptualize, launch, and scale high-growth digital products. Expert in product roadmap execution, quantitative analytics, and revenue optimization.",
-                achievements: [
-                    "Scaled enterprise SaaS platform Monthly Active Users (MAU) by 140%, driving $2.4M in annual recurring revenue (ARR).",
-                    "Pioneered an AI-driven recommendations feature that boosted user retention rates by 28% year-over-year."
-                ],
-                company1: "SaaS Scale Inc",
-                date1: "2021 – Present",
-                role1: "Lead Product Manager",
-                bullets1: [
-                    "Owned end-to-end product strategy, defining quarterly OKRs and aligning engineering, UX, and marketing roadmaps.",
-                    "Conducted qualitative user research and A/B experimentation, successfully decreasing onboarding churn by 22%."
-                ],
-                company2: "Growth Hub Tech",
-                date2: "2018 – 2021",
-                role2: "Product Manager",
-                bullets2: [
-                    "Utilized Mixpanel and Google Analytics to build executive KPI dashboards, translating data into actionable features.",
-                    "Executed competitive market positioning analysis that guided the release of 8 core enterprise platform features."
-                ],
-                education: {
-                    degree: "B.S. in Business Administration",
-                    school: "New York University, Stern School of Business",
-                    year: "Graduated 2018"
-                },
-                certifications: [
-                    "Certified Product Manager (CPM) (2022)",
-                    "Pragmatic Institute Certified (PMC-III) (2021)"
-                ],
-                skills: "<strong>Product Strategy:</strong> Lifecycle Management, Roadmap Execution, A/B Testing, User Research.<br><strong>Tools:</strong> Jira, Confluence, Mixpanel, Figma, Amplitude, SQL, Agile/Scrum.",
-                references: [
-                    { name: "Robert Vance", title: "Chief Product Officer", company: "SaaS Scale Inc", email: "rvance@saasscale.com" },
-                    { name: "Elena Rostova", title: "VP of Growth & Strategy", company: "Growth Hub", email: "elena@growthhub.com" }
-                ],
-                coverLetter: {
-                    b1: "I am writing to express my strong interest in the Senior Product Manager position. Over the past six years, I have successfully guided complex SaaS products from discovery through execution, resulting in significant MAU growth and user retention.",
-                    b2: "In my recent role at SaaS Scale Inc, I led cross-functional squads of engineers, designers, and marketers to build customer-centric features, cutting user onboarding churn by 22% and driving revenue growth.",
-                    b3: "I bring strong proficiency in qualitative research, quantitative analytics (Mixpanel/Amplitude), and roadmap alignment to help deliver continuous value to your customers."
-                }
-            },
-            "lead data scientist": {
-                title: "LEAD DATA SCIENTIST",
-                summary: "Analytical Data Scientist with 6+ years of expertise in machine learning, statistical modeling, and big data engineering. Skilled in deploying predictive models to production and translating complex dataset insights into business decisions.",
-                achievements: [
-                    "Architected predictive customer lifetime value models that boosted cross-selling revenue by $1.8M annually.",
-                    "Automated enterprise data pipeline ingestion processing 25M+ daily records, reducing latency by 55%."
-                ],
-                company1: "Analytics Corp",
-                date1: "2021 – Present",
-                role1: "Lead Data Scientist",
-                bullets1: [
-                    "Engineered machine learning models using Python and XGBoost to predict customer churn with 91% accuracy.",
-                    "Deployed NLP algorithms for customer feedback sentiment analysis, shaping product feature priorities."
-                ],
-                company2: "DataPulse Technologies",
-                date2: "2018 – 2021",
-                role2: "Data Scientist",
-                bullets2: [
-                    "Designed automated ETL data pipelines utilizing SQL, Snowflake, and Apache Spark for cross-department analytics.",
-                    "Constructed interactive BI dashboards in Tableau utilized by executive leadership."
-                ],
-                education: {
-                    degree: "B.S. in Data Science & Applied Statistics",
-                    school: "Stanford University",
-                    year: "Graduated 2018"
-                },
-                certifications: [
-                    "AWS Certified Data Analytics – Specialty (2023)",
-                    "TensorFlow Developer Certificate (2021)"
-                ],
-                skills: "<strong>Frameworks:</strong> Python (Pandas, NumPy, Scikit-Learn), R, SQL, TensorFlow, PyTorch.<br><strong>Infrastructure:</strong> Snowflake, PostgreSQL, Spark, AWS SageMaker, Tableau, PowerBI.",
-                references: [
-                    { name: "Dr. Aris Thorne", title: "Head of Data & AI", company: "Analytics Corp", email: "athorne@analyticscorp.com" },
-                    { name: "Karen Liu", title: "Director of Enterprise BI", company: "DataPulse", email: "k.liu@datapulse.com" }
-                ],
-                coverLetter: {
-                    b1: "I am writing to express my interest in the Lead Data Scientist position. Bringing over six years of machine learning engineering, predictive modeling, and data architecture expertise, I excel at turning complex data into actionable strategies.",
-                    b2: "At Analytics Corp, I led the deployment of production-grade machine learning models using Python, XGBoost, and AWS SageMaker—delivering 91% predictive accuracy and reducing customer churn.",
-                    b3: "I look forward to leveraging my skills in data engineering, NLP, and statistical analytics to drive predictive capabilities for your technical team."
-                }
-            },
-            "cybersecurity lead": {
-                title: "CYBERSECURITY LEAD ANALYST",
-                summary: "Proactive Cybersecurity Lead with 6+ years of experience securing enterprise cloud networks, mitigating advanced threats, and establishing compliance frameworks. Proficient in zero-trust architecture and incident response execution.",
-                achievements: [
-                    "Neutralized over 250+ enterprise cyber threats with zero data breaches recorded across a 4-year tenure.",
-                    "Designed and implemented Zero-Trust network infrastructure, reducing attack surfaces by 50%."
-                ],
-                company1: "CyberShield Global",
-                date1: "2021 – Present",
-                role1: "Lead Cybersecurity Analyst",
-                bullets1: [
-                    "Monitored SIEM security logs (Splunk), managing threat detection protocols across AWS cloud endpoints.",
-                    "Orchestrated quarterly penetration testing and vulnerability mitigation audits to maintain 100% SOC 2 compliance."
-                ],
-                company2: "SecureData Networks",
-                date2: "2018 – 2021",
-                role2: "Information Security Analyst",
-                bullets2: [
-                    "Engineered security awareness training programs, dropping employee phishing vulnerability from 19% down to 1.5%.",
-                    "Managed firewall access controls, intrusion detection systems (IDS), and enterprise endpoint protection suites."
-                ],
-                education: {
-                    degree: "B.S. in Cybersecurity & Network Engineering",
-                    school: "University of Maryland",
-                    year: "Graduated 2018"
-                },
-                certifications: [
-                    "Certified Information Systems Security Professional (CISSP) (2022)",
-                    "Certified Ethical Hacker (CEH) (2020)"
-                ],
-                skills: "<strong>Specialties:</strong> Threat Intelligence, Incident Response, SIEM (Splunk), Penetration Testing, Zero-Trust.<br><strong>Compliance & Tools:</strong> SOC 2, ISO 27001, Wireshark, Metasploit, Nmap, AWS Security, Linux.",
-                references: [
-                    { name: "Marcus Vance", title: "CISO", company: "CyberShield", email: "m.vance@cybershield.com" },
-                    { name: "Amanda Hayes", title: "VP of IT Risk", company: "SecureData", email: "ahayes@securedata.com" }
-                ],
-                coverLetter: {
-                    b1: "I am writing to express my interest in the Cybersecurity Lead Analyst position. With over six years of hands-on threat mitigation, incident response, and cloud security governance experience, I specialize in securing enterprise infrastructures.",
-                    b2: "During my leadership at CyberShield Global, I implemented Zero-Trust cloud network architecture and monitored SIEM endpoints—maintaining 100% SOC 2 compliance across our cloud environment.",
-                    b3: "I look forward to bringing my expertise in threat intelligence, vulnerability assessment, and risk framework governance to protect your digital assets."
-                }
+                    { name: "David Miller", title: "VP of Engineering", company: "Apex Global", email: "dmiller@apexglobal.com" },
+                    { name: "Sarah Jenkins", title: "Director of Software Dev", company: "Vanguard", email: "s.jenkins@vanguardtech.com" }
+                ]
             }
         };
 
@@ -590,16 +445,11 @@
                         certifications: [
                             `Advanced Professional Certification in ${positionInput} (2023)`
                         ],
-                        skills: `<strong>Core Competencies:</strong> Strategic Planning, Process Optimization, Cross-Functional Leadership, Risk Mitigation.<br><strong>Tools:</strong> Agile Workflows, Quality Assurance, Enterprise Systems.`,
+                        skills: `<strong>Core Competencies:</strong> Strategic Planning, Process Optimization, Cross-Functional Leadership, Risk Mitigation.<br><strong>Tools:</strong> Agile Workflows, KPI Tracking, Quality Assurance.`,
                         references: [
                             { name: "John Doe", title: "Department Director", company: "Enterprise Solutions", email: "j.doe@example.com" },
                             { name: "Jane Smith", title: "Operations Manager", company: "Global Systems", email: "j.smith@example.com" }
-                        ],
-                        coverLetter: {
-                            b1: `I am writing to express my strong interest in the ${positionInput} position. With a strong track record of success in this sector, I am well-prepared to make an immediate impact on your organization.`,
-                            b2: `In my previous role as ${positionInput}, I led core operational projects, streamlined execution workflows, and collaborated across teams to deliver high-quality outcomes.`,
-                            b3: `I am eager to contribute my problem-solving abilities, strategic mindset, and dedication to technical excellence in support of your team's goals.`
-                        }
+                        ]
                     };
                 }
             }
@@ -608,7 +458,6 @@
         }
 
         function renderToCanvas(name, positionTitle, data) {
-            // Render Headers
             document.getElementById('preview-name').innerText = name.toUpperCase();
             document.getElementById('cl-preview-name').innerText = name.toUpperCase();
             document.getElementById('cl-signature-name').innerText = name;
@@ -618,7 +467,6 @@
             document.getElementById('cl-position-title').innerText = positionTitle;
             document.getElementById('cl-body-position-1').innerText = positionTitle;
 
-            // Render Resume Details
             document.getElementById('preview-summary').innerText = data.summary;
             document.getElementById('preview-role-1').innerText = data.role1;
             document.getElementById('preview-role-2').innerText = data.role2;
@@ -684,16 +532,11 @@
                     </div>
                 `;
             }
-
-            // Render Dynamic Role-Matched Cover Letter
-            if (data.coverLetter) {
-                document.getElementById('cl-body-1').innerText = data.coverLetter.b1;
-                document.getElementById('cl-body-2').innerText = data.coverLetter.b2;
-                document.getElementById('cl-body-3').innerText = data.coverLetter.b3;
-            }
         }
 
-        /* Unified Multi-Format File Import Logic */
+        /* -------------------------------------------------------------
+           UNIFIED MULTI-FORMAT FILE IMPORT ENGINE (TXT, DOCX, PDF, JSON)
+        ------------------------------------------------------------- */
         async function handleFileImport(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -739,14 +582,16 @@
                 statusElem.innerText = `Uploaded: ${file.name}`;
             } catch (err) {
                 console.error("Import Error:", err);
-                alert("Failed to parse file. Please ensure it is a valid document.");
-                statusElem.innerText = "Upload Resume File";
+                alert("Failed to parse file. Please ensure it is a valid TXT, DOCX, PDF, or JSON document.");
+                statusElem.innerText = "Upload File (TXT, DOC, PDF, JSON)";
             }
         }
 
+        // Smart text parsing algorithm to auto-populate canvas from raw imported document text
         function parseUnstructuredText(rawText, fileName) {
             const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
             
+            // Extract potential name and role from the top lines or file name
             let name = lines[0] && lines[0].length < 40 ? lines[0] : fileName.replace(/\.[^/.]+$/, "");
             let position = lines[1] && lines[1].length < 50 ? lines[1] : "Imported Candidate";
 
@@ -757,8 +602,8 @@
                 title: position.toUpperCase(),
                 summary: rawText.slice(0, 300) + '...',
                 achievements: [
-                    "Parsed work achievements directly from document text.",
-                    "Extracted operational metrics from imported file source."
+                    "Imported metrics and achievements processed from imported file source.",
+                    "Parsed unstructured document contents successfully into preview engine."
                 ],
                 company1: "Imported Work History",
                 date1: "Recent",
@@ -767,41 +612,38 @@
                 company2: "Previous Organization",
                 date2: "Prior",
                 role2: "Professional Specialist",
-                bullets2: lines.slice(5, 8).length > 0 ? lines.slice(5, 8) : ["Extracted responsibilities from imported document."],
+                bullets2: lines.slice(5, 8).length > 0 ? lines.slice(5, 8) : ["Extracted key responsibilities and deliverables."],
                 education: {
-                    degree: "Degree / Academic Background",
+                    degree: "Degree / Credentials Included in Import",
                     school: "Academic Institution",
                     year: "Verified"
                 },
                 certifications: [
-                    "Extracted Certifications & Credentials"
+                    "Extracted Certifications & Technical Credentials"
                 ],
-                skills: `<strong>Parsed Qualifications:</strong> ${rawText.slice(0, 200).replace(/</g, "&lt;")}...`,
+                skills: `<strong>Parsed Import Text Preview:</strong> ${rawText.slice(0, 200).replace(/</g, "&lt;")}...`,
                 references: [
-                    { name: "Professional Reference", title: "Manager", company: "Enterprise", email: "contact@company.com" },
-                    { name: "Professional Reference", title: "Supervisor", company: "Corporation", email: "info@company.com" }
-                ],
-                coverLetter: {
-                    b1: `I am writing to express my strong interest in the ${position} position. Based on my background in this domain, I am well-equipped to contribute immediately to your team.`,
-                    b2: `My background includes: ${rawText.slice(0, 250)}...`,
-                    b3: `I am enthusiastic about bringing my dedication, technical execution, and problem-solving skills to your team.`
-                }
+                    { name: "Reference Available", title: "Manager", company: "Enterprise", email: "contact@company.com" },
+                    { name: "Reference Available", title: "Supervisor", company: "Corporation", email: "info@company.com" }
+                ]
             };
 
             renderToCanvas(name, position.toUpperCase(), extractedData);
         }
 
-        /* Export Functions using A4 Standard Sizes */
+        /* -------------------------------------------------------------
+           EXPORT FUNCTIONS
+        ------------------------------------------------------------- */
         function downloadPDF() {
             const element = document.getElementById('export-container');
             const name = document.getElementById('fullNameInput').value.trim() || 'Candidate';
             
             const opt = {
-                margin:       0,
+                margin:       [0.3, 0.3, 0.3, 0.3],
                 filename:     `${name.replace(/\s+/g, '_')}_ATS_Resume_Package.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
                 pagebreak:    { mode: ['css', 'legacy'] }
             };
 
