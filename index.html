@@ -3,233 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gemini ATS - Applicant Tracking System</title>
+
+<title>Gemini ATS - AI Applicant Tracking System</title>
 
 <style>
+
 *{
     box-sizing:border-box;
-    font-family:Inter,Arial,sans-serif;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
 }
 
 body{
     margin:0;
-    background:#f7f8fc;
+    background:#f7f9fc;
     color:#1f2937;
 }
 
-.app{
-    display:flex;
-    min-height:100vh;
-}
+/* TOP BAR */
 
-/* Sidebar */
-<div>
-🧩 Add-ons
-</div> 
-<div class="panel">
-
-<h2>
-ATS Add-ons
-</h2>
-
-
-<button>
-Interview Question Generator
-</button>
-
-
-<button>
-Candidate Comparison
-</button>
-
-
-<button>
-Recruiter Email Generator
-</button>
-
-
-<button>
-LinkedIn Profile Analyzer
-</button>
-
-
-<button>
-Salary Benchmark Tool
-</button>
-
-
-</div>
-.sidebar{
-    width:260px;
+.header{
+    height:70px;
     background:white;
-    border-right:1px solid #e5e7eb;
-    padding:25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    border-bottom:1px solid #e5e7eb;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 .logo{
     font-size:24px;
     font-weight:700;
-    background:linear-gradient(90deg,#4285f4,#9333ea);
+    background:linear-gradient(90deg,#4285f4,#9b72cb,#d96570);
+    -webkit-background-clip:text;
     color:transparent;
-    background-clip:text;
+}
+
+.ai-badge{
+    background:#eef2ff;
+    color:#4338ca;
+    padding:7px 15px;
+    border-radius:20px;
+    font-size:13px;
+}
+
+
+/* MAIN LAYOUT */
+
+.container{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:white;
+    border-right:1px solid #e5e7eb;
+    padding:20px;
 }
 
 .menu{
-    margin-top:40px;
-}
-
-.menu div{
     padding:14px;
-    margin-bottom:8px;
+    margin-bottom:10px;
     border-radius:12px;
     cursor:pointer;
+    transition:.2s;
 }
 
-.menu div:hover{
+.menu:hover,
+.menu.active{
     background:#eef2ff;
+    color:#4338ca;
+    font-weight:600;
 }
 
 
-/* Main */
+/* CONTENT */
 
-.main{
+.content{
     flex:1;
-    padding:30px;
+    padding:25px;
 }
 
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.title{
-    font-size:32px;
-    font-weight:700;
-}
-
-
-/* Cards */
+/* CARDS */
 
 .cards{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
     gap:20px;
-    margin-top:25px;
 }
 
 
 .card{
     background:white;
-    padding:22px;
     border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
+    padding:22px;
+    box-shadow:0 4px 20px rgba(0,0,0,.05);
 }
+
+
+.card h3{
+    margin:0;
+    font-size:14px;
+    color:#6b7280;
+}
+
 
 .number{
-    font-size:35px;
-    font-weight:800;
-    color:#4f46e5;
-}
-
-
-/* Workspace */
-
-.workspace{
-    margin-top:25px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-}
-
-
-.panel{
-    background:white;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 5px 20px rgba(0,0,0,.05);
-}
-
-
-textarea,select{
-
-    width:100%;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #ddd;
+    font-size:34px;
+    font-weight:700;
     margin-top:10px;
 }
 
 
-button{
+/* BUTTONS */
 
+button{
+    border:none;
     background:#4f46e5;
     color:white;
-    border:none;
-    padding:14px 25px;
-    border-radius:12px;
+    padding:10px 18px;
+    border-radius:10px;
     cursor:pointer;
-    margin-top:15px;
+    font-weight:600;
 }
 
 
 button:hover{
-    background:#3730a3;
+    opacity:.9;
 }
 
 
-/* Score */
+.secondary{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+
+/* TABLE */
+
+.table-box{
+    margin-top:25px;
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    overflow:auto;
+}
+
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+
+th,td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #eee;
+}
+
+
+th{
+    color:#6b7280;
+    font-size:14px;
+}
+
 
 .score{
-    text-align:center;
-    font-size:60px;
-    font-weight:800;
+    font-weight:bold;
     color:#16a34a;
 }
 
 
-.progress{
+/* SEARCH */
 
-height:20px;
-background:#e5e7eb;
+.search{
+    width:100%;
+    padding:13px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    margin-bottom:15px;
+}
+
+
+/* AI PANEL */
+
+.ai-panel{
+
+    background:
+    linear-gradient(
+    135deg,
+    #eef2ff,
+    #faf5ff
+    );
+
+    padding:20px;
+    border-radius:18px;
+    margin-top:20px;
+
+}
+
+
+.ai-title{
+    font-size:20px;
+    font-weight:700;
+}
+
+
+
+/* MODAL */
+
+.modal{
+
+display:none;
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.4);
+align-items:center;
+justify-content:center;
+
+}
+
+
+.modal-content{
+
+background:white;
+width:90%;
+max-width:700px;
+padding:25px;
 border-radius:20px;
-overflow:hidden;
 
 }
 
 
-.progress div{
+input,textarea,select{
 
-height:100%;
-background:linear-gradient(90deg,#4f46e5,#22c55e);
-
-}
-
-
-/* Table */
-
-table{
 width:100%;
-border-collapse:collapse;
-}
-
-td,th{
 padding:12px;
-border-bottom:1px solid #eee;
-text-align:left;
+margin:8px 0;
+border-radius:10px;
+border:1px solid #ddd;
+
 }
 
 
+/* RESPONSIVE */
 
-@media(max-width:900px){
+@media(max-width:800px){
 
 .sidebar{
 display:none;
 }
 
-.workspace{
-grid-template-columns:1fr;
+.content{
+padding:15px;
 }
 
 }
@@ -238,95 +276,119 @@ grid-template-columns:1fr;
 
 </head>
 
-    <script src="
-https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js">
-</script>
+<div class="ai-panel">
 
-    async function exportDOCX(){
+<h2>
+Import / Export Center
+</h2>
 
-
-const {
-Document,
-Packer,
-Paragraph
-}=docx;
-
-
-let doc =
-new Document({
-
-sections:[{
-
-children:[
-
-new Paragraph(
-document
-.getElementById("coverLetter")
-.value
-)
-
-]
-
-}]
-
-});
+<input 
+type="file"
+accept=".txt,.csv,.pdf,.docx"
+onchange="importFile(event)"
+>
 
 
-let blob =
-await Packer.toBlob(doc);
+<br><br>
+
+<button onclick="exportTXT()">
+Export TXT
+</button>
 
 
-saveAs(
-blob,
-"ATS_Cover_Letter.docx"
-);
+<button onclick="exportCSV()">
+Export CSV
+</button>
 
 
-}
+<button onclick="exportPDF()">
+Export PDF
+</button>
 
+
+<button onclick="exportDOCX()">
+Export DOCX
+</button>
+
+
+<button onclick="saveATS()">
+Save Database
+</button>
+
+
+<button onclick="rankCandidates()">
+AI Rank Candidates
+</button>
+
+
+</div>
 <body>
 
 
-<div class="app">
-
-
-<div class="sidebar">
+<header class="header">
 
 <div class="logo">
-Gemini ATS
+✨ Gemini ATS
+</div>
+
+<div class="ai-badge">
+AI Resume Intelligence
+</div>
+
+</header>
+
+
+
+<div class="container">
+
+
+<aside class="sidebar">
+
+<div class="menu active">
+📊 Dashboard
 </div>
 
 
 <div class="menu">
-
-<div>📊 Dashboard</div>
-<div>👤 Candidates</div>
-<div>📄 Resume Scanner</div>
-<div>💼 Jobs</div>
-<div>✉ Cover Letters</div>
-<div>⚙ Add-ons</div>
-
+👤 Candidates
 </div>
 
 
+<div class="menu">
+📄 Job Descriptions
 </div>
 
 
-
-<div class="main">
-
-
-<div class="topbar">
-
-<div class="title">
-Applicant Tracking Dashboard
+<div class="menu">
+🤖 AI Matching
 </div>
 
-<button>
-+ Add Candidate
-</button>
 
+<div class="menu">
+⬆ Import / Export
 </div>
+
+
+<div class="menu">
+⚙ Add-ons
+</div>
+
+
+</aside>
+
+
+
+<main class="content">
+
+
+<h1>
+AI Applicant Tracking Dashboard
+</h1>
+
+
+<p>
+Smart recruitment platform with resume analysis and candidate ranking.
+</p>
 
 
 
@@ -334,34 +396,56 @@ Applicant Tracking Dashboard
 
 
 <div class="card">
+<h3>
 Total Candidates
+</h3>
+
 <div class="number" id="candidateCount">
-128
-</div>
-</div>
-
-
-<div class="card">
-Average ATS Score
-<div class="number">
-86%
-</div>
-</div>
-
-
-<div class="card">
-Interview Ready
-<div class="number">
-42
-</div>
-</div>
-
-
-<div class="card">
-Open Positions
-<div class="number">
 50
 </div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Average Match Score
+</h3>
+
+<div class="number">
+87%
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Shortlisted
+</h3>
+
+<div class="number">
+18
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>
+Open Positions
+</h3>
+
+<div class="number">
+12
+</div>
+
 </div>
 
 
@@ -370,241 +454,76 @@ Open Positions
 
 
 
-<div class="workspace">
+<div class="ai-panel">
 
-
-<div class="panel">
-
-
-<h2>Resume Analyzer</h2>
-
-
-<label>Select Job Description</label>
-
-<select id="job">
-
-<option>
-AI Engineer
-</option>
-
-<option>
-Full Stack Developer
-</option>
-
-<option>
-Data Scientist
-</option>
-
-<option>
-Cloud Architect
-</option>
-
-</select>
-
-
-
-<label>
-Paste Resume Text
-</label>
-
-
-<textarea id="resume"
-rows="12"
-placeholder="Paste candidate resume here...">
-
-Experienced Python developer with machine learning, AWS, SQL and AI projects.
-
-</textarea>
-
-
-<button onclick="analyze()">
-Analyze Candidate
-</button>
-
-
+<div class="ai-title">
+✨ Gemini Recruitment Assistant
 </div>
 
-
-
-
-
-
-<div class="panel">
-
-
-<h2>ATS Result</h2>
-<div class="panel">
-
-<h2>
-AI Generated Cover Letter
-</h2>
-
-
-<textarea
-id="coverLetter"
-rows="12">
-</textarea>
-
-
-<button onclick="exportTXT()">
-Export TXT
-</button>
-
-
-<button onclick="window.print()">
-Export PDF
-</button>
-
-
-</div>
-    function generateCoverLetter(job,skills){
-
-
-let text =
-
-`
-Dear Hiring Manager,
-
-
-I am excited to apply for the ${job.title} position.
-
-
-My background and experience align strongly with your requirements, particularly in:
-
-${skills.join(", ")}
-
-
-I have demonstrated ability to deliver solutions, collaborate with teams, and apply technical expertise to achieve business objectives.
-
-
-My experience matches your organization's needs and I would welcome the opportunity to discuss how I can contribute.
-
-
-Thank you for your consideration.
-
-
-Sincerely,
-
-Candidate Name
-`;
-
-
-
-document
-.getElementById("coverLetter")
-.value=text;
-
-
-}
-    function exportTXT(){
-
-
-let content =
-document
-.getElementById("coverLetter")
-.value;
-
-
-let file =
-new Blob(
-[content],
-{
-type:"text/plain"
-}
-);
-
-
-let link =
-document.createElement("a");
-
-
-link.href =
-URL.createObjectURL(file);
-
-
-link.download =
-"ATS_Cover_Letter.txt";
-
-
-link.click();
-
-
-}
-
-<div class="score" id="score">
-0%
-</div>
-
-
-<div class="progress">
-<div id="bar" style="width:0%">
-</div>
-</div>
-
-
-<h3>Matched Skills</h3>
-
-<ul id="skills">
-
-</ul>
-
-
-<h3>Recommendation</h3>
-
-<p id="recommendation">
-Waiting for analysis...
+<p>
+Analyze resumes, compare job descriptions, generate cover letters,
+and rank candidates automatically.
 </p>
 
 
+<button onclick="openCandidateModal()">
++ Add Candidate
+</button>
+
+
+<button class="secondary">
++ Add Job Description
+</button>
+
+
 </div>
 
 
 
-</div>
 
 
+<div class="table-box">
 
-
-
-<div class="panel" style="margin-top:25px">
 
 <h2>
-Candidate Ranking
+Top Candidates
 </h2>
+
+
+<input 
+class="search"
+placeholder="Search candidates, skills, job title..."
+id="searchBox"
+onkeyup="searchCandidate()"
+>
 
 
 <table>
 
+
+<thead>
+
 <tr>
+
 <th>Name</th>
+
 <th>Position</th>
-<th>Score</th>
+
+<th>Experience</th>
+
+<th>Match</th>
+
 <th>Status</th>
+
 </tr>
 
-
-<tr>
-<td>John Smith</td>
-<td>AI Engineer</td>
-<td>96%</td>
-<td>Strong Match</td>
-</tr>
+</thead>
 
 
-<tr>
-<td>Sarah Lee</td>
-<td>Data Scientist</td>
-<td>91%</td>
-<td>Interview</td>
-</tr>
+<tbody id="candidateTable">
 
 
-<tr>
-<td>Alex Tan</td>
-<td>Developer</td>
-<td>78%</td>
-<td>Review</td>
-</tr>
+</tbody>
 
 
 </table>
@@ -614,2227 +533,1249 @@ Candidate Ranking
 
 
 
-</div>
+</main>
 
 
 </div>
 
 
+
+
+
+<div class="modal" id="candidateModal">
+
+
+<div class="modal-content">
+
+
+<h2>
+Add Candidate
+</h2>
+
+
+<input id="newName" placeholder="Candidate Name">
+
+
+<input id="newPosition" placeholder="Job Position">
+
+
+<input id="newSkills" placeholder="Skills">
+
+
+<textarea 
+id="newResume"
+placeholder="Resume text">
+</textarea>
+
+
+<button onclick="addCandidate()">
+Save Candidate
+</button>
+
+
+<button 
+class="secondary"
+onclick="closeCandidateModal()">
+Cancel
+</button>
+
+
+</div>
+
+</div>
 
 
 
 <script>
 
 
-function analyze(){
+let candidates=[];
 
-const resume =
-document.getElementById("resume")
+// ===============================
+// GEMINI ATS SAMPLE DATABASE
+// ===============================
+
+
+let jobDescriptions=[
+
+{
+title:"Senior Frontend Developer",
+description:
+"Looking for React, JavaScript, TypeScript developer with experience building responsive web applications and API integration.",
+skills:[
+"React",
+"JavaScript",
+"TypeScript",
+"CSS",
+"API"
+]
+},
+
+{
+title:"Data Analyst",
+description:
+"Analyze business data using SQL, Python, Excel and create dashboards.",
+skills:[
+"SQL",
+"Python",
+"Excel",
+"PowerBI",
+"Analytics"
+]
+},
+
+{
+title:"HR Manager",
+description:
+"Manage recruitment, employee relations and HR operations.",
+skills:[
+"Recruitment",
+"HR",
+"Communication",
+"Payroll"
+]
+},
+
+{
+title:"Digital Marketing Specialist",
+description:
+"Manage SEO, social media campaigns and digital advertising.",
+skills:[
+"SEO",
+"Marketing",
+"Google Ads",
+"Social Media"
+]
+},
+
+{
+title:"Project Manager",
+description:
+"Manage software projects, teams and delivery schedules.",
+skills:[
+"Agile",
+"Leadership",
+"Scrum",
+"Planning"
+]
+}
+
+];
+
+
+
+
+
+candidates=[
+
+{
+name:"Sarah Lim",
+position:"Senior Frontend Developer",
+experience:"6 years",
+skills:[
+"React",
+"JavaScript",
+"TypeScript",
+"CSS",
+"API"
+],
+score:96,
+status:"Shortlisted"
+},
+
+
+{
+name:"Michael Tan",
+position:"Data Analyst",
+experience:"4 years",
+skills:[
+"SQL",
+"Python",
+"Excel",
+"PowerBI"
+],
+score:92,
+status:"Interview"
+},
+
+
+{
+name:"Aisha Rahman",
+position:"HR Manager",
+experience:"8 years",
+skills:[
+"Recruitment",
+"HR",
+"Payroll",
+"Communication"
+],
+score:95,
+status:"Shortlisted"
+},
+
+
+{
+name:"David Wong",
+position:"Digital Marketing Specialist",
+experience:"5 years",
+skills:[
+"SEO",
+"Marketing",
+"Google Ads"
+],
+score:88,
+status:"Review"
+},
+
+
+{
+name:"Jason Lee",
+position:"Project Manager",
+experience:"7 years",
+skills:[
+"Agile",
+"Scrum",
+"Leadership"
+],
+score:91,
+status:"Interview"
+}
+
+];
+
+
+
+
+// Generate additional candidates automatically
+
+let firstNames=[
+"Daniel",
+"Emma",
+"Ryan",
+"Sophia",
+"Kevin",
+"Olivia",
+"Adam",
+"Grace",
+"Lucas",
+"Emily"
+];
+
+
+let lastNames=[
+"Lim",
+"Tan",
+"Wong",
+"Lee",
+"Chan",
+"Smith",
+"Brown",
+"Wilson",
+"Taylor",
+"Martin"
+];
+
+
+let roles=[
+"Frontend Developer",
+"Backend Developer",
+"Data Analyst",
+"HR Executive",
+"Marketing Specialist",
+"Project Manager",
+"UI UX Designer",
+"Software Engineer",
+"Business Analyst",
+"Product Manager"
+];
+
+
+let skillPool=[
+
+"React",
+"JavaScript",
+"Python",
+"SQL",
+"Excel",
+"Figma",
+"SEO",
+"Agile",
+"Communication",
+"Leadership",
+"Node.js",
+"Java",
+"AWS",
+"Cloud",
+"Recruitment"
+
+];
+
+
+
+while(candidates.length<50){
+
+
+let name=
+firstNames[
+Math.floor(Math.random()*firstNames.length)
+]
++
+" "
++
+lastNames[
+Math.floor(Math.random()*lastNames.length)
+];
+
+
+let skills=[];
+
+
+for(let i=0;i<5;i++){
+
+skills.push(
+skillPool[
+Math.floor(Math.random()*skillPool.length)
+]
+);
+
+}
+
+
+
+candidates.push({
+
+name:name,
+
+position:
+roles[
+Math.floor(Math.random()*roles.length)
+],
+
+experience:
+(Math.floor(Math.random()*10)+1)
++
+" years",
+
+
+skills:skills,
+
+
+score:
+Math.floor(Math.random()*30)+70,
+
+
+status:
+[
+"New",
+"Review",
+"Interview",
+"Shortlisted"
+]
+[
+Math.floor(Math.random()*4)
+]
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// AI MATCH ENGINE
+// ===============================
+
+
+
+function calculateMatch(candidate,job){
+
+
+let matched=0;
+
+
+job.skills.forEach(skill=>{
+
+
+candidate.skills.forEach(c=>{
+
+
+if(
+c.toLowerCase()
+==
+skill.toLowerCase()
+)
+
+matched++;
+
+});
+
+
+});
+
+
+let score=
+Math.round(
+(matched/job.skills.length)*100
+);
+
+
+if(score>100)
+score=100;
+
+
+return score;
+
+}
+
+
+
+
+
+
+function generateCoverLetter(candidate,job){
+
+
+return `
+
+Dear Hiring Manager,
+
+
+I am excited to apply for the ${job.title} position.
+
+My experience in ${candidate.position}
+and my skills in ${candidate.skills.join(", ")}
+allow me to contribute effectively to your organization.
+
+
+My background demonstrates strong problem-solving,
+team collaboration and technical capability.
+
+
+I would appreciate the opportunity to discuss
+how my experience matches your requirements.
+
+
+Thank you for your consideration.
+
+
+Sincerely,
+
+${candidate.name}
+
+`;
+
+}
+
+
+
+
+
+
+
+function analyzeCandidate(index){
+
+
+let candidate=
+candidates[index];
+
+
+let job=
+jobDescriptions[0];
+
+
+let score=
+calculateMatch(
+candidate,
+job
+);
+
+
+return {
+
+
+score:score,
+
+
+recommendation:
+score>=80
+?
+"Highly Recommended"
+:
+score>=60
+?
+"Consider"
+:
+"Low Match",
+
+
+coverLetter:
+generateCoverLetter(
+candidate,
+job
+)
+
+
+};
+
+
+}
+
+
+
+
+
+
+
+// INITIAL LOAD
+
+
+renderCandidates();
+
+
+
+function openCandidateModal(){
+
+document.getElementById(
+"candidateModal"
+).style.display="flex";
+
+}
+
+
+
+function closeCandidateModal(){
+
+document.getElementById(
+"candidateModal"
+).style.display="none";
+
+}
+
+
+
+
+function addCandidate(){
+
+let c={
+
+name:
+document.getElementById("newName").value,
+
+position:
+document.getElementById("newPosition").value,
+
+skills:
+document.getElementById("newSkills").value,
+
+resume:
+document.getElementById("newResume").value,
+
+score:
+Math.floor(Math.random()*20)+80,
+
+status:"New"
+
+};
+
+
+candidates.push(c);
+
+renderCandidates();
+
+closeCandidateModal();
+
+}
+
+
+
+
+
+function renderCandidates(){
+
+let table=
+document.getElementById(
+"candidateTable"
+);
+
+
+table.innerHTML="";
+
+
+candidates.forEach(c=>{
+
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${c.name}</td>
+
+<td>${c.position}</td>
+
+<td>${c.experience||"5 years"}</td>
+
+<td class="score">
+${c.score}%
+</td>
+
+<td>
+${c.status}
+</td>
+
+
+</tr>
+
+`;
+
+
+});
+
+
+document.getElementById(
+"candidateCount"
+).innerHTML=
+candidates.length;
+
+
+}
+
+
+
+
+function searchCandidate(){
+
+let value=
+document
+.getElementById("searchBox")
 .value
 .toLowerCase();
 
 
-const selected =
-document.getElementById("job")
-.value;
-
-
-const job =
-jobs.find(
-j=>j.title===selected
+let rows=
+document.querySelectorAll(
+"#candidateTable tr"
 );
 
 
-if(!job){
-alert("Select a job first");
+rows.forEach(row=>{
+
+row.style.display=
+row.innerText
+.toLowerCase()
+.includes(value)
+?
+""
+:
+"none";
+
+});
+
+
+}
+
+// ======================================
+// GEMINI ATS IMPORT / EXPORT ENGINE
+// ======================================
+
+
+// Load external document libraries
+
+let libs=document.createElement("script");
+
+libs.src=
+"https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+
+document.head.appendChild(libs);
+
+
+
+let mammothScript=document.createElement("script");
+
+mammothScript.src=
+"https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js";
+
+document.head.appendChild(mammothScript);
+
+
+
+
+
+
+// ======================================
+// SAVE DATA LOCALLY
+// ======================================
+
+
+function saveATS(){
+
+localStorage.setItem(
+"geminiATS",
+JSON.stringify(candidates)
+);
+
+alert(
+"ATS database saved successfully"
+);
+
+}
+
+
+
+function loadATS(){
+
+let data=
+localStorage.getItem(
+"geminiATS"
+);
+
+
+if(data){
+
+candidates=
+JSON.parse(data);
+
+renderCandidates();
+
+}
+
+}
+
+
+
+
+// ======================================
+// EXPORT TXT
+// ======================================
+
+
+function exportTXT(){
+
+
+let text="GEMINI ATS REPORT\n\n";
+
+
+candidates.forEach(c=>{
+
+
+text+=
+
+`
+Name:
+${c.name}
+
+Position:
+${c.position}
+
+Experience:
+${c.experience}
+
+Skills:
+${c.skills.join(", ")}
+
+Match Score:
+${c.score}%
+
+Status:
+${c.status}
+
+-------------------------
+
+`;
+
+});
+
+
+downloadFile(
+text,
+"ATS_Report.txt",
+"text/plain"
+);
+
+
+}
+
+
+
+
+
+
+
+// ======================================
+// EXPORT CSV
+// ======================================
+
+
+function exportCSV(){
+
+
+let csv=
+"Name,Position,Experience,Skills,Score,Status\n";
+
+
+candidates.forEach(c=>{
+
+
+csv+=
+
+`${c.name},
+${c.position},
+${c.experience},
+"${c.skills.join(" ")}",
+${c.score},
+${c.status}
+\n`;
+
+
+});
+
+
+downloadFile(
+csv,
+"ATS_Report.csv",
+"text/csv"
+);
+
+
+}
+
+
+
+
+
+
+
+// ======================================
+// EXPORT PDF
+// ======================================
+
+
+function exportPDF(){
+
+
+if(!window.jspdf){
+
+alert(
+"PDF engine loading..."
+);
+
 return;
-}
-
-
-let matched=[];
-let missing=[];
-
-
-/* Required Skill Analysis */
-
-job.requiredSkills.forEach(skill=>{
-
-if(
-resume.includes(
-skill.toLowerCase()
-)
-){
-
-matched.push(skill);
-
-}
-else{
-
-missing.push(skill);
 
 }
 
-});
+
+const {
+jsPDF
+}=window.jspdf;
 
 
-
-let skillScore =
-(matched.length /
-job.requiredSkills.length)
-*100;
+let pdf=
+new jsPDF();
 
 
-
-/* Keyword Analysis */
-
-
-let keywordMatch=0;
-
-
-job.keywords.forEach(k=>{
-
-if(
-resume.includes(
-k.toLowerCase()
-)
-){
-
-keywordMatch++;
-
-}
-
-});
+pdf.text(
+"Gemini ATS Candidate Report",
+10,
+15
+);
 
 
-let keywordScore =
-(keywordMatch /
-job.keywords.length)
-*100;
+let y=30;
 
 
+candidates.slice(0,20)
+.forEach(c=>{
 
-/* Final ATS Weight */
 
+pdf.text(
 
-let finalScore =
-Math.round(
+`${c.name} - ${c.position} - ${c.score}%`,
 
-(skillScore *
-job.weights.skills/100)
+10,
 
-+
-
-(keywordScore *
-job.weights.keywords/100)
-
-+
-
-25
+y
 
 );
 
 
-
-if(finalScore>100)
-finalScore=100;
-
-
-
-document
-.getElementById("score")
-.innerHTML=
-finalScore+"%";
-
-
-
-document
-.getElementById("bar")
-.style.width=
-finalScore+"%";
-
-
-
-/* Matched skills */
-
-let skillBox =
-document.getElementById("skills");
-
-
-skillBox.innerHTML="";
-
-
-matched.forEach(skill=>{
-
-
-let li =
-document.createElement("li");
-
-
-li.innerHTML =
-"✅ "+skill;
-
-
-skillBox.appendChild(li);
+y+=10;
 
 
 });
 
 
-
-missing.forEach(skill=>{
-
-
-let li =
-document.createElement("li");
-
-
-li.style.color="red";
-
-li.innerHTML =
-"❌ Missing: "+skill;
-
-
-skillBox.appendChild(li);
-
-
-});
-
-
-
-let recommendation="";
-
-
-if(finalScore>=85){
-
-recommendation =
-"Excellent ATS match. Recommend interview.";
-
-}
-
-else if(finalScore>=70){
-
-recommendation =
-"Good match. Recruiter review recommended.";
-
-}
-
-else{
-
-recommendation =
-"Low match. Improve resume alignment.";
-
-}
-
-
-
-document
-.getElementById("recommendation")
-.innerHTML=
-recommendation;
-
-
-
-generateCoverLetter(
-job,
-matched
+pdf.save(
+"ATS_Report.pdf"
 );
 
+
 }
-const jobs = [
+
+
+
+
+
+
+
+
+// ======================================
+// EXPORT DOCX STYLE FILE
+// ======================================
+
+
+function exportDOCX(){
+
+
+let content=
+
+"GEMINI ATS REPORT\n\n";
+
+
+candidates.forEach(c=>{
+
+
+content+=
+
+`${c.name}
+
+${c.position}
+
+${c.skills.join(", ")}
+
+Score ${c.score}%
+
+
+`;
+
+});
+
+
+downloadFile(
+
+content,
+
+"ATS_Report.docx",
+
+"application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+function downloadFile(
+content,
+filename,
+type
+){
+
+
+let blob=
+new Blob(
+[content],
+{
+type:type
+}
+);
+
+
+let link=
+document.createElement("a");
+
+
+link.href=
+URL.createObjectURL(blob);
+
+
+link.download=
+filename;
+
+
+link.click();
+
+
+}
+
+
+
+
+
+
+
+
+// ======================================
+// IMPORT SYSTEM
+// ======================================
+
+
+function importFile(event){
+
+
+let file=
+event.target.files[0];
+
+
+if(!file)
+return;
+
+
+
+let reader=
+new FileReader();
+
+
+
+reader.onload=function(e){
+
+
+
+let text=e.target.result;
+
+
+
+let candidate={
+
+name:
+file.name.split(".")[0],
+
+position:
+"Imported Applicant",
+
+experience:
+"Unknown",
+
+skills:
+text.match(/[A-Za-z]+/g)
+.slice(0,5),
+
+score:
+75,
+
+status:
+"New",
+
+resume:
+text
+
+};
+
+
+
+candidates.push(candidate);
+
+
+renderCandidates();
+
+
+saveATS();
+
+
+
+alert(
+"Candidate imported"
+);
+
+
+};
+
+
+reader.readAsText(file);
+
+
+}
+
+
+
+
+
+
+
+
+// ======================================
+// AI COVER LETTER WINDOW
+// ======================================
+
+
+function showCoverLetter(index){
+
+
+let result=
+analyzeCandidate(index);
+
+
+alert(
+result.coverLetter
+);
+
+
+}
+
+
+
+
+
+
+
+
+// ======================================
+// ADD-ON MODULES
+// ======================================
+
+
+let addons=[
+
 
 {
-id:1,
-title:"AI Engineer",
-department:"Artificial Intelligence",
-level:"Mid-Senior",
-
-description:
-"Develop and deploy machine learning models, build AI systems, optimize neural networks, and collaborate with engineering teams to deliver scalable AI solutions.",
-
-requiredSkills:[
-"Python",
-"Machine Learning",
-"Deep Learning",
-"TensorFlow",
-"PyTorch",
-"SQL"
-],
-
-preferredSkills:[
-"AWS",
-"Kubernetes",
-"MLOps",
-"Docker"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
+name:"AI Interview Scheduler",
+active:false
 },
 
+
 {
-id:2,
-title:"Full Stack Developer",
-department:"Software Engineering",
-level:"Mid Level",
+name:"Email Automation",
+active:false
+},
 
-description:
-"Design, develop, and maintain scalable web applications using frontend and backend technologies.",
 
-requiredSkills:[
-"JavaScript",
-"React",
-"Node.js",
-"API",
-"Database",
-"Git"
-],
+{
+name:"Team Collaboration",
+active:false
+},
 
-preferredSkills:[
-"AWS",
-"Docker",
-"TypeScript"
-],
 
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
+{
+name:"Advanced Analytics",
+active:false
+},
+
+
+{
+name:"Custom Scoring Rules",
+active:false
 }
 
-}
 
 ];
-const jobs = [
 
-{
-id:1,
-title:"AI Engineer",
-department:"Artificial Intelligence",
-level:"Mid-Senior",
 
-description:
-"Design, develop, train, and deploy artificial intelligence solutions. Build machine learning pipelines, optimize models, integrate AI services, and collaborate with software teams to deliver production AI systems.",
 
-requiredSkills:[
-"Python",
-"Machine Learning",
-"Deep Learning",
-"TensorFlow",
-"PyTorch",
-"SQL"
-],
 
-preferredSkills:[
-"AWS",
-"Docker",
-"Kubernetes",
-"MLOps",
-"Natural Language Processing"
-],
+function enableAddon(index){
 
-keywords:[
-"AI",
-"neural networks",
-"model deployment",
-"data pipelines"
-],
 
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
+addons[index].active=true;
 
-},
 
+alert(
 
-{
-id:2,
-title:"Machine Learning Engineer",
-department:"Data Science",
-level:"Mid-Senior",
+addons[index].name+
+" activated"
 
-description:
-"Create scalable machine learning systems, develop predictive models, perform experimentation, and maintain machine learning infrastructure.",
+);
 
-requiredSkills:[
-"Python",
-"Machine Learning",
-"Statistics",
-"Scikit-Learn",
-"TensorFlow",
-"Data Processing"
-],
-
-preferredSkills:[
-"Spark",
-"Cloud Computing",
-"MLOps",
-"Deep Learning"
-],
-
-keywords:[
-"prediction",
-"classification",
-"regression",
-"AI models"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:3,
-title:"Data Scientist",
-department:"Analytics",
-level:"Mid Level",
-
-description:
-"Analyze complex datasets, build predictive models, communicate insights, and support business decisions through advanced analytics.",
-
-requiredSkills:[
-"Python",
-"SQL",
-"Statistics",
-"Machine Learning",
-"Data Visualization",
-"Analytics"
-],
-
-preferredSkills:[
-"Power BI",
-"Tableau",
-"R",
-"Cloud Platforms"
-],
-
-keywords:[
-"forecasting",
-"data modeling",
-"experimentation"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:4,
-title:"Data Analyst",
-department:"Business Intelligence",
-level:"Junior-Mid",
-
-description:
-"Collect, clean, analyze, and visualize business data to provide actionable insights for stakeholders.",
-
-requiredSkills:[
-"SQL",
-"Excel",
-"Data Analysis",
-"Reporting",
-"Visualization"
-],
-
-preferredSkills:[
-"Python",
-"Power BI",
-"Tableau"
-],
-
-keywords:[
-"dashboard",
-"metrics",
-"reporting"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:5,
-title:"Full Stack Developer",
-department:"Software Engineering",
-level:"Mid Level",
-
-description:
-"Develop complete web applications across frontend and backend systems. Build scalable APIs, user interfaces, databases, and cloud-connected applications.",
-
-requiredSkills:[
-"JavaScript",
-"React",
-"Node.js",
-"API",
-"Database",
-"Git"
-],
-
-preferredSkills:[
-"TypeScript",
-"AWS",
-"Docker",
-"SQL"
-],
-
-keywords:[
-"frontend",
-"backend",
-"web application"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:6,
-title:"Frontend Developer",
-department:"Software Engineering",
-level:"Junior-Mid",
-
-description:
-"Create responsive user interfaces, improve user experience, and develop modern web applications using frontend technologies.",
-
-requiredSkills:[
-"HTML",
-"CSS",
-"JavaScript",
-"React",
-"Responsive Design"
-],
-
-preferredSkills:[
-"TypeScript",
-"Vue",
-"Angular",
-"UI Testing"
-],
-
-keywords:[
-"frontend",
-"components",
-"user interface"
-],
-
-weights:{
-skills:55,
-experience:20,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:7,
-title:"Backend Developer",
-department:"Software Engineering",
-level:"Mid Level",
-
-description:
-"Build reliable server-side applications, design APIs, manage databases, and improve application performance.",
-
-requiredSkills:[
-"Java",
-"Python",
-"Node.js",
-"API Development",
-"Database",
-"SQL"
-],
-
-preferredSkills:[
-"Microservices",
-"Docker",
-"AWS",
-"Cloud"
-],
-
-keywords:[
-"backend",
-"server",
-"architecture"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:8,
-title:"Mobile App Developer",
-department:"Mobile Engineering",
-level:"Mid Level",
-
-description:
-"Develop and maintain mobile applications with excellent performance, usability, and reliability across platforms.",
-
-requiredSkills:[
-"Android",
-"iOS",
-"Mobile Development",
-"Java",
-"Swift"
-],
-
-preferredSkills:[
-"Flutter",
-"React Native",
-"API Integration"
-],
-
-keywords:[
-"mobile",
-"application",
-"UX"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:9,
-title:"Cloud Architect",
-department:"Cloud Infrastructure",
-level:"Senior",
-
-description:
-"Design cloud infrastructure strategies, create scalable architectures, improve reliability, and lead cloud migration projects.",
-
-requiredSkills:[
-"AWS",
-"Azure",
-"Cloud Architecture",
-"Networking",
-"Security"
-],
-
-preferredSkills:[
-"Kubernetes",
-"Docker",
-"Terraform",
-"DevOps"
-],
-
-keywords:[
-"cloud migration",
-"infrastructure",
-"scalability"
-],
-
-weights:{
-skills:50,
-experience:30,
-education:10,
-keywords:10
-}
-
-},
-
-
-{
-id:10,
-title:"DevOps Engineer",
-department:"Infrastructure",
-level:"Mid-Senior",
-
-description:
-"Automate deployment processes, maintain infrastructure, improve system reliability, and implement continuous integration workflows.",
-
-requiredSkills:[
-"Linux",
-"Docker",
-"Kubernetes",
-"CI/CD",
-"AWS",
-"Scripting"
-],
-
-preferredSkills:[
-"Terraform",
-"Jenkins",
-"Python",
-"Monitoring"
-],
-
-keywords:[
-"automation",
-"deployment",
-"pipeline"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
 
 }
 
-];
-{
-id:11,
-title:"Security Analyst",
-department:"Cybersecurity",
-level:"Mid Level",
 
-description:
-"Monitor security events, investigate incidents, analyze vulnerabilities, and implement cybersecurity controls to protect organizational systems.",
 
-requiredSkills:[
-"Cybersecurity",
-"SIEM",
-"Threat Analysis",
-"Network Security",
-"Incident Response"
-],
 
-preferredSkills:[
-"Splunk",
-"Python",
-"Cloud Security",
-"Security Frameworks"
-],
 
-keywords:[
-"vulnerability",
-"monitoring",
-"risk assessment"
-],
 
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
+
+// ======================================
+// JOB DESCRIPTION MANAGEMENT
+// ======================================
+
+
+function addJob(title,description,skills){
+
+
+jobDescriptions.push({
+
+title:title,
+
+description:description,
+
+skills:
+skills.split(",")
+
+});
+
+
+alert(
+"Job description added"
+);
+
+
 }
 
-},
 
 
-{
-id:12,
-title:"Penetration Tester",
-department:"Cybersecurity",
-level:"Mid-Senior",
 
-description:
-"Perform ethical hacking assessments, identify vulnerabilities, test security controls, and provide remediation recommendations.",
 
-requiredSkills:[
-"Penetration Testing",
-"Ethical Hacking",
-"Linux",
-"Networking",
-"Security Testing"
-],
 
-preferredSkills:[
-"Kali Linux",
-"Metasploit",
-"Python",
-"OWASP"
-],
 
-keywords:[
-"exploitation",
-"vulnerability assessment",
-"security audit"
-],
+// ======================================
+// AI RANKING
+// ======================================
 
-weights:{
-skills:55,
-experience:25,
-education:10,
-keywords:10
+
+function rankCandidates(jobIndex=0){
+
+
+let job=
+jobDescriptions[jobIndex];
+
+
+candidates.forEach(c=>{
+
+
+c.score=
+calculateMatch(
+c,
+job
+);
+
+
+});
+
+
+candidates.sort(
+(a,b)=>
+b.score-a.score
+);
+
+
+renderCandidates();
+
+
+alert(
+"Candidates ranked by AI match score"
+);
+
+
 }
 
-},
 
 
-{
-id:13,
-title:"Security Engineer",
-department:"Cybersecurity",
-level:"Senior",
 
-description:
-"Design and implement security solutions, improve infrastructure protection, and support enterprise security architecture.",
 
-requiredSkills:[
-"Network Security",
-"Cloud Security",
-"Firewalls",
-"Encryption",
-"Identity Management"
-],
 
-preferredSkills:[
-"AWS Security",
-"Azure Security",
-"Zero Trust",
-"SIEM"
-],
+// Start database
 
-keywords:[
-"security architecture",
-"access control",
-"compliance"
-],
+loadATS();
 
-weights:{
-skills:50,
-experience:30,
-education:10,
-keywords:10
-}
 
-},
-
-
-{
-id:14,
-title:"SOC Analyst",
-department:"Cybersecurity Operations",
-level:"Junior-Mid",
-
-description:
-"Monitor security operations center activities, investigate alerts, analyze threats, and escalate security incidents.",
-
-requiredSkills:[
-"SIEM",
-"Threat Detection",
-"Log Analysis",
-"Networking",
-"Incident Response"
-],
-
-preferredSkills:[
-"Splunk",
-"QRadar",
-"Python"
-],
-
-keywords:[
-"SOC",
-"alerts",
-"monitoring"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:15,
-title:"Compliance Specialist",
-department:"Risk Management",
-level:"Mid Level",
-
-description:
-"Manage regulatory compliance programs, conduct audits, maintain documentation, and support governance requirements.",
-
-requiredSkills:[
-"Compliance",
-"Risk Management",
-"Auditing",
-"Documentation"
-],
-
-preferredSkills:[
-"ISO 27001",
-"GDPR",
-"Security Policies"
-],
-
-keywords:[
-"governance",
-"controls",
-"regulations"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:16,
-title:"Product Manager",
-department:"Product Management",
-level:"Senior",
-
-description:
-"Lead product strategy, manage product roadmaps, analyze customer needs, and coordinate cross-functional teams.",
-
-requiredSkills:[
-"Product Strategy",
-"Roadmap Planning",
-"Market Research",
-"Agile",
-"Communication"
-],
-
-preferredSkills:[
-"Analytics",
-"UX Research",
-"SQL"
-],
-
-keywords:[
-"product lifecycle",
-"stakeholders",
-"requirements"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:17,
-title:"Project Manager",
-department:"Project Management",
-level:"Mid-Senior",
-
-description:
-"Plan and execute projects, manage timelines, coordinate teams, control budgets, and deliver business objectives.",
-
-requiredSkills:[
-"Project Management",
-"Agile",
-"Leadership",
-"Risk Management",
-"Communication"
-],
-
-preferredSkills:[
-"JIRA",
-"Scrum",
-"PMP"
-],
-
-keywords:[
-"planning",
-"delivery",
-"stakeholder management"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:18,
-title:"Business Analyst",
-department:"Business Operations",
-level:"Mid Level",
-
-description:
-"Analyze business requirements, improve processes, create reports, and translate business needs into technical solutions.",
-
-requiredSkills:[
-"Business Analysis",
-"SQL",
-"Requirements Gathering",
-"Documentation",
-"Data Analysis"
-],
-
-preferredSkills:[
-"Power BI",
-"Agile",
-"Process Improvement"
-],
-
-keywords:[
-"business requirements",
-"workflow",
-"analysis"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:19,
-title:"Operations Manager",
-department:"Operations",
-level:"Senior",
-
-description:
-"Manage operational processes, improve efficiency, lead teams, and optimize business performance.",
-
-requiredSkills:[
-"Operations Management",
-"Leadership",
-"Process Improvement",
-"Analytics"
-],
-
-preferredSkills:[
-"Lean Management",
-"Six Sigma",
-"ERP"
-],
-
-keywords:[
-"optimization",
-"performance",
-"strategy"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:20,
-title:"Strategy Consultant",
-department:"Consulting",
-level:"Senior",
-
-description:
-"Analyze business challenges, develop strategic recommendations, and support executive decision-making.",
-
-requiredSkills:[
-"Business Strategy",
-"Research",
-"Analytics",
-"Presentation"
-],
-
-preferredSkills:[
-"Consulting",
-"Financial Analysis",
-"Market Research"
-],
-
-keywords:[
-"strategy",
-"growth",
-"transformation"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:21,
-title:"UX Designer",
-department:"Design",
-level:"Mid Level",
-
-description:
-"Design user experiences through research, wireframes, prototypes, usability testing, and user-centered design methods.",
-
-requiredSkills:[
-"UX Design",
-"User Research",
-"Wireframing",
-"Prototyping",
-"Figma"
-],
-
-preferredSkills:[
-"Design Systems",
-"Analytics",
-"Accessibility"
-],
-
-keywords:[
-"user experience",
-"prototype",
-"usability"
-],
-
-weights:{
-skills:55,
-experience:20,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:22,
-title:"UI Designer",
-department:"Design",
-level:"Mid Level",
-
-description:
-"Create visually appealing interfaces, design systems, and digital experiences across platforms.",
-
-requiredSkills:[
-"UI Design",
-"Figma",
-"Typography",
-"Visual Design"
-],
-
-preferredSkills:[
-"Adobe XD",
-"Design Systems",
-"Animation"
-],
-
-keywords:[
-"interface",
-"visual",
-"components"
-],
-
-weights:{
-skills:55,
-experience:20,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:23,
-title:"Product Designer",
-department:"Product Design",
-level:"Senior",
-
-description:
-"Combine UX research and UI design to create complete product experiences aligned with business goals.",
-
-requiredSkills:[
-"UX",
-"UI",
-"Figma",
-"Research",
-"Prototyping"
-],
-
-preferredSkills:[
-"Product Strategy",
-"Analytics",
-"Design Systems"
-],
-
-keywords:[
-"product experience",
-"user journey"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:24,
-title:"Digital Marketing Manager",
-department:"Marketing",
-level:"Mid-Senior",
-
-description:
-"Develop digital marketing strategies, manage campaigns, analyze performance, and increase online engagement.",
-
-requiredSkills:[
-"Digital Marketing",
-"SEO",
-"Analytics",
-"Content Marketing",
-"Campaign Management"
-],
-
-preferredSkills:[
-"Google Ads",
-"Social Media",
-"CRM"
-],
-
-keywords:[
-"conversion",
-"campaign",
-"marketing strategy"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:25,
-title:"SEO Specialist",
-department:"Marketing",
-level:"Junior-Mid",
-
-description:
-"Improve website visibility through keyword research, technical optimization, content strategy, and search performance analysis.",
-
-requiredSkills:[
-"SEO",
-"Keyword Research",
-"Google Analytics",
-"Content Optimization"
-],
-
-preferredSkills:[
-"Search Console",
-"HTML",
-"Digital Marketing"
-],
-
-keywords:[
-"organic traffic",
-"ranking",
-"search engine"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-}
-{
-id:26,
-title:"Content Strategist",
-department:"Marketing",
-level:"Mid Level",
-
-description:
-"Develop content strategies, manage editorial planning, create brand messaging, and improve audience engagement across digital channels.",
-
-requiredSkills:[
-"Content Strategy",
-"Copywriting",
-"SEO",
-"Research",
-"Analytics"
-],
-
-preferredSkills:[
-"CMS",
-"Social Media",
-"Brand Management"
-],
-
-keywords:[
-"content planning",
-"storytelling",
-"engagement"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:27,
-title:"Brand Manager",
-department:"Marketing",
-level:"Senior",
-
-description:
-"Manage brand strategy, positioning, campaigns, market research, and customer perception initiatives.",
-
-requiredSkills:[
-"Brand Strategy",
-"Marketing",
-"Research",
-"Campaign Management"
-],
-
-preferredSkills:[
-"Digital Marketing",
-"Analytics",
-"Creative Strategy"
-],
-
-keywords:[
-"brand identity",
-"market positioning"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:28,
-title:"Financial Analyst",
-department:"Finance",
-level:"Mid Level",
-
-description:
-"Analyze financial data, prepare reports, create forecasts, and support business investment decisions.",
-
-requiredSkills:[
-"Financial Analysis",
-"Excel",
-"Forecasting",
-"Accounting",
-"Reporting"
-],
-
-preferredSkills:[
-"SQL",
-"Power BI",
-"Financial Modeling"
-],
-
-keywords:[
-"budget",
-"forecast",
-"investment"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:29,
-title:"Accountant",
-department:"Finance",
-level:"Mid Level",
-
-description:
-"Manage accounting records, prepare financial statements, reconcile accounts, and ensure financial accuracy.",
-
-requiredSkills:[
-"Accounting",
-"Financial Reporting",
-"Excel",
-"Auditing"
-],
-
-preferredSkills:[
-"ERP",
-"Taxation",
-"IFRS"
-],
-
-keywords:[
-"ledger",
-"accounts",
-"finance"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:30,
-title:"Investment Analyst",
-department:"Finance",
-level:"Senior",
-
-description:
-"Research investment opportunities, analyze markets, evaluate risks, and provide investment recommendations.",
-
-requiredSkills:[
-"Investment Analysis",
-"Financial Modeling",
-"Research",
-"Market Analysis"
-],
-
-preferredSkills:[
-"Python",
-"Bloomberg",
-"Portfolio Management"
-],
-
-keywords:[
-"valuation",
-"equity",
-"investment"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:31,
-title:"HR Manager",
-department:"Human Resources",
-level:"Senior",
-
-description:
-"Lead human resources operations, employee relations, recruitment strategy, and organizational development.",
-
-requiredSkills:[
-"Human Resources",
-"Recruitment",
-"Employee Relations",
-"Leadership"
-],
-
-preferredSkills:[
-"HRIS",
-"Training",
-"Analytics"
-],
-
-keywords:[
-"talent",
-"people management",
-"culture"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:32,
-title:"Recruiter",
-department:"Talent Acquisition",
-level:"Junior-Mid",
-
-description:
-"Source candidates, conduct interviews, manage hiring pipelines, and support recruitment activities.",
-
-requiredSkills:[
-"Recruitment",
-"Interviewing",
-"Sourcing",
-"Communication"
-],
-
-preferredSkills:[
-"ATS",
-"LinkedIn Recruiting",
-"Employer Branding"
-],
-
-keywords:[
-"candidate",
-"talent acquisition",
-"hiring"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:33,
-title:"Talent Acquisition Specialist",
-department:"Human Resources",
-level:"Mid Level",
-
-description:
-"Manage end-to-end recruitment processes, improve hiring strategies, and build candidate pipelines.",
-
-requiredSkills:[
-"Recruitment",
-"ATS",
-"Candidate Screening",
-"Interview Management"
-],
-
-preferredSkills:[
-"Analytics",
-"Employer Branding",
-"Sourcing Tools"
-],
-
-keywords:[
-"pipeline",
-"screening",
-"selection"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:34,
-title:"Mechanical Engineer",
-department:"Engineering",
-level:"Mid Level",
-
-description:
-"Design mechanical systems, perform engineering analysis, develop prototypes, and improve manufacturing processes.",
-
-requiredSkills:[
-"Mechanical Design",
-"CAD",
-"Engineering Analysis",
-"Manufacturing"
-],
-
-preferredSkills:[
-"SolidWorks",
-"Simulation",
-"Automation"
-],
-
-keywords:[
-"prototype",
-"design",
-"engineering"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:35,
-title:"Electrical Engineer",
-department:"Engineering",
-level:"Mid Level",
-
-description:
-"Design electrical systems, analyze circuits, develop solutions, and support product engineering activities.",
-
-requiredSkills:[
-"Electrical Engineering",
-"Circuit Design",
-"Testing",
-"Embedded Systems"
-],
-
-preferredSkills:[
-"PCB Design",
-"MATLAB",
-"Automation"
-],
-
-keywords:[
-"electronics",
-"hardware",
-"systems"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:36,
-title:"Civil Engineer",
-department:"Construction",
-level:"Mid Level",
-
-description:
-"Plan, design, and manage construction projects while ensuring safety and quality standards.",
-
-requiredSkills:[
-"Civil Engineering",
-"Project Management",
-"Construction",
-"AutoCAD"
-],
-
-preferredSkills:[
-"Structural Design",
-"Surveying",
-"BIM"
-],
-
-keywords:[
-"infrastructure",
-"construction",
-"design"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:37,
-title:"Manufacturing Engineer",
-department:"Manufacturing",
-level:"Mid-Senior",
-
-description:
-"Optimize manufacturing processes, improve production efficiency, and implement quality improvements.",
-
-requiredSkills:[
-"Manufacturing",
-"Process Improvement",
-"Quality Control",
-"Engineering"
-],
-
-preferredSkills:[
-"Lean Manufacturing",
-"Six Sigma",
-"Automation"
-],
-
-keywords:[
-"production",
-"optimization"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:38,
-title:"Quality Engineer",
-department:"Quality Assurance",
-level:"Mid Level",
-
-description:
-"Develop quality systems, perform inspections, analyze defects, and improve product reliability.",
-
-requiredSkills:[
-"Quality Assurance",
-"Testing",
-"Root Cause Analysis",
-"Documentation"
-],
-
-preferredSkills:[
-"Six Sigma",
-"ISO Standards",
-"Auditing"
-],
-
-keywords:[
-"quality",
-"process improvement"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:39,
-title:"Healthcare Analyst",
-department:"Healthcare",
-level:"Mid Level",
-
-description:
-"Analyze healthcare data, improve operational processes, and support healthcare decision-making.",
-
-requiredSkills:[
-"Data Analysis",
-"Healthcare",
-"Reporting",
-"Statistics"
-],
-
-preferredSkills:[
-"SQL",
-"Analytics",
-"Visualization"
-],
-
-keywords:[
-"patient data",
-"healthcare analytics"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:40,
-title:"Biomedical Engineer",
-department:"Healthcare Technology",
-level:"Mid Level",
-
-description:
-"Develop medical technologies, analyze biomedical systems, and support healthcare innovation.",
-
-requiredSkills:[
-"Biomedical Engineering",
-"Research",
-"Engineering",
-"Testing"
-],
-
-preferredSkills:[
-"Medical Devices",
-"Programming",
-"Regulatory"
-],
-
-keywords:[
-"medical",
-"technology",
-"innovation"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:41,
-title:"Research Scientist",
-department:"Research",
-level:"Senior",
-
-description:
-"Conduct scientific research, analyze experimental data, publish findings, and develop new technologies.",
-
-requiredSkills:[
-"Research",
-"Data Analysis",
-"Scientific Method",
-"Experimentation"
-],
-
-preferredSkills:[
-"Python",
-"Machine Learning",
-"Publications"
-],
-
-keywords:[
-"research",
-"innovation",
-"analysis"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:42,
-title:"Sales Manager",
-department:"Sales",
-level:"Senior",
-
-description:
-"Lead sales teams, develop revenue strategies, manage customer relationships, and achieve sales targets.",
-
-requiredSkills:[
-"Sales Management",
-"Leadership",
-"CRM",
-"Negotiation"
-],
-
-preferredSkills:[
-"Analytics",
-"Business Development"
-],
-
-keywords:[
-"revenue",
-"customers",
-"sales growth"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:43,
-title:"Customer Success Manager",
-department:"Customer Experience",
-level:"Mid Level",
-
-description:
-"Manage customer relationships, improve retention, and ensure successful product adoption.",
-
-requiredSkills:[
-"Customer Success",
-"Communication",
-"Problem Solving",
-"Account Management"
-],
-
-preferredSkills:[
-"CRM",
-"Analytics",
-"SaaS"
-],
-
-keywords:[
-"customer",
-"retention",
-"support"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:44,
-title:"Supply Chain Manager",
-department:"Operations",
-level:"Senior",
-
-description:
-"Manage supply chain strategy, logistics operations, inventory planning, and supplier relationships.",
-
-requiredSkills:[
-"Supply Chain",
-"Logistics",
-"Planning",
-"Operations"
-],
-
-preferredSkills:[
-"ERP",
-"Analytics",
-"Procurement"
-],
-
-keywords:[
-"inventory",
-"supplier",
-"distribution"
-],
-
-weights:{
-skills:45,
-experience:30,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:45,
-title:"Procurement Specialist",
-department:"Procurement",
-level:"Mid Level",
-
-description:
-"Manage purchasing activities, negotiate with suppliers, and optimize procurement processes.",
-
-requiredSkills:[
-"Procurement",
-"Negotiation",
-"Supplier Management",
-"Analysis"
-],
-
-preferredSkills:[
-"ERP",
-"Contract Management"
-],
-
-keywords:[
-"purchasing",
-"sourcing"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:46,
-title:"Legal Assistant",
-department:"Legal",
-level:"Junior-Mid",
-
-description:
-"Support legal operations, prepare documentation, conduct research, and assist legal professionals.",
-
-requiredSkills:[
-"Legal Research",
-"Documentation",
-"Organization",
-"Communication"
-],
-
-preferredSkills:[
-"Compliance",
-"Contract Review"
-],
-
-keywords:[
-"legal",
-"documents",
-"contracts"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:47,
-title:"Administrative Manager",
-department:"Administration",
-level:"Senior",
-
-description:
-"Manage administrative operations, coordinate teams, and improve office processes.",
-
-requiredSkills:[
-"Administration",
-"Organization",
-"Leadership",
-"Communication"
-],
-
-preferredSkills:[
-"Budget Management",
-"Process Improvement"
-],
-
-keywords:[
-"operations",
-"coordination"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:48,
-title:"Executive Assistant",
-department:"Administration",
-level:"Mid Level",
-
-description:
-"Provide executive support, manage schedules, coordinate meetings, and handle confidential information.",
-
-requiredSkills:[
-"Organization",
-"Communication",
-"Scheduling",
-"Microsoft Office"
-],
-
-preferredSkills:[
-"Project Coordination",
-"Reporting"
-],
-
-keywords:[
-"executive support",
-"calendar"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:49,
-title:"Data Governance Manager",
-department:"Data Management",
-level:"Senior",
-
-description:
-"Establish data governance frameworks, improve data quality, and manage enterprise data policies.",
-
-requiredSkills:[
-"Data Governance",
-"Data Quality",
-"Analytics",
-"Data Management"
-],
-
-preferredSkills:[
-"SQL",
-"Cloud",
-"Compliance"
-],
-
-keywords:[
-"data policy",
-"metadata",
-"standards"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-},
-
-
-{
-id:50,
-title:"AI Product Manager",
-department:"Artificial Intelligence Products",
-level:"Senior",
-
-description:
-"Lead AI product strategy, coordinate AI development teams, define product requirements, and deliver intelligent solutions.",
-
-requiredSkills:[
-"AI",
-"Product Management",
-"Machine Learning",
-"Strategy",
-"Communication"
-],
-
-preferredSkills:[
-"Analytics",
-"UX",
-"Cloud"
-],
-
-keywords:[
-"AI product",
-"roadmap",
-"innovation"
-],
-
-weights:{
-skills:50,
-experience:25,
-education:15,
-keywords:10
-}
-
-}
+</script>
