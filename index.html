@@ -1,742 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
-<title>Gemini AI ATS Resume Builder</title>
-
-<style>
-
-*{
-box-sizing:border-box;
-font-family:Inter,Arial,sans-serif;
-}
-
-body{
-margin:0;
-background:
-radial-gradient(circle at top left,#dbeafe,transparent 35%),
-radial-gradient(circle at bottom right,#f3e8ff,transparent 35%),
-#f8fafc;
-color:#202124;
-}
-
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:25px 7%;
-}
-
-
-.logo{
-
-font-size:30px;
-font-weight:800;
-
-background:linear-gradient(
-90deg,#4285f4,#a142f4,#34a853
-);
-
-color:transparent;
-background-clip:text;
-
-}
-
-
-.badge{
-
-background:white;
-padding:12px 20px;
-border-radius:30px;
-box-shadow:0 10px 30px #ddd;
-
-}
-
-
-
-/* DASHBOARD */
-
-
-.container{
-
-width:92%;
-margin:auto;
-
-display:grid;
-
-grid-template-columns:320px 1fr 380px;
-
-gap:20px;
-
-}
-
-
-
-.card{
-
-background:white;
-
-border-radius:25px;
-
-padding:25px;
-
-box-shadow:
-0 20px 50px rgba(0,0,0,.08);
-
-}
-
-
-
-h2{
-margin-top:0;
-}
-
-
-
-/* SIDEBAR */
-
-
-.menu div{
-
-padding:15px;
-
-border-radius:15px;
-
-margin-bottom:10px;
-
-cursor:pointer;
-
-}
-
-
-.menu div:hover{
-
-background:#eef4ff;
-
-}
-
-
-
-/* FORM */
-
-
-input,textarea,select{
-
-width:100%;
-
-padding:13px;
-
-border-radius:15px;
-
-border:1px solid #ddd;
-
-margin:8px 0 15px;
-
-}
-
-
-textarea{
-height:90px;
-}
-
-
-
-button{
-
-border:0;
-
-padding:14px;
-
-width:100%;
-
-border-radius:20px;
-
-background:
-linear-gradient(
-90deg,#4285f4,#a142f4
-);
-
-color:white;
-
-font-size:16px;
-
-cursor:pointer;
-
-}
-
-
-
-
-/* RESUME */
-
-
-.resume{
-
-background:white;
-
-padding:45px;
-
-min-height:800px;
-
-}
-
-
-
-.resume h1{
-
-font-size:36px;
-
-}
-
-
-.resume h3{
-
-border-bottom:2px solid #222;
-
-padding-bottom:5px;
-
-}
-
-
-
-/* AI */
-
-
-.ai{
-
-background:#111827;
-
-color:white;
-
-}
-
-
-.ai span{
-
-color:#8ab4f8;
-
-}
-
-
-
-/* SCORE */
-
-
-.score{
-
-background:
-linear-gradient(
-135deg,#eef5ff,#faf0ff
-);
-
-}
-
-
-.progress{
-
-height:12px;
-
-background:#ddd;
-
-border-radius:20px;
-
-overflow:hidden;
-
-}
-
-
-.progress div{
-
-height:100%;
-
-width:85%;
-
-background:
-linear-gradient(
-90deg,#34a853,#4285f4
-);
-
-}
-
-
-
-/* TRACKER */
-
-
-.stat{
-
-display:flex;
-
-justify-content:space-between;
-
-padding:12px;
-
-background:#f8fafc;
-
-border-radius:15px;
-
-margin-bottom:10px;
-
-}
-
-
-
-@media(max-width:1100px){
-
-.container{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Resume Builder</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- html2pdf.js for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gemini: {
+                            bg: '#0F1117',
+                            surface: '#1E202A',
+                            border: '#2E3245',
+                            blue: '#4285F4',
+                            purple: '#9B72CB',
+                            pink: '#D96570',
+                            accent: '#8AB4F8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Gemini Gradient Text & Glows */
+        .gemini-gradient-text {
+            background: linear-gradient(135deg, #4285F4 0%, #9B72CB 50%, #D96570 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gemini-btn {
+            background: linear-gradient(135deg, #4285F4 0%, #9B72CB 50%, #D96570 100%);
+            transition: all 0.3s ease;
+        }
+        .gemini-btn:hover {
+            opacity: 0.9;
+            box-shadow: 0 0 15px rgba(155, 114, 203, 0.4);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2E3245;
+            border-radius: 3px;
+        }
+        
+        /* ATS Resume Canvas Rules */
+        .ats-document {
+            font-family: 'Arial', sans-serif; /* Clean, universal standard font for ATS */
+            color: #000000;
+            background: #ffffff;
+            line-height: 1.4;
+        }
+    </style>
 </head>
-
-
-
-<body>
-
-
-<header>
-
-<div class="logo">
-✨ Gemini Resume AI
-</div>
-
-
-<div class="badge">
-ATS Career Platform
-</div>
-
-
-</header>
-
-
-
-
-<div class="container">
-
-
-
-<!-- LEFT -->
-
-<div>
-
-
-<div class="card menu">
-
-<h2>Workspace</h2>
-
-<div>👤 Profile</div>
-
-<div>💼 Experience</div>
-
-<div>🎓 Education</div>
-
-<div>🛠 Skills</div>
-
-<div>🏆 Projects</div>
-
-<div>📄 Templates</div>
-
-<div>📊 Applications</div>
-
-
-</div>
-
-
-
-<div class="card">
-
-
-<h2>Template</h2>
-
-
-<select>
-
-<option>Google Minimal ATS</option>
-<option>Executive Resume</option>
-<option>Developer Resume</option>
-<option>Creative Resume</option>
-
-</select>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<!-- CENTER -->
-
-
-<div>
-
-
-
-<div class="card">
-
-
-<h2>Resume Builder</h2>
-
-
-<input id="name"
-placeholder="Full Name">
-
-
-<input id="role"
-placeholder="Professional Title">
-
-
-<input id="email"
-placeholder="Email">
-
-
-<textarea id="summary"
-placeholder="Professional Summary">
-</textarea>
-
-
-
-<textarea id="skills"
-placeholder="Skills">
-</textarea>
-
-
-
-<textarea id="experience"
-placeholder="Experience">
-</textarea>
-
-
-
-<textarea id="job"
-placeholder="Paste Job Description">
-</textarea>
-
-
-
-
-<button onclick="generate()">
-
-✨ Optimize Resume With AI
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-<div class="card score">
-
-
-<h2>
-ATS Score
-</h2>
-
-
-<h1 id="score">
-85%
-</h1>
-
-
-<div class="progress">
-
-<div id="bar"></div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Application Tracker
-</h2>
-
-
-
-<div class="stat">
-Applications
-<b>27</b>
-</div>
-
-
-<div class="stat">
-Interviews
-<b>8</b>
-</div>
-
-
-<div class="stat">
-Offers
-<b>2</b>
-</div>
-
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- RIGHT -->
-
-
-<div>
-
-
-
-<div class="card ai">
-
-
-<h2>
-Gemini AI Assistant
-</h2>
-
-
-<p>
-<span>✓</span>
- ATS formatting detected
-</p>
-
-
-<p>
-<span>✓</span>
- Keywords optimized
-</p>
-
-
-<p>
-<span>✓</span>
- Action verbs improved
-</p>
-
-
-<p>
-<span>💡</span>
- Add measurable results
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Live Resume
-</h2>
-
-
-<div class="resume">
-
-
-<h1 id="rname">
-Your Name
-</h1>
-
-
-<h3 id="rrole">
-Professional Title
-</h3>
-
-
-<p id="remail">
-email
-</p>
-
-
-<h3>
-Summary
-</h3>
-
-<p id="rsummary">
-Summary appears here
-</p>
-
-
-
-<h3>
-Skills
-</h3>
-
-
-<p id="rskills">
-Skills
-</p>
-
-
-
-
-<h3>
-Experience
-</h3>
-
-
-<p id="rexperience">
-Experience
-</p>
-
-
-
-</div>
-
-
-
-<br>
-
-
-<button onclick="window.print()">
-
-Download PDF Resume
-
-</button>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-
-
-
-
-
-
-<script>
-
-
-function generate(){
-
-
-let fields=[
-
-"name",
-"role",
-"summary",
-"skills",
-"experience"
-
-];
-
-
-let complete=0;
-
-
-fields.forEach(f=>{
-
-if(document.getElementById(f).value)
-complete++;
-
-});
-
-
-
-let score=Math.round(
-complete/fields.length*100
-);
-
-
-
-document.getElementById("score")
-.innerHTML=score+"%";
-
-
-document.getElementById("bar")
-.style.width=score+"%";
-
-
-
-rname.innerHTML=
-name.value||"Your Name";
-
-
-rrole.innerHTML=
-role.value||"Professional Title";
-
-
-remail.innerHTML=
-email.value;
-
-
-rsummary.innerHTML=
-summary.value;
-
-
-rskills.innerHTML=
-skills.value;
-
-
-rexperience.innerHTML=
-experience.value;
-
-
-
-let jobText=
-job.value.toLowerCase();
-
-
-
-if(jobText.includes("react"))
-{
-
-document.querySelector(".ai")
-.innerHTML+=
-"<p>✨ React keyword matched</p>";
-
-}
-
-
-
-}
-
-
-
-</script>
-
-
+<body class="bg-gemini-bg text-gray-200 font-sans min-h-screen flex flex-col antialiased">
+
+    <!-- Navbar -->
+    <header class="border-b border-gemini-border bg-gemini-surface/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full gemini-btn flex items-center justify-center font-bold text-white text-sm">✦</div>
+                <span class="font-heading font-bold text-xl tracking-wide">Gemini<span class="text-xs font-normal text-gemini-accent ml-1 px-2 py-0.5 rounded-full bg-gemini-accent/10 border border-gemini-accent/20">ATS Resume</span></span>
+            </div>
+            <button onclick="downloadPDF()" class="gemini-btn text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-lg">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                Export PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- LEFT PANEL: Editor -->
+        <section class="lg:col-span-5 space-y-6 overflow-y-auto max-h-[calc(100vh-100px)] pr-2">
+            
+            <!-- Hero Card -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-gemini-purple/20 rounded-full blur-2xl pointer-events-none"></div>
+                <h1 class="text-2xl font-heading font-bold mb-1">Craft Your <span class="gemini-gradient-text">ATS-Ready</span> CV</h1>
+                <p class="text-xs text-gray-400">Fill in your details. Dynamic layout ensures 100% ATS readability score.</p>
+            </div>
+
+            <!-- Target Position Input (Key Trigger) -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
+                <label class="block text-xs font-semibold text-gemini-accent tracking-wider uppercase">Target Position</label>
+                <input type="text" id="targetPosition" oninput="updateResume()" placeholder="e.g. Senior Software Engineer" class="w-full bg-gemini-bg border border-gemini-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gemini-blue transition">
+            </div>
+
+            <!-- Personal Info -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-4">
+                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-gemini-blue"></span> Contact Details
+                </h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Full Name</label>
+                        <input type="text" id="fullName" oninput="updateResume()" placeholder="Jane Doe" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Email</label>
+                        <input type="email" id="email" oninput="updateResume()" placeholder="jane.doe@email.com" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Phone</label>
+                        <input type="text" id="phone" oninput="updateResume()" placeholder="+1 (555) 019-2834" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Location</label>
+                        <input type="text" id="location" oninput="updateResume()" placeholder="New York, NY" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
+                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-gemini-purple"></span> Professional Summary
+                </h2>
+                <textarea id="summary" oninput="updateResume()" rows="3" placeholder="Results-driven professional with over 5 years of experience..." class="w-full bg-gemini-bg border border-gemini-border rounded-lg p-3 text-xs text-white focus:outline-none focus:border-gemini-purple resize-none"></textarea>
+            </div>
+
+            <!-- Experience -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-4">
+                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-gemini-pink"></span> Work History
+                </h2>
+                <div class="space-y-3">
+                    <input type="text" id="expCompany" oninput="updateResume()" placeholder="Company Name" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="text" id="expRole" oninput="updateResume()" placeholder="Job Title" class="bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="text" id="expDates" oninput="updateResume()" placeholder="2021 - Present" class="bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
+                    </div>
+                    <textarea id="expBullets" oninput="updateResume()" rows="3" placeholder="• Key achievement using action verbs...&#10;• Quantifiable result achieved..." class="w-full bg-gemini-bg border border-gemini-border rounded-lg p-3 text-xs text-white resize-none"></textarea>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
+                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-gemini-accent"></span> Core Skills (Comma Separated)
+                </h2>
+                <input type="text" id="skills" oninput="updateResume()" placeholder="JavaScript, Python, Project Management, Agile" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-accent">
+            </div>
+
+        </section>
+
+        <!-- RIGHT PANEL: Live ATS Document Preview -->
+        <section class="lg:col-span-7 bg-gemini-surface/30 border border-gemini-border rounded-2xl p-4 md:p-8 flex justify-center items-start overflow-y-auto max-h-[calc(100vh-100px)]">
+            
+            <!-- ATS Standard Canvas Container -->
+            <div id="resume-document" class="ats-document w-full max-w-[800px] p-8 shadow-2xl rounded bg-white min-h-[1000px] text-gray-900 text-sm">
+                
+                <!-- ATS Header (Single Column, High Readability) -->
+                <header class="border-b border-gray-300 pb-4 mb-4 text-center">
+                    <h1 id="preview-name" class="text-2xl font-bold uppercase tracking-wide text-gray-900 mb-1">Alex Morgan</h1>
+                    <h2 id="preview-position" class="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-2">Target Position</h2>
+                    <div class="text-xs text-gray-600 space-x-2">
+                        <span id="preview-email">alex.morgan@example.com</span>
+                        <span>•</span>
+                        <span id="preview-phone">+1 (555) 019-2834</span>
+                        <span>•</span>
+                        <span id="preview-location">San Francisco, CA</span>
+                    </div>
+                </header>
+
+                <!-- Section: Summary -->
+                <section class="mb-5">
+                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Professional Summary</h3>
+                    <p id="preview-summary" class="text-xs text-gray-700 leading-relaxed">
+                        Accomplished professional with a proven track record of optimizing system architecture and delivering scalable solutions. Expert in leveraging modern software frameworks to drive operational efficiency and business growth.
+                    </p>
+                </section>
+
+                <!-- Section: Experience -->
+                <section class="mb-5">
+                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-3">Work Experience</h3>
+                    
+                    <div>
+                        <div class="flex justify-between items-baseline mb-0.5">
+                            <span id="preview-company" class="font-bold text-xs text-gray-900">Tech Corp Solutions</span>
+                            <span id="preview-dates" class="text-xs text-gray-600 italic">2021 - Present</span>
+                        </div>
+                        <div id="preview-role" class="text-xs font-semibold text-gray-700 italic mb-2">Senior Software Engineer</div>
+                        <ul id="preview-bullets" class="list-disc list-inside text-xs text-gray-700 space-y-1">
+                            <li>Architected and deployed cloud-native microservices, scaling platform bandwidth by 40%.</li>
+                            <li>Led a cross-functional engineering team of 8 to deliver critical features ahead of schedule.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Section: Skills -->
+                <section class="mb-5">
+                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Technical & Core Skills</h3>
+                    <div id="preview-skills" class="text-xs text-gray-700">
+                        JavaScript, TypeScript, React, Node.js, Python, AWS, Docker, GraphQL, CI/CD, Agile Methodologies
+                    </div>
+                </section>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        function updateResume() {
+            // Personal Details
+            const name = document.getElementById('fullName').value;
+            const position = document.getElementById('targetPosition').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const location = document.getElementById('location').value;
+            const summary = document.getElementById('summary').value;
+
+            // Experience
+            const company = document.getElementById('expCompany').value;
+            const role = document.getElementById('expRole').value;
+            const dates = document.getElementById('expDates').value;
+            const bulletsText = document.getElementById('expBullets').value;
+
+            // Skills
+            const skills = document.getElementById('skills').value;
+
+            // Update DOM Elements
+            document.getElementById('preview-name').innerText = name || 'Alex Morgan';
+            document.getElementById('preview-position').innerText = position || 'Target Position';
+            document.getElementById('preview-email').innerText = email || 'alex.morgan@example.com';
+            document.getElementById('preview-phone').innerText = phone || '+1 (555) 019-2834';
+            document.getElementById('preview-location').innerText = location || 'San Francisco, CA';
+            document.getElementById('preview-summary').innerText = summary || 'Accomplished professional with a proven track record of optimizing system architecture and delivering scalable solutions.';
+
+            document.getElementById('preview-company').innerText = company || 'Tech Corp Solutions';
+            document.getElementById('preview-role').innerText = role || 'Senior Software Engineer';
+            document.getElementById('preview-dates').innerText = dates || '2021 - Present';
+
+            // Format Bullets
+            const bulletContainer = document.getElementById('preview-bullets');
+            bulletContainer.innerHTML = '';
+            if (bulletsText.trim() !== '') {
+                const bulletList = bulletsText.split('\n');
+                bulletList.forEach(bullet => {
+                    if (bullet.trim() !== '') {
+                        const li = document.createElement('li');
+                        li.innerText = bullet.replace(/^[•\-\*]\s*/, ''); // strip manual bullet points
+                        bulletContainer.appendChild(li);
+                    }
+                });
+            } else {
+                bulletContainer.innerHTML = `
+                    <li>Architected and deployed cloud-native microservices, scaling platform bandwidth by 40%.</li>
+                    <li>Led a cross-functional engineering team of 8 to deliver critical features ahead of schedule.</li>
+                `;
+            }
+
+            // Skills Format
+            document.getElementById('preview-skills').innerText = skills || 'JavaScript, TypeScript, React, Node.js, Python, AWS, Docker, GraphQL, CI/CD, Agile Methodologies';
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('resume-document');
+            const opt = {
+                margin:       [0.4, 0.4, 0.4, 0.4],
+                filename:     'ATS_Optimized_Resume.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Generate PDF
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
 </body>
 </html>
