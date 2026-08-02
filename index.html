@@ -1,159 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gemini Resume AI Builder</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Gemini AI ATS Resume Builder</title>
 
 <style>
 
-:root{
-    --primary:#4285f4;
-    --secondary:#a142f4;
-    --green:#34a853;
-    --bg:#f8f9fc;
-    --card:#ffffff;
-    --text:#202124;
-    --muted:#5f6368;
-}
-
 *{
-    box-sizing:border-box;
-    font-family:Inter,Arial,sans-serif;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
 }
 
 body{
-    margin:0;
-    background:
-    radial-gradient(circle at top left,#d8e8ff,transparent 35%),
-    radial-gradient(circle at bottom right,#ead7ff,transparent 35%),
-    var(--bg);
-    color:var(--text);
+margin:0;
+background:
+radial-gradient(circle at top left,#dbeafe,transparent 35%),
+radial-gradient(circle at bottom right,#f3e8ff,transparent 35%),
+#f8fafc;
+color:#202124;
 }
 
-
-/* HEADER */
 
 header{
-    padding:25px 8%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 7%;
 }
+
 
 .logo{
-    font-size:28px;
-    font-weight:700;
-    background:linear-gradient(90deg,#4285f4,#a142f4,#34a853);
-    -webkit-background-clip:text;
-    color:transparent;
+
+font-size:30px;
+font-weight:800;
+
+background:linear-gradient(
+90deg,#4285f4,#a142f4,#34a853
+);
+
+color:transparent;
+background-clip:text;
+
 }
+
 
 .badge{
-    background:white;
-    padding:10px 18px;
-    border-radius:30px;
-    box-shadow:0 5px 20px #ddd;
+
+background:white;
+padding:12px 20px;
+border-radius:30px;
+box-shadow:0 10px 30px #ddd;
+
 }
 
 
-/* MAIN */
+
+/* DASHBOARD */
+
 
 .container{
-    width:90%;
-    margin:auto;
-    display:grid;
-    grid-template-columns:420px 1fr;
-    gap:25px;
+
+width:92%;
+margin:auto;
+
+display:grid;
+
+grid-template-columns:320px 1fr 380px;
+
+gap:20px;
+
 }
 
 
-/* CARDS */
 
 .card{
-    background:rgba(255,255,255,.85);
-    backdrop-filter:blur(20px);
-    border-radius:25px;
-    padding:25px;
-    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+background:white;
+
+border-radius:25px;
+
+padding:25px;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.08);
+
 }
+
+
+
+h2{
+margin-top:0;
+}
+
+
+
+/* SIDEBAR */
+
+
+.menu div{
+
+padding:15px;
+
+border-radius:15px;
+
+margin-bottom:10px;
+
+cursor:pointer;
+
+}
+
+
+.menu div:hover{
+
+background:#eef4ff;
+
+}
+
 
 
 /* FORM */
 
-h2{
-    margin-top:0;
+
+input,textarea,select{
+
+width:100%;
+
+padding:13px;
+
+border-radius:15px;
+
+border:1px solid #ddd;
+
+margin:8px 0 15px;
+
 }
 
-input,textarea{
-    width:100%;
-    padding:13px;
-    margin:8px 0 15px;
-    border:1px solid #ddd;
-    border-radius:14px;
-    outline:none;
-}
 
 textarea{
-    min-height:100px;
-    resize:none;
+height:90px;
 }
 
-input:focus,textarea:focus{
-    border-color:var(--primary);
-}
 
 
 button{
 
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:18px;
-    color:white;
-    background:
-    linear-gradient(90deg,#4285f4,#a142f4);
+border:0;
 
-    font-size:16px;
-    cursor:pointer;
+padding:14px;
+
+width:100%;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+90deg,#4285f4,#a142f4
+);
+
+color:white;
+
+font-size:16px;
+
+cursor:pointer;
+
 }
 
 
-/* PREVIEW */
+
+
+/* RESUME */
+
 
 .resume{
 
-    background:white;
-    min-height:850px;
-    padding:50px;
-    border-radius:10px;
+background:white;
+
+padding:45px;
+
+min-height:800px;
 
 }
 
 
+
 .resume h1{
-    font-size:34px;
-    margin-bottom:5px;
+
+font-size:36px;
+
 }
 
 
 .resume h3{
 
-    border-bottom:2px solid #222;
-    padding-bottom:5px;
-    margin-top:30px;
+border-bottom:2px solid #222;
+
+padding-bottom:5px;
 
 }
 
 
+
+/* AI */
+
+
+.ai{
+
+background:#111827;
+
+color:white;
+
+}
+
+
+.ai span{
+
+color:#8ab4f8;
+
+}
+
+
+
+/* SCORE */
+
+
 .score{
 
-    padding:20px;
-    border-radius:20px;
-    background:
-    linear-gradient(135deg,#eef5ff,#f8eaff);
-    margin-bottom:20px;
+background:
+linear-gradient(
+135deg,#eef5ff,#faf0ff
+);
 
 }
 
@@ -161,40 +239,58 @@ button{
 .progress{
 
 height:12px;
+
 background:#ddd;
+
 border-radius:20px;
+
 overflow:hidden;
 
 }
 
+
 .progress div{
 
 height:100%;
-width:86%;
-background:linear-gradient(90deg,#34a853,#4285f4);
+
+width:85%;
+
+background:
+linear-gradient(
+90deg,#34a853,#4285f4
+);
 
 }
 
 
-/* AI PANEL */
 
-.ai{
+/* TRACKER */
 
-margin-top:20px;
-background:#111827;
-color:white;
+
+.stat{
+
+display:flex;
+
+justify-content:space-between;
+
+padding:12px;
+
+background:#f8fafc;
+
+border-radius:15px;
+
+margin-bottom:10px;
 
 }
 
-.ai span{
-color:#8ab4f8;
-}
 
 
-@media(max-width:900px){
+@media(max-width:1100px){
 
 .container{
+
 grid-template-columns:1fr;
+
 }
 
 }
@@ -203,6 +299,7 @@ grid-template-columns:1fr;
 </style>
 
 </head>
+
 
 
 <body>
@@ -214,94 +311,244 @@ grid-template-columns:1fr;
 ✨ Gemini Resume AI
 </div>
 
+
 <div class="badge">
-ATS Optimized Builder
+ATS Career Platform
 </div>
 
+
 </header>
+
 
 
 
 <div class="container">
 
 
-<!-- BUILDER -->
+
+<!-- LEFT -->
 
 <div>
 
 
+<div class="card menu">
+
+<h2>Workspace</h2>
+
+<div>👤 Profile</div>
+
+<div>💼 Experience</div>
+
+<div>🎓 Education</div>
+
+<div>🛠 Skills</div>
+
+<div>🏆 Projects</div>
+
+<div>📄 Templates</div>
+
+<div>📊 Applications</div>
+
+
+</div>
+
+
+
 <div class="card">
 
-<h2>Create Resume</h2>
+
+<h2>Template</h2>
 
 
-<label>Name</label>
-<input id="name" placeholder="Your name">
+<select>
+
+<option>Google Minimal ATS</option>
+<option>Executive Resume</option>
+<option>Developer Resume</option>
+<option>Creative Resume</option>
+
+</select>
 
 
-<label>Professional Title</label>
-<input id="title" placeholder="Software Engineer">
+</div>
 
 
-<label>Email</label>
-<input id="email" placeholder="email@example.com">
+</div>
 
 
-<label>Summary</label>
+
+
+
+<!-- CENTER -->
+
+
+<div>
+
+
+
+<div class="card">
+
+
+<h2>Resume Builder</h2>
+
+
+<input id="name"
+placeholder="Full Name">
+
+
+<input id="role"
+placeholder="Professional Title">
+
+
+<input id="email"
+placeholder="Email">
+
 
 <textarea id="summary"
-placeholder="Professional summary..."></textarea>
+placeholder="Professional Summary">
+</textarea>
 
 
-<label>Skills</label>
 
 <textarea id="skills"
-placeholder="Python, React, Leadership..."></textarea>
+placeholder="Skills">
+</textarea>
 
 
-<label>Experience</label>
 
 <textarea id="experience"
-placeholder="Company, role, achievements..."></textarea>
+placeholder="Experience">
+</textarea>
+
+
+
+<textarea id="job"
+placeholder="Paste Job Description">
+</textarea>
+
 
 
 
 <button onclick="generate()">
-✨ Generate AI Resume
+
+✨ Optimize Resume With AI
+
 </button>
 
 
+
 </div>
+
+
+
+
+
+<div class="card score">
+
+
+<h2>
+ATS Score
+</h2>
+
+
+<h1 id="score">
+85%
+</h1>
+
+
+<div class="progress">
+
+<div id="bar"></div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="card">
+
+
+<h2>
+Application Tracker
+</h2>
+
+
+
+<div class="stat">
+Applications
+<b>27</b>
+</div>
+
+
+<div class="stat">
+Interviews
+<b>8</b>
+</div>
+
+
+<div class="stat">
+Offers
+<b>2</b>
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<!-- RIGHT -->
+
+
+<div>
 
 
 
 <div class="card ai">
 
-<h2>Gemini AI Assistant</h2>
+
+<h2>
+Gemini AI Assistant
+</h2>
+
 
 <p>
 <span>✓</span>
- Your resume follows ATS structure
+ ATS formatting detected
 </p>
+
 
 <p>
 <span>✓</span>
- Strong action verbs detected
+ Keywords optimized
 </p>
+
 
 <p>
 <span>✓</span>
- Keyword optimization enabled
+ Action verbs improved
 </p>
+
 
 <p>
 <span>💡</span>
- Add measurable achievements:
-"Improved performance by 35%"
+ Add measurable results
 </p>
 
-</div>
-
 
 </div>
 
@@ -309,30 +556,15 @@ placeholder="Company, role, achievements..."></textarea>
 
 
 
-<!-- PREVIEW -->
+<div class="card">
 
 
-<div>
+<h2>
+Live Resume
+</h2>
 
 
-<div class="card score">
-
-<h2>ATS Score</h2>
-
-<h1 id="score">
-86%
-</h1>
-
-<div class="progress">
-<div></div>
-</div>
-
-</div>
-
-
-
-
-<div class="resume" id="resume">
+<div class="resume">
 
 
 <h1 id="rname">
@@ -340,22 +572,22 @@ Your Name
 </h1>
 
 
-<h3 id="rtitle">
+<h3 id="rrole">
 Professional Title
 </h3>
 
 
 <p id="remail">
-email@example.com
+email
 </p>
 
 
 <h3>
-Professional Summary
+Summary
 </h3>
 
 <p id="rsummary">
-Your professional summary will appear here.
+Summary appears here
 </p>
 
 
@@ -364,9 +596,11 @@ Your professional summary will appear here.
 Skills
 </h3>
 
+
 <p id="rskills">
-Your skills
+Skills
 </p>
+
 
 
 
@@ -374,8 +608,9 @@ Your skills
 Experience
 </h3>
 
+
 <p id="rexperience">
-Your experience
+Experience
 </p>
 
 
@@ -383,19 +618,30 @@ Your experience
 </div>
 
 
+
 <br>
 
 
 <button onclick="window.print()">
-Download Resume PDF
+
+Download PDF Resume
+
 </button>
 
 
+
+</div>
+
+
 </div>
 
 
 
+
 </div>
+
+
+
 
 
 
@@ -406,66 +652,87 @@ Download Resume PDF
 function generate(){
 
 
-document.getElementById("rname").innerHTML =
-document.getElementById("name").value || "Your Name";
+let fields=[
 
-
-document.getElementById("rtitle").innerHTML =
-document.getElementById("title").value || "Professional Title";
-
-
-document.getElementById("remail").innerHTML =
-document.getElementById("email").value;
-
-
-document.getElementById("rsummary").innerHTML =
-document.getElementById("summary").value;
-
-
-document.getElementById("rskills").innerHTML =
-document.getElementById("skills").value;
-
-
-document.getElementById("rexperience").innerHTML =
-document.getElementById("experience").value;
-
-
-
-let fields =
-[
 "name",
-"title",
+"role",
 "summary",
 "skills",
 "experience"
+
 ];
 
 
-let completed=0;
+let complete=0;
 
 
-fields.forEach(x=>{
+fields.forEach(f=>{
 
-if(document.getElementById(x).value)
-completed++;
+if(document.getElementById(f).value)
+complete++;
 
 });
 
 
-let score=Math.floor(
-(completed/fields.length)*100
+
+let score=Math.round(
+complete/fields.length*100
 );
 
 
-document.getElementById("score").innerHTML=
-score+"%";
+
+document.getElementById("score")
+.innerHTML=score+"%";
 
 
-document.querySelector(".progress div")
+document.getElementById("bar")
 .style.width=score+"%";
 
 
+
+rname.innerHTML=
+name.value||"Your Name";
+
+
+rrole.innerHTML=
+role.value||"Professional Title";
+
+
+remail.innerHTML=
+email.value;
+
+
+rsummary.innerHTML=
+summary.value;
+
+
+rskills.innerHTML=
+skills.value;
+
+
+rexperience.innerHTML=
+experience.value;
+
+
+
+let jobText=
+job.value.toLowerCase();
+
+
+
+if(jobText.includes("react"))
+{
+
+document.querySelector(".ai")
+.innerHTML+=
+"<p>✨ React keyword matched</p>";
+
 }
+
+
+
+}
+
 
 
 </script>
