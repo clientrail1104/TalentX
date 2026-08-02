@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini Resume Builder</title>
+    <title>Gemini Auto ATS Resume Generator</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -35,7 +35,6 @@
         }
     </script>
     <style>
-        /* Gemini Gradient Text & Glows */
         .gemini-gradient-text {
             background: linear-gradient(135deg, #4285F4 0%, #9B72CB 50%, #D96570 100%);
             -webkit-background-clip: text;
@@ -46,173 +45,159 @@
             transition: all 0.3s ease;
         }
         .gemini-btn:hover {
-            opacity: 0.9;
-            box-shadow: 0 0 15px rgba(155, 114, 203, 0.4);
+            opacity: 0.95;
+            box-shadow: 0 0 20px rgba(155, 114, 203, 0.4);
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0F1117;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2E3245;
-            border-radius: 3px;
-        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0F1117; }
+        ::-webkit-scrollbar-thumb { background: #2E3245; border-radius: 3px; }
         
-        /* ATS Resume Canvas Rules */
+        /* Strict ATS Rules */
         .ats-document {
-            font-family: 'Arial', sans-serif; /* Clean, universal standard font for ATS */
+            font-family: 'Arial', sans-serif;
             color: #000000;
             background: #ffffff;
-            line-height: 1.4;
+            line-height: 1.45;
         }
     </style>
 </head>
 <body class="bg-gemini-bg text-gray-200 font-sans min-h-screen flex flex-col antialiased">
 
-    <!-- Navbar -->
+    <!-- Header / Navbar -->
     <header class="border-b border-gemini-border bg-gemini-surface/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-full gemini-btn flex items-center justify-center font-bold text-white text-sm">✦</div>
-                <span class="font-heading font-bold text-xl tracking-wide">Gemini<span class="text-xs font-normal text-gemini-accent ml-1 px-2 py-0.5 rounded-full bg-gemini-accent/10 border border-gemini-accent/20">ATS Resume</span></span>
+                <span class="font-heading font-bold text-xl tracking-wide">Gemini <span class="gemini-gradient-text">AI Resume Studio</span></span>
             </div>
-            <button onclick="downloadPDF()" class="gemini-btn text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-lg">
+            <button onclick="downloadPDF()" class="gemini-btn text-white px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 shadow-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Export PDF
             </button>
         </div>
     </header>
 
-    <!-- App Container -->
+    <!-- Main Workspace -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <!-- LEFT PANEL: Editor -->
-        <section class="lg:col-span-5 space-y-6 overflow-y-auto max-h-[calc(100vh-100px)] pr-2">
+        <!-- LEFT PANEL: Position Generator Input -->
+        <section class="lg:col-span-5 space-y-6">
             
-            <!-- Hero Card -->
-            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border relative overflow-hidden">
+            <div class="p-6 rounded-2xl bg-gemini-surface border border-gemini-border relative overflow-hidden space-y-3">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-gemini-purple/20 rounded-full blur-2xl pointer-events-none"></div>
-                <h1 class="text-2xl font-heading font-bold mb-1">Craft Your <span class="gemini-gradient-text">ATS-Ready</span> CV</h1>
-                <p class="text-xs text-gray-400">Fill in your details. Dynamic layout ensures 100% ATS readability score.</p>
-            </div>
-
-            <!-- Target Position Input (Key Trigger) -->
-            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
-                <label class="block text-xs font-semibold text-gemini-accent tracking-wider uppercase">Target Position</label>
-                <input type="text" id="targetPosition" oninput="updateResume()" placeholder="e.g. Senior Software Engineer" class="w-full bg-gemini-bg border border-gemini-border rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gemini-blue transition">
-            </div>
-
-            <!-- Personal Info -->
-            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-4">
-                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-gemini-blue"></span> Contact Details
-                </h2>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Full Name</label>
-                        <input type="text" id="fullName" oninput="updateResume()" placeholder="Jane Doe" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Email</label>
-                        <input type="email" id="email" oninput="updateResume()" placeholder="jane.doe@email.com" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Phone</label>
-                        <input type="text" id="phone" oninput="updateResume()" placeholder="+1 (555) 019-2834" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Location</label>
-                        <input type="text" id="location" oninput="updateResume()" placeholder="New York, NY" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-blue">
-                    </div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gemini-accent/10 border border-gemini-accent/20 text-xs font-medium text-gemini-accent">
+                    <span>✦ Zero-Effort Resume Generator</span>
                 </div>
+                <h1 class="text-2xl font-heading font-bold">One-Click <span class="gemini-gradient-text">ATS Resume</span> Builder</h1>
+                <p class="text-xs text-gray-400 leading-relaxed">Enter your desired position below and click Generate. Gemini AI logic will tailor the entire professional profile, achievements, metrics, and technical skill matrices optimized for ATS software.</p>
             </div>
 
-            <!-- Summary -->
-            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
-                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-gemini-purple"></span> Professional Summary
-                </h2>
-                <textarea id="summary" oninput="updateResume()" rows="3" placeholder="Results-driven professional with over 5 years of experience..." class="w-full bg-gemini-bg border border-gemini-border rounded-lg p-3 text-xs text-white focus:outline-none focus:border-gemini-purple resize-none"></textarea>
-            </div>
-
-            <!-- Experience -->
-            <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-4">
-                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-gemini-pink"></span> Work History
-                </h2>
-                <div class="space-y-3">
-                    <input type="text" id="expCompany" oninput="updateResume()" placeholder="Company Name" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="expRole" oninput="updateResume()" placeholder="Job Title" class="bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
-                        <input type="text" id="expDates" oninput="updateResume()" placeholder="2021 - Present" class="bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white">
-                    </div>
-                    <textarea id="expBullets" oninput="updateResume()" rows="3" placeholder="• Key achievement using action verbs...&#10;• Quantifiable result achieved..." class="w-full bg-gemini-bg border border-gemini-border rounded-lg p-3 text-xs text-white resize-none"></textarea>
+            <!-- Single Input Form -->
+            <div class="p-6 rounded-2xl bg-gemini-surface border border-gemini-border space-y-4">
+                <label class="block text-xs font-semibold text-gemini-accent tracking-wider uppercase">Target Job Position</label>
+                <div class="relative">
+                    <input type="text" id="targetPosition" placeholder="e.g. Data Scientist, Product Manager..." class="w-full bg-gemini-bg border border-gemini-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gemini-blue transition">
                 </div>
+
+                <button onclick="generateResume()" class="w-full gemini-btn text-white py-3 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-xl">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Generate ATS Resume
+                </button>
             </div>
 
-            <!-- Skills -->
+            <!-- Quick Suggestions -->
             <div class="p-5 rounded-2xl bg-gemini-surface border border-gemini-border space-y-3">
-                <h2 class="text-sm font-semibold text-gray-300 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-gemini-accent"></span> Core Skills (Comma Separated)
-                </h2>
-                <input type="text" id="skills" oninput="updateResume()" placeholder="JavaScript, Python, Project Management, Agile" class="w-full bg-gemini-bg border border-gemini-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-gemini-accent">
+                <span class="text-xs text-gray-400 block font-medium">Popular Roles (Click to Quick-Fill):</span>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="quickFill('Software Engineer')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">Software Engineer</button>
+                    <button onclick="quickFill('Product Manager')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">Product Manager</button>
+                    <button onclick="quickFill('Data Scientist')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">Data Scientist</button>
+                    <button onclick="quickFill('UX/UI Designer')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">UX/UI Designer</button>
+                    <button onclick="quickFill('Digital Marketing Manager')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">Marketing Manager</button>
+                    <button onclick="quickFill('Cybersecurity Analyst')" class="px-3 py-1.5 rounded-lg bg-gemini-bg border border-gemini-border hover:border-gemini-accent text-gray-300 transition">Cybersecurity Analyst</button>
+                </div>
             </div>
 
         </section>
 
-        <!-- RIGHT PANEL: Live ATS Document Preview -->
+        <!-- RIGHT PANEL: Live ATS Paper Canvas -->
         <section class="lg:col-span-7 bg-gemini-surface/30 border border-gemini-border rounded-2xl p-4 md:p-8 flex justify-center items-start overflow-y-auto max-h-[calc(100vh-100px)]">
             
-            <!-- ATS Standard Canvas Container -->
-            <div id="resume-document" class="ats-document w-full max-w-[800px] p-8 shadow-2xl rounded bg-white min-h-[1000px] text-gray-900 text-sm">
+            <!-- Standard ATS Resume Layout -->
+            <div id="resume-document" class="ats-document w-full max-w-[800px] p-8 shadow-2xl rounded bg-white min-h-[1000px] text-gray-900">
                 
-                <!-- ATS Header (Single Column, High Readability) -->
+                <!-- Header -->
                 <header class="border-b border-gray-300 pb-4 mb-4 text-center">
-                    <h1 id="preview-name" class="text-2xl font-bold uppercase tracking-wide text-gray-900 mb-1">Alex Morgan</h1>
-                    <h2 id="preview-position" class="text-sm font-semibold text-gray-700 tracking-wider uppercase mb-2">Target Position</h2>
+                    <h1 class="text-2xl font-bold uppercase tracking-wide text-gray-900 mb-1">Alex Morgan</h1>
+                    <h2 id="preview-position" class="text-xs font-bold text-gray-700 tracking-wider uppercase mb-2">FULL STACK DEVELOPER</h2>
                     <div class="text-xs text-gray-600 space-x-2">
-                        <span id="preview-email">alex.morgan@example.com</span>
+                        <span>alex.morgan@email.com</span>
                         <span>•</span>
-                        <span id="preview-phone">+1 (555) 019-2834</span>
+                        <span>+1 (555) 019-2834</span>
                         <span>•</span>
-                        <span id="preview-location">San Francisco, CA</span>
+                        <span>San Francisco, CA</span>
+                        <span>•</span>
+                        <span>linkedin.com/in/alexmorgan</span>
                     </div>
                 </header>
 
-                <!-- Section: Summary -->
+                <!-- Professional Summary -->
                 <section class="mb-5">
-                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Professional Summary</h3>
-                    <p id="preview-summary" class="text-xs text-gray-700 leading-relaxed">
-                        Accomplished professional with a proven track record of optimizing system architecture and delivering scalable solutions. Expert in leveraging modern software frameworks to drive operational efficiency and business growth.
+                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Professional Summary</h3>
+                    <p id="preview-summary" class="text-xs text-gray-800 leading-relaxed">
+                        Results-driven Full Stack Developer with 6+ years of experience designing, developing, and deploying scalable web applications. Proficient in modern JavaScript ecosystems and cloud solutions. Demonstrated success leading cross-functional teams and accelerating software release cycles.
                     </p>
                 </section>
 
-                <!-- Section: Experience -->
+                <!-- Work Experience -->
                 <section class="mb-5">
-                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-3">Work Experience</h3>
+                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-3">Work Experience</h3>
                     
-                    <div>
-                        <div class="flex justify-between items-baseline mb-0.5">
-                            <span id="preview-company" class="font-bold text-xs text-gray-900">Tech Corp Solutions</span>
-                            <span id="preview-dates" class="text-xs text-gray-600 italic">2021 - Present</span>
+                    <!-- Role 1 -->
+                    <div class="mb-4">
+                        <div class="flex justify-between items-baseline">
+                            <span class="font-bold text-xs text-gray-900">Apex Global Technologies</span>
+                            <span class="text-xs text-gray-600 italic">2021 – Present</span>
                         </div>
-                        <div id="preview-role" class="text-xs font-semibold text-gray-700 italic mb-2">Senior Software Engineer</div>
-                        <ul id="preview-bullets" class="list-disc list-inside text-xs text-gray-700 space-y-1">
-                            <li>Architected and deployed cloud-native microservices, scaling platform bandwidth by 40%.</li>
-                            <li>Led a cross-functional engineering team of 8 to deliver critical features ahead of schedule.</li>
+                        <div id="preview-role-1" class="text-xs font-semibold text-gray-800 italic mb-1.5">Senior Full Stack Developer</div>
+                        <ul id="preview-bullets-1" class="list-disc list-outside ml-4 text-xs text-gray-800 space-y-1">
+                            <li>Architected microservices infrastructure using Node.js and AWS, boosting application efficiency by 38%.</li>
+                            <li>Engineered highly responsive frontend interfaces with React, improving user retention rates by 24%.</li>
+                            <li>Directed a team of 7 engineers to streamline deployment pipelines, cutting sprint delivery times by 20%.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Role 2 -->
+                    <div>
+                        <div class="flex justify-between items-baseline">
+                            <span class="font-bold text-xs text-gray-900">Vanguard Digital Systems</span>
+                            <span class="text-xs text-gray-600 italic">2018 – 2021</span>
+                        </div>
+                        <div id="preview-role-2" class="text-xs font-semibold text-gray-800 italic mb-1.5">Software Engineer</div>
+                        <ul id="preview-bullets-2" class="list-disc list-outside ml-4 text-xs text-gray-800 space-y-1">
+                            <li>Refactored legacy codebase into modern TypeScript framework, reducing system latency by 45%.</li>
+                            <li>Implemented CI/CD automated test suites resulting in a 99.8% bug-free build success rate.</li>
                         </ul>
                     </div>
                 </section>
 
-                <!-- Section: Skills -->
+                <!-- Technical Skills -->
                 <section class="mb-5">
-                    <h3 class="text-xs font-bold text-gray-800 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Technical & Core Skills</h3>
-                    <div id="preview-skills" class="text-xs text-gray-700">
-                        JavaScript, TypeScript, React, Node.js, Python, AWS, Docker, GraphQL, CI/CD, Agile Methodologies
+                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Technical & Core Skills</h3>
+                    <div id="preview-skills" class="text-xs text-gray-800 leading-normal">
+                        <strong>Technical Skills:</strong> JavaScript, TypeScript, React, Node.js, Express, Python, PostgreSQL, REST APIs, AWS, Docker.<br>
+                        <strong>Frameworks & Tools:</strong> Git, Docker, Kubernetes, GraphQL, Jest, Agile/Scrum Methodologies.
                     </div>
+                </section>
+
+                <!-- Education -->
+                <section>
+                    <h3 class="text-xs font-bold text-gray-900 uppercase tracking-widest border-b border-gray-400 pb-0.5 mb-2">Education & Certifications</h3>
+                    <div class="flex justify-between items-baseline text-xs">
+                        <span class="font-bold text-gray-900">B.S. in Computer Science</span>
+                        <span class="text-gray-600 italic">Graduated 2018</span>
+                    </div>
+                    <div class="text-xs text-gray-700">University of California, Berkeley</div>
                 </section>
 
             </div>
@@ -220,59 +205,168 @@
 
     </main>
 
-    <!-- JS Logic -->
+    <!-- AI Generator Engine Logic -->
     <script>
-        function updateResume() {
-            // Personal Details
-            const name = document.getElementById('fullName').value;
-            const position = document.getElementById('targetPosition').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const location = document.getElementById('location').value;
-            const summary = document.getElementById('summary').value;
+        const database = {
+            "software engineer": {
+                title: "SENIOR SOFTWARE ENGINEER",
+                summary: "Results-driven Software Engineer with 6+ years of experience in designing, building, and scaling web applications. Expert in full-stack architecture, microservices, and cloud infrastructure. Proven track record in optimizing backend performance and delivering reliable software solutions.",
+                role1: "Senior Software Engineer",
+                bullets1: [
+                    "Architected high-scale microservices using Node.js and AWS, improving system processing capacity by 42%.",
+                    "Optimized database indexing and queries, cutting API response times from 350ms down to 85ms.",
+                    "Led cross-functional teams through 15+ release cycles using Agile methodologies, achieving 100% on-time delivery."
+                ],
+                role2: "Software Developer",
+                bullets2: [
+                    "Refactored legacy monolith into modular services, cutting cloud hosting infrastructure costs by 28%.",
+                    "Authored unit and integration test coverage raising codebase stability from 65% to 98%."
+                ],
+                skills: "<strong>Core Competencies:</strong> JavaScript (ES6+), TypeScript, React, Node.js, Python, PostgreSQL, MongoDB, Redis.<br><strong>Tools & Infrastructure:</strong> AWS (EC2, S3, Lambda), Docker, Kubernetes, CI/CD Pipelines, Git, RESTful & GraphQL APIs."
+            },
+            "product manager": {
+                title: "SENIOR PRODUCT MANAGER",
+                summary: "Strategic Product Manager with 5+ years of experience leading cross-functional teams to build, launch, and scale market-leading digital products. Expert in product strategy, data analytics, user research, and Agile delivery.",
+                role1: "Lead Product Manager",
+                bullets1: [
+                    "Spearheaded end-to-end strategy and roadmap for enterprise SaaS platform, scaling Monthly Active Users (MAU) by 140%.",
+                    "Conducted extensive qualitative and quantitative research to identify key churn drivers, reducing user churn by 18%.",
+                    "Partnered with Engineering and UX teams to launch 12 major product features within target timelines."
+                ],
+                role2: "Associate Product Manager",
+                bullets2: [
+                    "Utilized Mixpanel and Google Analytics to define KPI dashboards, aligning product direction with core revenue goals.",
+                    "Managed product backlog and sprint planning sessions for a team of 12 engineers and 2 UX designers."
+                ],
+                skills: "<strong>Product Strategy:</strong> Roadmap Planning, User Journey Mapping, A/B Testing, Competitive Analysis, Market Research.<br><strong>Tools & Frameworks:</strong> Jira, Confluence, Mixpanel, Figma, Amplitude, SQL, Agile/Scrum, OKRs."
+            },
+            "data scientist": {
+                title: "DATA SCIENTIST",
+                summary: "Analytical Data Scientist with 5+ years of experience developing machine learning models and predictive analytics solutions. Proficient in translating complex datasets into actionable business intelligence.",
+                role1: "Senior Data Scientist",
+                bullets1: [
+                    "Developed machine learning models for customer churn prediction using Python and XGBoost, improving retention by 22%.",
+                    "Engineered automated ETL pipelines handling 10M+ daily records, reducing data ingestion latency by 50%.",
+                    "Deployed NLP algorithms for sentiment analysis on customer feedback, directly guiding product strategy."
+                ],
+                role2: "Data Analyst",
+                bullets2: [
+                    "Created interactive Tableau dashboards utilized by executive leadership to monitor cross-department KPIs.",
+                    "Ran A/B experiments analyzing customer purchasing behavior, resulting in an 11% increase in conversion."
+                ],
+                skills: "<strong>Languages & Frameworks:</strong> Python (Pandas, NumPy, Scikit-Learn), R, SQL, TensorFlow, PyTorch.<br><strong>Data Infrastructure:</strong> Snowflake, PostgreSQL, Spark, AWS SageMaker, Tableau, PowerBI, Git."
+            },
+            "ux/ui designer": {
+                title: "SENIOR UX/UI DESIGNER",
+                summary: "User-centered UX/UI Designer with 6+ years of experience crafting intuitive interfaces and scalable design systems for web and mobile products. Skilled in wireframing, prototyping, and usability testing.",
+                role1: "Lead Product Designer",
+                bullets1: [
+                    "Overhauled design system for flagship mobile application, driving a 35% increase in daily user engagement.",
+                    "Executed over 40 usability testing sessions to validate concepts, cutting post-launch redesign iterations by half.",
+                    "Collaborated with frontend developers to ensure 100% pixel-perfect implementation and accessibility compliance (WCAG)."
+                ],
+                role2: "UI Designer",
+                bullets2: [
+                    "Designed high-fidelity mockups, wireframes, and interactive prototypes using Figma for enterprise clients.",
+                    "Established component libraries that reduced design-to-development handoff time by 30%."
+                ],
+                skills: "<strong>Design & Research:</strong> Wireframing, Prototyping, Design Systems, User Research, Information Architecture.<br><strong>Tools:</strong> Figma, Adobe XD, Sketch, Principle, HTML/CSS, Webflow, Miro, Usability Testing."
+            },
+            "digital marketing manager": {
+                title: "DIGITAL MARKETING MANAGER",
+                summary: "Results-driven Digital Marketing Manager with 6+ years of experience driving customer acquisition, organic search growth, and multi-channel marketing campaigns that generate high ROI.",
+                role1: "Digital Marketing Manager",
+                bullets1: [
+                    "Managed a $500K annual marketing budget across PPC, SEO, and paid social channels, delivering a 320% ROI.",
+                    "Executed targeted SEO campaigns that grew organic traffic from 50K to 250K monthly visits within 12 months.",
+                    "Optimized conversion funnels through rigorous A/B testing, elevating landing page conversion rates by 27%."
+                ],
+                role2: "Marketing Specialist",
+                bullets2: [
+                    "Created automated email workflows achieving an average open rate of 38% and a click-through rate of 6.2%.",
+                    "Produced monthly analytics reports using Google Analytics to refine performance strategy."
+                ],
+                skills: "<strong>Core Specialties:</strong> SEO/SEM, Performance Marketing, Conversion Rate Optimization (CRO), Content Strategy.<br><strong>Tools:</strong> Google Analytics, Google Ads, Ahrefs, SEMrush, HubSpot, Mailchimp, Meta Ads Manager."
+            },
+            "cybersecurity analyst": {
+                title: "CYBERSECURITY ANALYST",
+                summary: "Detail-oriented Cybersecurity Analyst with 5+ years of experience securing enterprise IT infrastructure, mitigating threats, and executing incident response protocols.",
+                role1: "Senior Cybersecurity Analyst",
+                bullets1: [
+                    "Monitored network traffic using SIEM tools, detecting and neutralizing over 150+ potential security incidents.",
+                    "Conducted quarterly vulnerability assessments and penetration testing across enterprise networks.",
+                    "Implemented Zero-Trust network architecture, reducing security vulnerability exposure surface by 40%."
+                ],
+                role2: "Information Security Analyst",
+                bullets2: [
+                    "Developed company-wide security awareness training program, reducing phishing click rates from 18% down to 2%.",
+                    "Ensured SOC 2 and ISO 27001 regulatory compliance across cloud infrastructure."
+                ],
+                skills: "<strong>Security Specialties:</strong> Threat Detection, Incident Response, Vulnerability Assessment, Network Security.<br><strong>Tools & Certifications:</strong> Splunk, Wireshark, Metasploit, Nmap, CISSP, CEH, AWS Security, Linux/Unix."
+            }
+        };
 
-            // Experience
-            const company = document.getElementById('expCompany').value;
-            const role = document.getElementById('expRole').value;
-            const dates = document.getElementById('expDates').value;
-            const bulletsText = document.getElementById('expBullets').value;
+        function quickFill(role) {
+            document.getElementById('targetPosition').value = role;
+            generateResume();
+        }
 
-            // Skills
-            const skills = document.getElementById('skills').value;
-
-            // Update DOM Elements
-            document.getElementById('preview-name').innerText = name || 'Alex Morgan';
-            document.getElementById('preview-position').innerText = position || 'Target Position';
-            document.getElementById('preview-email').innerText = email || 'alex.morgan@example.com';
-            document.getElementById('preview-phone').innerText = phone || '+1 (555) 019-2834';
-            document.getElementById('preview-location').innerText = location || 'San Francisco, CA';
-            document.getElementById('preview-summary').innerText = summary || 'Accomplished professional with a proven track record of optimizing system architecture and delivering scalable solutions.';
-
-            document.getElementById('preview-company').innerText = company || 'Tech Corp Solutions';
-            document.getElementById('preview-role').innerText = role || 'Senior Software Engineer';
-            document.getElementById('preview-dates').innerText = dates || '2021 - Present';
-
-            // Format Bullets
-            const bulletContainer = document.getElementById('preview-bullets');
-            bulletContainer.innerHTML = '';
-            if (bulletsText.trim() !== '') {
-                const bulletList = bulletsText.split('\n');
-                bulletList.forEach(bullet => {
-                    if (bullet.trim() !== '') {
-                        const li = document.createElement('li');
-                        li.innerText = bullet.replace(/^[•\-\*]\s*/, ''); // strip manual bullet points
-                        bulletContainer.appendChild(li);
-                    }
-                });
-            } else {
-                bulletContainer.innerHTML = `
-                    <li>Architected and deployed cloud-native microservices, scaling platform bandwidth by 40%.</li>
-                    <li>Led a cross-functional engineering team of 8 to deliver critical features ahead of schedule.</li>
-                `;
+        function generateResume() {
+            const inputVal = document.getElementById('targetPosition').value.trim();
+            if (!inputVal) {
+                alert("Please enter a target job position first.");
+                return;
             }
 
-            // Skills Format
-            document.getElementById('preview-skills').innerText = skills || 'JavaScript, TypeScript, React, Node.js, Python, AWS, Docker, GraphQL, CI/CD, Agile Methodologies';
+            const searchKey = inputVal.toLowerCase();
+            let matchedData = database[searchKey];
+
+            // Generic fallback engine for custom unlisted positions
+            if (!matchedData) {
+                matchedData = {
+                    title: inputVal.toUpperCase(),
+                    summary: `Dedicated and goal-oriented ${inputVal} with strong experience driving operational success, leading team projects, and delivering high-value outcomes. Adept at leveraging data and strategy to solve complex challenges.`,
+                    role1: `Lead ${inputVal}`,
+                    bullets1: [
+                        `Spearheaded core operations and strategic initiatives related to ${inputVal}, increasing overall efficiency by 30%.`,
+                        `Managed cross-functional projects from inception to completion, consistently meeting deadlines and quality targets.`,
+                        `Implemented optimized workflows and best practices, resulting in a 20% reduction in operational friction.`
+                    ],
+                    role2: `${inputVal} Specialist`,
+                    bullets2: [
+                        `Collaborated with key stakeholders to execute daily objectives alignment and process optimization.`,
+                        `Analyzed key performance indicators (KPIs) to drive continuous improvement across team deliverables.`
+                    ],
+                    skills: `<strong>Key Competencies:</strong> Strategic Planning, Process Optimization, Team Leadership, Project Management.<br><strong>Technical & Soft Skills:</strong> Data Analysis, Problem Solving, Cross-Functional Collaboration, Communication, Quality Assurance.`
+                };
+            }
+
+            // Populate Resume Canvas
+            document.getElementById('preview-position').innerText = matchedData.title;
+            document.getElementById('preview-summary').innerText = matchedData.summary;
+            document.getElementById('preview-role-1').innerText = matchedData.role1;
+            document.getElementById('preview-role-2').innerText = matchedData.role2;
+
+            // Render Bullets 1
+            const b1 = document.getElementById('preview-bullets-1');
+            b1.innerHTML = '';
+            matchedData.bullets1.forEach(bullet => {
+                const li = document.createElement('li');
+                li.innerText = bullet;
+                b1.appendChild(li);
+            });
+
+            // Render Bullets 2
+            const b2 = document.getElementById('preview-bullets-2');
+            b2.innerHTML = '';
+            matchedData.bullets2.forEach(bullet => {
+                const li = document.createElement('li');
+                li.innerText = bullet;
+                b2.appendChild(li);
+            });
+
+            // Render Skills
+            document.getElementById('preview-skills').innerHTML = matchedData.skills;
         }
 
         function downloadPDF() {
@@ -285,7 +379,6 @@
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
-            // Generate PDF
             html2pdf().set(opt).from(element).save();
         }
     </script>
