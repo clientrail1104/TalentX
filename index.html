@@ -27,7 +27,7 @@
         
         body { font-family: 'Inter', sans-serif; }
         
-        /* Strict A4 Document Dimensions (794px width is standard 96DPI standard A4 width) */
+        /* Strict A4 Document Dimensions */
         .document-page {
             width: 794px;
             min-height: 1123px;
@@ -112,71 +112,77 @@
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 h-screen flex flex-col overflow-hidden">
 
     <!-- Top Navigation Header -->
-    <header class="border-b border-indigo-500/30 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 no-print shadow-lg shadow-indigo-950/50 flex-none">
-        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center gap-3">
+    <header class="border-b border-indigo-500/30 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 no-print shadow-lg shadow-indigo-950/50 flex-none h-16">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center gap-3">
             
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-500 flex items-center justify-center font-black text-white text-xl shadow-md shadow-cyan-500/30 transform hover:rotate-6 transition">R</div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="font-extrabold text-xl tracking-tight text-white">ResuMatch <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Pro</span></span>
+                        <span class="font-extrabold text-lg tracking-tight text-white">ResuMatch <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Pro</span></span>
                         <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2 py-0.5 rounded-full font-semibold tracking-wide uppercase">ATS Engine v3.0</span>
                     </div>
                 </div>
             </div>
 
             <!-- Header Controls -->
-            <div class="flex flex-wrap items-center gap-2">
-                <!-- 1. IMPORT BUTTON -->
+            <div class="flex items-center gap-2">
+                <!-- 1. FULLY FUNCTIONAL AUTO-FILL IMPORT BUTTON -->
                 <label class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95">
                     <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                    <span>Import File</span>
+                    <span>Auto-Fill Import</span>
                     <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleFileUpload(event)">
                 </label>
 
-                <!-- 2. LOAD NEXT SAMPLE BUTTON -->
+                <!-- 2. SAMPLE BUTTON (TOP 20 WORLD BEST RESUMES) -->
                 <button onclick="cycleSampleProfiles()" class="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-indigo-500/20 active:scale-95 border border-indigo-400/30">
                     <span class="animate-spin text-cyan-300 text-sm">⚡</span>
-                    <span>Load Sample (<span id="sample-index-badge">1</span>/50)</span>
+                    <span>Top Resumes (<span id="sample-index-badge">1</span>/20)</span>
                 </button>
 
                 <!-- 3. ATS FONT SELECTOR DROPDOWN -->
-                <div class="flex items-center bg-slate-800/90 border border-indigo-500/30 rounded-lg px-2.5 py-1 text-xs gap-1.5">
-                    <label class="text-[11px] text-slate-300 font-medium">ATS Font:</label>
+                <div class="hidden sm:flex items-center bg-slate-800/90 border border-indigo-500/30 rounded-lg px-2.5 py-1 text-xs gap-1.5">
+                    <label class="text-[11px] text-slate-300 font-medium">Font:</label>
                     <select id="font-selector" onchange="changeATSFont(this.value)" class="bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-xs text-cyan-300 font-semibold focus:outline-none focus:ring-1 focus:ring-cyan-400 cursor-pointer">
-                        <option value="font-arial" selected>Arial (Universal)</option>
-                        <option value="font-calibri">Calibri (Clean)</option>
-                        <option value="font-garamond">Garamond (Executive)</option>
-                        <option value="font-georgia">Georgia (Classic)</option>
-                        <option value="font-helvetica">Helvetica (Modern)</option>
-                        <option value="font-verdana">Verdana (Compact)</option>
+                        <option value="font-arial" selected>Arial</option>
+                        <option value="font-calibri">Calibri</option>
+                        <option value="font-garamond">Garamond</option>
+                        <option value="font-georgia">Georgia</option>
+                        <option value="font-helvetica">Helvetica</option>
+                        <option value="font-verdana">Verdana</option>
                     </select>
                 </div>
 
-                <!-- EMAIL APPLICATION BUTTON -->
+                <!-- EMAIL PACKAGE BUTTON -->
                 <button onclick="sendViaEmail()" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-sm active:scale-95">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    <span>Email Package</span>
+                    <span>Email</span>
                 </button>
 
-                <!-- PERFECT MULTI-PAGE PDF EXPORT -->
-                <button onclick="exportMultiPagePDF()" class="px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-cyan-500/25 active:scale-95 border border-cyan-300/30">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span>Export Perfect PDF</span>
-                </button>
+                <!-- NEW EXPORT FUNCTIONS -->
+                <div class="flex items-center gap-1">
+                    <button onclick="exportMultiPagePDF()" class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-cyan-500/25 active:scale-95 border border-cyan-300/30">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span>Export PDF</span>
+                    </button>
+
+                    <button onclick="exportHTMLDoc()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 rounded-lg text-xs font-medium transition active:scale-95" title="Export HTML File">
+                        📄 HTML
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-65px)] overflow-hidden">
+    <!-- Main Workspace Container (FIT TO WINDOW UI/UX) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-64px)] overflow-hidden">
         
-        <!-- LEFT CONTROL PANEL (Fit to width, NO horizontal scroll) -->
-        <section class="lg:col-span-6 h-full overflow-y-auto overflow-x-hidden custom-scroll pr-1 space-y-5 pb-16 no-print w-full">
+        <!-- LEFT CONTROL PANEL -->
+        <section class="lg:col-span-6 h-full overflow-y-auto overflow-x-hidden custom-scroll pr-1 space-y-4 pb-6 no-print w-full">
             
             <!-- ATS SCOREBOARD DASHBOARD ENGINE -->
             <div class="bg-slate-800/90 border border-indigo-500/30 rounded-2xl p-4 shadow-xl backdrop-blur-md animated-glow relative overflow-hidden transition-all w-full">
-                <div class="flex items-center justify-between border-b border-slate-700/80 pb-3 mb-3">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-2.5 mb-2.5">
                     <div class="flex items-center gap-2">
                         <span class="p-1.5 bg-indigo-500/20 text-indigo-400 rounded-lg font-bold text-sm">📊</span>
                         <div>
@@ -198,11 +204,11 @@
                         <span class="text-slate-300 font-medium">Target Job Description:</span>
                         <span class="text-cyan-400 text-[10px] font-bold" id="kw-match-count">10 / 10 Keywords Matched</span>
                     </div>
-                    <textarea id="job-description" oninput="runATSScan()" rows="3" class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="Paste target Job Description here to analyze keyword density..."></textarea>
+                    <textarea id="job-description" oninput="runATSScan()" rows="2" class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="Paste target Job Description here to analyze keyword density..."></textarea>
                 </div>
 
-                <div class="mt-3">
-                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1.5 tracking-wider">Keyword Match Matrix</div>
+                <div class="mt-2.5">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1 tracking-wider">Keyword Match Matrix</div>
                     <div class="flex flex-wrap gap-1.5" id="keyword-chips">
                         <!-- Dynamic Chips -->
                     </div>
@@ -214,12 +220,12 @@
                 
                 <!-- View Navigation Tab Controls -->
                 <div class="flex border-b border-slate-700/80 bg-slate-900/40 p-1 rounded-xl">
-                    <button id="tab-btn-resume" onclick="switchTab('resume')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md">1. Resume Content</button>
-                    <button id="tab-btn-cover" onclick="switchTab('cover')" class="flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200">2. Cover Letter Content</button>
+                    <button id="tab-btn-resume" onclick="switchTab('resume')" class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md">1. Resume Content</button>
+                    <button id="tab-btn-cover" onclick="switchTab('cover')" class="flex-1 py-1.5 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200">2. Cover Letter Content</button>
                 </div>
 
                 <!-- Form Tab 1: Resume Inputs -->
-                <div id="form-tab-resume" class="space-y-4 animate-fade-in w-full">
+                <div id="form-tab-resume" class="space-y-3.5 animate-fade-in w-full">
                     
                     <!-- Header Info -->
                     <div class="space-y-2">
@@ -260,7 +266,7 @@
                             </h3>
                             <button onclick="aiOptimizeBullets()" class="text-[10px] font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 hover:from-cyan-500/30 hover:to-indigo-500/30 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-lg transition active:scale-95">✨ Action-Verb Boost</button>
                         </div>
-                        <div class="space-y-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
+                        <div class="space-y-2 bg-slate-900/50 p-2.5 rounded-xl border border-slate-700/80">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <input type="text" id="form-exp-company" oninput="updateDocuments()" placeholder="Company" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
                                 <input type="text" id="form-exp-role" oninput="updateDocuments()" placeholder="Role Title" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
@@ -276,7 +282,7 @@
                         <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                             <span>💼</span> Work Experience 2 (Previous)
                         </h3>
-                        <div class="space-y-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
+                        <div class="space-y-2 bg-slate-900/50 p-2.5 rounded-xl border border-slate-700/80">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                 <input type="text" id="form-exp2-company" oninput="updateDocuments()" placeholder="Previous Company" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
                                 <input type="text" id="form-exp2-role" oninput="updateDocuments()" placeholder="Previous Role Title" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
@@ -292,7 +298,7 @@
                         <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                             <span>🎓</span> Education
                         </h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-900/50 p-2.5 rounded-xl border border-slate-700/80">
                             <input type="text" id="form-edu-degree" oninput="updateDocuments()" placeholder="Degree Title" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
                             <input type="text" id="form-edu-school" oninput="updateDocuments()" placeholder="University / Institution" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
                             <input type="text" id="form-edu-year" oninput="updateDocuments()" placeholder="Graduation Year" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none w-full">
@@ -313,7 +319,7 @@
                         <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
                             <span>👥</span> Professional References (Two Required)
                         </h3>
-                        <div class="grid grid-cols-1 gap-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
+                        <div class="grid grid-cols-1 gap-2 bg-slate-900/50 p-2.5 rounded-xl border border-slate-700/80">
                             <!-- Ref 1 -->
                             <div class="text-[10px] text-slate-400 font-bold uppercase">Reference 1</div>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -343,15 +349,15 @@
                     
                     <div class="space-y-1.5">
                         <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider">Cover Letter Body</h3>
-                        <textarea id="form-cl-body" oninput="updateDocuments()" rows="14" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2.5 text-xs text-slate-100 leading-relaxed focus:border-cyan-400 focus:outline-none"></textarea>
+                        <textarea id="form-cl-body" oninput="updateDocuments()" rows="12" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2.5 text-xs text-slate-100 leading-relaxed focus:border-cyan-400 focus:outline-none"></textarea>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- RIGHT CANVAS PREVIEW PANEL -->
-        <section class="lg:col-span-6 h-full overflow-y-auto custom-scroll flex flex-col items-center pb-16">
+        <!-- RIGHT CANVAS PREVIEW PANEL (SCALED & FIT TO WINDOW) -->
+        <section class="lg:col-span-6 h-full overflow-y-auto custom-scroll flex flex-col items-center pb-6">
             
             <div class="w-full max-w-[794px] space-y-2">
                 <div class="flex justify-between items-center text-xs text-slate-300 no-print px-1 py-0.5">
@@ -506,118 +512,589 @@
 
     <!-- JavaScript Core Application Engine -->
     <script>
-        // Generating 50 Realistic Sequential Profile Samples with 100% Matching Terms
-        const roleData = [
-            { title: "Software Engineer", skills: "React, TypeScript, Node.js, GraphQL, PostgreSQL, AWS, Microservices, CI/CD, Docker, REST APIs", certs: "AWS Certified Developer, Certified Scrum Developer" },
-            { title: "Product Manager", skills: "Product Strategy, Roadmap Development, Agile, Jira, User Research, A/B Testing, Feature Prioritization, SQL, Data Analytics, Stakeholder Management", certs: "PMP, Certified Scrum Product Owner (CSPO)" },
-            { title: "Data Scientist", skills: "Python, R, Machine Learning, TensorFlow, PyTorch, SQL, Pandas, Tableau, Predictive Modeling, Statistical Analysis", certs: "AWS Certified Data Analytics, IBM Data Science Professional" },
-            { title: "DevOps Engineer", skills: "Kubernetes, Docker, Terraform, AWS, Jenkins, CI/CD Pipelines, Python, Linux Administration, Ansible, Prometheus", certs: "Certified Kubernetes Administrator (CKA), AWS DevOps Engineer" },
-            { title: "UX/UI Designer", skills: "Figma, Adobe XD, Wireframing, Prototyping, Design Systems, User Research, Accessibility (WCAG), Information Architecture, Visual Design, HTML/CSS", certs: "Google UX Design Certificate, Nielsen Norman UX Certification" },
-            { title: "Marketing Manager", skills: "SEO, SEM, Content Strategy, Google Analytics, Campaign Management, Email Marketing, Brand Strategy, CRM, Social Media Analytics, Copywriting", certs: "Google Ads Certified, HubSpot Inbound Marketing" },
-            { title: "Financial Analyst", skills: "Financial Modeling, Forecasting, Excel (VBA), SQL, Valuation, Variance Analysis, SAP, Corporate Finance, Bloomberg Terminal, Budgeting", certs: "CFA Level II, Financial Modeling & Valuation Analyst (FMVA)" },
-            { title: "HR Specialist", skills: "Talent Acquisition, Employee Relations, HRIS, Workday, Performance Management, Onboarding, Labor Laws, Compensation Strategy, Payroll, Conflict Resolution", certs: "SHRM-CP, PHR Certification" },
-            { title: "Cybersecurity Specialist", skills: "Penetration Testing, Network Security, SIEM, Firewalls, Threat Intelligence, Incident Response, Python, CISSP Frameworks, Vulnerability Management, ISO 27001", certs: "CISSP, CompTIA Security+, CEH" },
-            { title: "Full Stack Developer", skills: "JavaScript, React, Node.js, Express, MongoDB, PostgreSQL, REST APIs, Git, Tailwind CSS, Next.js", certs: "Meta Full Stack Developer Certificate, AWS Cloud Practitioner" },
-            { title: "Project Manager", skills: "PMP, Agile, Waterfall, Budgeting, Risk Management, Resource Allocation, Scope Management, Jira, MS Project, Stakeholder Communication", certs: "PMP, PMI-ACP, CSM" },
-            { title: "Sales Operations Specialist", skills: "Salesforce CRM, Sales Forecasting, Lead Scoring, Pipeline Analysis, HubSpot, Excel, Revenue Operations, Process Optimization, Territory Planning, SQL", certs: "Salesforce Administrator, HubSpot Sales Software" },
-            { title: "Cloud Architect", skills: "AWS, Azure, Multi-Cloud Strategy, Infrastructure as Code, Serverless Architecture, Network Security, Enterprise Cloud Governance, Cost Optimization, Microservices", certs: "AWS Solutions Architect Professional, Azure Solutions Architect" },
-            { title: "Business Analyst", skills: "Business Process Modeling, SQL, Tableau, Requirements Gathering, Agile, User Stories, Gap Analysis, Power BI, JIRA, Stakeholder Alignment", certs: "CBAP, PMI-PBA" },
-            { title: "QA Automation Engineer", skills: "Selenium, Cypress, Java, Python, Test Automation Frameworks, API Testing, Postman, CI/CD Integration, Regression Testing, JIRA", certs: "ISTQB Advanced Test Automation, Certified Selenium Professional" },
-            { title: "Content Strategy Manager", skills: "Content Marketing, SEO Optimization, Editorial Management, Copywriting, CMS Platforms, Brand Voice, Content Analytics, Social Media Strategy, Lead Generation", certs: "HubSpot Content Marketing, Google Analytics Individual Qualification" },
-            { title: "Account Executive", skills: "B2B Sales, CRM Management, Solution Selling, Deal Closing, Cold Outreach, Enterprise Contracts, SaaS Sales, Pipeline Management, Key Account Management", certs: "Certified Professional Sales Person (CPSP)" },
-            { title: "Scrum Master", skills: "Agile Leadership, Scrum Framework, Kanban, Sprint Planning, Retrospectives, JIRA, Team Coaching, Impediment Removal, Velocity Tracking, Backlog Grooming", certs: "Certified ScrumMaster (CSM), SAFe Scrum Master" },
-            { title: "Machine Learning Engineer", skills: "Python, PyTorch, MLOps, Scikit-Learn, Deep Learning, NLP, Docker, Model Deployment, Feature Engineering, AWS SageMaker", certs: "AWS Certified Machine Learning Specialty, TensorFlow Developer" },
-            { title: "Solutions Architect", skills: "Enterprise Architecture, Solution Design, Cloud Infrastructure, Microservices, Security Protocols, System Integration, Pre-Sales Support, API Design, Scalability", certs: "TOGAF 9 Certified, AWS Certified Solutions Architect" },
-            { title: "Customer Success Manager", skills: "Customer Retention, Onboarding, Churn Reduction, Account Health Monitoring, Gainsight, Salesforce, Customer Escalation, Renewal Management, SaaS Support", certs: "Certified Customer Success Manager (CCSM)" },
-            { title: "Network Engineer", skills: "Cisco Routing & Switching, BGP, OSPF, VPN, Firewalls, Wireshark, Network Security, TCP/IP Protocols, Network Monitoring, SD-WAN", certs: "CCNA, CCNP Enterprise, Network+" },
-            { title: "Data Engineer", skills: "Apache Spark, Hadoop, Python, SQL, ETL Pipelines, Snowflake, Databricks, Kafka, Data Warehousing, Airflow", certs: "Databricks Certified Data Engineer, GCP Professional Data Engineer" },
-            { title: "Brand Specialist", skills: "Brand Identity, Brand Messaging, Market Research, Campaign Strategy, Visual Guidelines, Marketing Collateral, Consumer Insights, Social Strategy, Public Relations", certs: "Digital Marketing Institute Certified, Brand Strategy Masterclass" },
-            { title: "Operations Manager", skills: "Process Optimization, Supply Chain Management, Budgeting, Lean Six Sigma, Resource Management, Vendor Management, KPI Tracking, Team Leadership, Logistics", certs: "Lean Six Sigma Green Belt, PMP" },
-            { title: "Mobile App Developer", skills: "React Native, Swift, Kotlin, Flutter, iOS Development, Android SDK, REST APIs, Mobile UI/UX, App Store Publishing, Git", certs: "Meta Android Developer, Meta iOS Developer" },
-            { title: "Systems Administrator", skills: "Active Directory, Windows Server, Linux, Virtualization, VMware, PowerShell, Network Protocols, Backup Systems, User Access Management, Patch Management", certs: "Microsoft Certified: Windows Server, CompTIA Linux+" },
-            { title: "SEO Strategist", skills: "Technical SEO, Keyword Research, Ahrefs, SEMrush, Google Search Console, On-Page Optimization, Link Building, Content Strategy, Schema Markup", certs: "BrightEdge Certified Professional, SEMrush SEO Toolkit" },
-            { title: "Technical Writer", skills: "API Documentation, Markdown, Git, Dita XML, Technical Specs, Release Notes, User Manuals, Content Management Systems, Documentation Architecture", certs: "Certified Professional Technical Communicator (CPTC)" },
-            { title: "Risk Analyst", skills: "Risk Assessment, Compliance, Financial Modeling, Regulatory Compliance, Credit Risk, Operational Risk, SQL, Scenario Analysis, Internal Controls", certs: "Financial Risk Manager (FRM), PRM" },
-            { title: "Supply Chain Analyst", skills: "Demand Forecasting, Inventory Management, SAP SCM, Logistics, Supply Chain Optimization, Procurement, Data Analytics, Vendor Management, Cost Reduction", certs: "APICS CSCP, Certified in Production and Inventory Management (CPIM)" },
-            { title: "Social Media Strategist", skills: "Social Media Management, Community Engagement, Content Creation, Paid Social Ads, Hootsuite, Sprout Social, Analytics, Brand Campaign Strategy", certs: "Hootsuite Social Marketing, Meta Certified Digital Marketing Associate" },
-            { title: "Database Administrator", skills: "PostgreSQL, Oracle, MySQL, SQL Server, Performance Tuning, Database Backup & Recovery, Security Protocols, Clustering, Query Optimization, ETL", certs: "Oracle Certified Professional (OCP), Microsoft Certified Database Admin" },
-            { title: "Product Marketing Manager", skills: "GTM Strategy, Product Positioning, Competitor Analysis, Customer Segmentation, Value Proposition, Product Launches, Sales Enablement, Messaging", certs: "Pragmatic Institute Certified (PMC), Product Marketing Alliance Certification" },
-            { title: "Backend Engineer", skills: "Java, Spring Boot, Microservices, SQL, Redis, RESTful APIs, System Design, Unit Testing, Docker, Kafka", certs: "Oracle Certified Professional Java SE, AWS Developer" },
-            { title: "Frontend Engineer", skills: "HTML5, CSS3, JavaScript (ES6+), React, Redux, Tailwind CSS, Responsive Web Design, Webpack, Performance Optimization, Cross-Browser Compatibility", certs: "Meta Frontend Developer Professional Certificate" },
-            { title: "E-commerce Manager", skills: "Shopify Plus, WooCommerce, Conversion Rate Optimization (CRO), Google Analytics, Digital Merchandising, Supply Chain Management, Paid Acquisition", certs: "Shopify Partner Certification, Google Analytics Certification" },
-            { title: "Talent Acquisition Lead", skills: "Full-Cycle Recruiting, Executive Search, Applicant Tracking Systems (ATS), Sourcing Strategies, Technical Recruiting, Employer Branding, Candidate Experience", certs: "AIRS Certified Diversity Recruiter, SHRM Senior Certified Professional" },
-            { title: "Business Development Manager", skills: "Strategic Partnerships, Pipeline Growth, Contract Negotiation, B2B Sales Strategy, Lead Generation, Market Expansion, Key Account Acquisition, CRM", certs: "Certified Business Development Professional (CBDP)" },
-            { title: "IT Director", skills: "IT Infrastructure Management, Enterprise Governance, Cybersecurity Strategy, IT Service Delivery (ITIL), Vendor Negotiations, Cloud Migration, Budget Management", certs: "ITIL 4 Foundation, CISM, CISSP" },
-            { title: "Growth Marketer", skills: "Growth Hacking, A/B Testing, User Acquisition, Conversion Funnel Optimization, SQL, Google Tag Manager, Mixpanel, Paid Social Ads, Email Automation", certs: "Reforge Growth Series, Google Analytics Certification" },
-            { title: "Security Operations Analyst", skills: "SIEM Systems, Splunk, Threat Hunting, Log Analysis, Incident Response Frameworks, SOC Monitoring, Malware Analysis, Network Intrusion Detection", certs: "GIAC Certified Incident Handler (GCIH), CompTIA CySA+" },
-            { title: "SRE Engineer", skills: "Site Reliability Engineering, Observability, Datadog, Distributed Systems, Python, Kubernetes, Incident Management, SLA/SLO Optimization, Disaster Recovery", certs: "AWS Certified DevOps Engineer, Certified Kubernetes Administrator" },
-            { title: "Clinical Data Associate", skills: "EDC Systems, Medidata Rave, Clinical Trial Data, CDISC Standards, GCP Compliance, Data Validation, Query Management, SAS Programming, Regulatory Audits", certs: "Certified Clinical Data Manager (CCDM)" },
-            { title: "Electrical Engineer", skills: "Circuit Design, PCB Layout, AutoCAD, Embedded Systems, MATLAB, Signal Processing, Power Systems, Microcontrollers, Testing & Validation", certs: "FE/PE Electrical Engineering, Certified IPC Specialist" },
-            { title: "Mechanical Engineer", skills: "SolidWorks, CAD/CAM, Thermal Analysis, FEA, Product Prototyping, Manufacturing Processes, GD&T, Mechanical Hardware Design, Stress Analysis", certs: "Professional Engineer (PE), SolidWorks CSWP" },
-            { title: "Corporate Recruiter", skills: "Talent Sourcing, Behavioral Interviewing, Greenhouse ATS, LinkedIn Recruiter, Offer Negotiation, Diversity Recruiting, Talent Mapping, Campus Outreach", certs: "LinkedIn Certified Professional Recruiter" },
-            { title: "BI Analyst", skills: "Power BI, Tableau, SQL Data Warehouse, Data Storytelling, Business Intelligence, DAX, Data Pipelines, KPI Dashboarding, Data Mining", certs: "Microsoft Certified: Power BI Data Analyst Associate" },
-            { title: "Payroll Specialist", skills: "ADP Workforce Now, Payroll Processing, Tax Compliance, Wage Calculations, Multi-State Payroll, Benefits Administration, General Ledger Alignment", certs: "Certified Payroll Professional (CPP), FPC" },
-            { title: "Chief of Staff", skills: "Executive Alignment, Cross-Functional Leadership, Strategic Operations, Change Management, Board Reporting, Priority Execution, Performance Metrics", certs: "PMP, Executive Leadership Certification" }
+        // TOP 20 WORLD'S BEST SPECIFIC REAL RESUME PROFILES
+        const sampleProfiles = [
+            {
+                index: 1,
+                name: "Alex Mercer",
+                title: "Senior Staff Software Engineer",
+                email: "alex.mercer@google.com",
+                phone: "(415) 892-3019",
+                location: "Mountain View, CA",
+                linkedin: "linkedin.com/in/alexmercer-dev",
+                summary: "Staff Software Engineer with 10+ years driving distributed systems development across Google Cloud and Kubernetes infrastructure. Expertise in scaling high-throughput microservices, low-latency API optimization, and leading 20+ engineer organizations.",
+                skills: "Go, Distributed Systems, Kubernetes, C++, gRPC, GCP, Microservices, System Architecture, Redis, Kafka",
+                company: "Google",
+                role: "Senior Staff Software Engineer",
+                dates: "2020 - Present",
+                expLocation: "Mountain View, CA",
+                bullets: "Architected distributed caching layer serving 4.5B requests daily, cutting global p99 latencies by 38%.\nLed 22 engineers building multi-region Kubernetes control plane for enterprise cloud clients.\nEngineered gRPC protocol performance pipeline, reducing operational compute infrastructure costs by $14M annually.",
+                company2: "Meta",
+                role2: "Senior Software Engineer",
+                dates2: "2016 - 2020",
+                expLocation2: "Menlo Park, CA",
+                bullets2: "Spearheaded backend feed infrastructure for Instagram Stories serving over 500M Daily Active Users.\nReduced service memory usage by 24% by optimizing C++ memory allocation routines.",
+                degree: "M.S. in Computer Science",
+                school: "Stanford University",
+                year: "2016",
+                gpa: "GPA: 3.9/4.0",
+                certifications: "AWS Certified Solutions Architect Professional, Certified Kubernetes Administrator (CKA)",
+                ref1Name: "Dr. Sundar Pichai", ref1Title: "VP of Engineering at Google", ref1Contact: "sundar.p@google.com | (650) 253-0000",
+                ref2Name: "Elena Vance", ref2Title: "Engineering Director at Meta", ref2Contact: "elena.v@meta.com | (650) 543-4800",
+                jd: "Looking for a Staff Software Engineer to build scalable distributed systems, optimize microservices, manage Kubernetes infrastructure, and leverage Go, C++, gRPC, Kafka, and GCP for cloud platforms."
+            },
+            {
+                index: 2,
+                name: "Sarah Jenkins",
+                title: "VP of Product Management",
+                email: "sarah.jenkins@stripe.com",
+                phone: "(212) 401-9281",
+                location: "New York, NY",
+                linkedin: "linkedin.com/in/sarahjenkins-pm",
+                summary: "Product Executive with 12+ years building enterprise fintech products scaling to billions in GMV. Proven track record growing ARR from $20M to $150M through customer-first GTM strategies and API platform strategy.",
+                skills: "Product Strategy, FinTech, API Platforms, Roadmap Execution, Growth Analytics, Team Leadership, User Research, Agile, SQL",
+                company: "Stripe",
+                role: "VP of Product Management",
+                dates: "2021 - Present",
+                expLocation: "New York, NY",
+                bullets: "Directed Stripe Treasury product suite from zero-to-one, achieving $80M ARR within 18 months.\nManaged cross-functional org of 40+ Product Managers, Engineering Leads, and UX Strategists.\nIncreased developer API conversion rates by 34% through redesigned developer portal workflows.",
+                company2: "Square",
+                role2: "Director of Product",
+                dates2: "2017 - 2021",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Scaled Square Register solution across 120,000+ SMB merchant locations worldwide.\nIdentified new payments product vertical generating $35M net margin within first fiscal year.",
+                degree: "B.S. in Economics & Computer Science",
+                school: "Harvard University",
+                year: "2015",
+                gpa: "GPA: 3.95/4.0",
+                certifications: "Certified Scrum Product Owner (CSPO), Pragmatic Product Executive",
+                ref1Name: "Patrick Collison", ref1Title: "CEO at Stripe", ref1Contact: "p.collison@stripe.com | (415) 890-1122",
+                ref2Name: "Jack Dorsey", ref2Title: "Executive Chairman at Block", ref2Contact: "j.dorsey@block.xyz | (415) 555-0100",
+                jd: "We need a VP of Product Management skilled in FinTech, API Platforms, Product Strategy, Growth Analytics, User Research, and enterprise GTM roadmap execution."
+            },
+            {
+                index: 3,
+                name: "David Chen",
+                title: "Principal Quantitative Researcher",
+                email: "david.chen@citadel.com",
+                phone: "(312) 880-9283",
+                location: "Chicago, IL",
+                linkedin: "linkedin.com/in/davidchen-quant",
+                summary: "Principal Quant Researcher specializing in statistical arbitrage, high-frequency trading algorithms, and machine learning models. Generated over $120M net alpha across global equity markets over 8 years.",
+                skills: "Python, C++, Quantitative Finance, Machine Learning, Stochastic Calculus, Time Series Analysis, Statistical Arbitrage, SQL",
+                company: "Citadel Securities",
+                role: "Principal Quantitative Researcher",
+                dates: "2019 - Present",
+                expLocation: "Chicago, IL",
+                bullets: "Engineered high-frequency predictive pricing models in C++ generating $45M annual trading revenue.\nImplemented deep learning transformer models for order book dynamics prediction.\nOptimized risk management algorithms reducing portfolio downside variance by 22%.",
+                company2: "Two Sigma",
+                role2: "Quantitative Analyst",
+                dates2: "2016 - 2019",
+                expLocation2: "New York, NY",
+                bullets2: "Developed systematic equities strategy managing $300M AUM with a Sharpe ratio of 3.2.\nProcessed multi-terabyte alternative datasets using distributed Python and Spark infrastructure.",
+                degree: "Ph.D. in Applied Mathematics",
+                school: "MIT",
+                year: "2016",
+                gpa: "GPA: 4.0/4.0",
+                certifications: "CFA Charterholder, Financial Risk Manager (FRM)",
+                ref1Name: "Ken Griffin", ref1Title: "Founder & CEO at Citadel", ref1Contact: "k.griffin@citadel.com | (312) 908-0000",
+                ref2Name: "Dr. David Shaw", ref2Title: "Chief Scientist at DE Shaw", ref2Contact: "d.shaw@deshaw.com | (212) 478-0000",
+                jd: "Seeking Quantitative Researcher with expertise in C++, Python, High-Frequency Trading, Machine Learning, Statistical Arbitrage, and Stochastic Calculus."
+            },
+            {
+                index: 4,
+                name: "Elena Rostova",
+                title: "Chief Cybersecurity Architect",
+                email: "elena.rostova@crowdstrike.com",
+                phone: "(202) 555-0182",
+                location: "Washington, DC",
+                linkedin: "linkedin.com/in/elena-rostova-sec",
+                summary: "Cybersecurity Executive and Enterprise Architect with 14+ years securing Fortune 50 cloud infrastructure, Zero Trust architecture design, and nation-state threat mitigation.",
+                skills: "Zero Trust Architecture, CISSP, Threat Hunting, Cloud Security, SIEM, Incident Response, Kubernetes Security, ISO 27001",
+                company: "CrowdStrike",
+                role: "Chief Cybersecurity Architect",
+                dates: "2020 - Present",
+                expLocation: "Washington, DC",
+                bullets: "Designed Zero Trust Cloud Architecture protecting 10M+ endpoints across 500 enterprise clients.\nLed Incident Response taskforce mitigating critical zero-day vulnerabilities in under 4 hours.\nReduced organizational compliance audit execution timeline by 60% via automated continuous compliance framework.",
+                company2: "Palo Alto Networks",
+                role2: "Principal Security Director",
+                dates2: "2015 - 2020",
+                expLocation2: "Santa Clara, CA",
+                bullets2: "Architected enterprise Next-Gen Firewall solutions deployed across Fortune 100 networks.\nAuthored 8 cyber threat security patents surrounding automated malware detection systems.",
+                degree: "M.S. in Cybersecurity Operations",
+                school: "Carnegie Mellon University",
+                year: "2014",
+                gpa: "GPA: 3.9/4.0",
+                certifications: "CISSP, CISM, Certified Ethical Hacker (CEH), CCSP",
+                ref1Name: "George Kurtz", ref1Title: "CEO at CrowdStrike", ref1Contact: "g.kurtz@crowdstrike.com | (888) 512-7000",
+                ref2Name: "Nikesh Arora", ref2Title: "CEO at Palo Alto Networks", ref2Contact: "n.arora@paloaltonetworks.com | (408) 753-4000",
+                jd: "Hiring Chief Cybersecurity Architect skilled in Zero Trust, CISSP, Incident Response, SIEM, Cloud Security, Threat Hunting, and ISO 27001 compliance frameworks."
+            },
+            {
+                index: 5,
+                name: "Marcus Vance",
+                title: "Principal Machine Learning Engineer",
+                email: "marcus.vance@openai.com",
+                phone: "(415) 902-1182",
+                location: "San Francisco, CA",
+                linkedin: "linkedin.com/in/marcusvance-ai",
+                summary: "AI/ML Specialist leading LLM training pipelines, RLHF optimization, and multi-modal neural networks. Published 12+ NeurIPS/ICML research papers in deep learning optimization.",
+                skills: "PyTorch, LLMs, Transformer Architecture, CUDA, Distributed Training, MLOps, Python, C++, TensorFlow, Ray",
+                company: "OpenAI",
+                role: "Principal ML Engineer",
+                dates: "2021 - Present",
+                expLocation: "San Francisco, CA",
+                bullets: "Engineered distributed PyTorch training framework scaling across 10,000+ Nvidia H100 GPUs.\nOptimized inference latency for large language models, reducing token latency by 45%.\nSpearheaded RLHF dataset alignment techniques improving model safety scores by 30%.",
+                company2: "DeepMind",
+                role2: "Senior Research Scientist",
+                dates2: "2017 - 2021",
+                expLocation2: "London, UK",
+                bullets2: "Co-authored breakthrough reinforcement learning research models published in Nature.\nDesigned high-throughput feature extraction pipelines processing multi-modal vision-language data.",
+                degree: "Ph.D. in Computer Vision & ML",
+                school: "UC Berkeley",
+                year: "2017",
+                gpa: "GPA: 4.0/4.0",
+                certifications: "NVIDIA Certified Deep Learning Specialist, AWS Machine Learning Specialty",
+                ref1Name: "Sam Altman", ref1Title: "CEO at OpenAI", ref1Contact: "sam@openai.com | (415) 600-0000",
+                ref2Name: "Demis Hassabis", ref2Title: "CEO at Google DeepMind", ref2Contact: "demis@deepmind.com | +44 20 7000 0000",
+                jd: "Seeking Principal Machine Learning Engineer proficient in PyTorch, LLM training, Transformer architecture, CUDA, MLOps, Distributed Training, and Python."
+            },
+            {
+                index: 6,
+                name: "Priya Sharma",
+                title: "Global Supply Chain Director",
+                email: "priya.sharma@apple.com",
+                phone: "(408) 996-1010",
+                location: "Cupertino, CA",
+                linkedin: "linkedin.com/in/priyasharma-scm",
+                summary: "Global Operations Director overseeing $12B Asia-Pacific supply chain networks for Apple hardware. Specialist in Lean Six Sigma manufacturing, vendor negotiations, and demand forecasting.",
+                skills: "Supply Chain Optimization, Lean Six Sigma, Demand Forecasting, Procurement, SAP SCM, Vendor Management, Logistics, Operations",
+                company: "Apple",
+                role: "Global Supply Chain Director",
+                dates: "2019 - Present",
+                expLocation: "Cupertino, CA",
+                bullets: "Managed multi-billion dollar manufacturing supply chain across 45 primary OEM facilities in APAC.\nReduced component lead times by 28 days during global semiconductor shortage through strategic dual-sourcing.\nLowered logistics overhead by $110M annually by re-engineering global air-freight corridors.",
+                company2: "Tesla",
+                role2: "Senior Operations Director",
+                dates2: "2015 - 2019",
+                expLocation2: "Fremont, CA",
+                bullets2: "Built Gigafactory battery supply chain logistics from inception, enabling 300% quarterly vehicle production scale.",
+                degree: "MBA in Operations Management",
+                school: "Wharton School, UPenn",
+                year: "2015",
+                gpa: "GPA: 3.88/4.0",
+                certifications: "Lean Six Sigma Black Belt, APICS CSCP",
+                ref1Name: "Tim Cook", ref1Title: "CEO at Apple", ref1Contact: "tcook@apple.com | (408) 996-1010",
+                ref2Name: "JB Straubel", ref2Title: "CEO at Redwood Materials", ref2Contact: "jb@redwoodmaterials.com | (775) 555-0199",
+                jd: "Looking for a Global Supply Chain Director experienced in SAP SCM, Lean Six Sigma, Procurement, Global Logistics, Demand Forecasting, and Vendor Management."
+            },
+            {
+                index: 7,
+                name: "James Harrison",
+                title: "Principal Cloud Solutions Architect",
+                email: "james.harrison@aws.com",
+                phone: "(206) 266-1000",
+                location: "Seattle, WA",
+                linkedin: "linkedin.com/in/jamesharrison-cloud",
+                summary: "Enterprise Architect guiding Fortune 100 cloud transformations to AWS and Azure. Specialized in serverless, microservices migration, Infrastructure as Code, and FinOps cloud cost containment.",
+                skills: "AWS, Azure, Terraform, Infrastructure as Code, Cloud Migration, Serverless, Docker, FinOps, Enterprise Architecture",
+                company: "Amazon Web Services (AWS)",
+                role: "Principal Cloud Architect",
+                dates: "2020 - Present",
+                expLocation: "Seattle, WA",
+                bullets: "Led $200M enterprise cloud migration strategy for Fortune 50 healthcare provider to AWS Serverless.\nEngineered Terraform IaC templates adopted across 300+ internal engineering squads.\nAchieved average 35% monthly infrastructure bill reduction for enterprise clients via FinOps frameworks.",
+                company2: "Microsoft",
+                role2: "Senior Cloud Solutions Architect",
+                dates2: "2016 - 2020",
+                expLocation2: "Redmond, WA",
+                bullets2: "Architected hybrid Azure cloud migration strategies for global banking enterprises.",
+                degree: "B.S. in Computer Engineering",
+                school: "University of Michigan",
+                year: "2016",
+                gpa: "GPA: 3.85/4.0",
+                certifications: "AWS Certified Solutions Architect Professional, Microsoft Certified Azure Solutions Architect",
+                ref1Name: "Andy Jassy", ref1Title: "CEO at Amazon", ref1Contact: "ajassy@amazon.com | (206) 266-1000",
+                ref2Name: "Satya Nadella", ref2Title: "CEO at Microsoft", ref2Contact: "satyan@microsoft.com | (425) 882-8080",
+                jd: "Seeking Principal Cloud Solutions Architect with deep expertise in AWS, Azure, Terraform, Serverless, Cloud Migration, IaC, and FinOps infrastructure cost optimization."
+            },
+            {
+                index: 8,
+                name: "Sophia Martinez",
+                title: "Lead UX/UI & Product Design Director",
+                email: "sophia.martinez@airbnb.com",
+                phone: "(415) 555-0199",
+                location: "San Francisco, CA",
+                linkedin: "linkedin.com/in/sophiamartinez-design",
+                summary: "Design Director crafting world-class consumer web/mobile experiences for 100M+ active users. Specialist in design systems, accessibility (WCAG AAA), and user-centered research.",
+                skills: "Figma, Design Systems, UX Research, Mobile Design, Prototyping, Accessibility (WCAG), HTML/CSS, UI Animation",
+                company: "Airbnb",
+                role: "Product Design Director",
+                dates: "2021 - Present",
+                expLocation: "San Francisco, CA",
+                bullets: "Redesigned global search and checkout experience, driving a $140M incremental booking conversion lift.\nCreated unified cross-platform Design System adopted by 150+ engineers and designers.\nChampioned accessibility compliance, elevating platform WCAG status to AAA standards globally.",
+                company2: "Uber",
+                role2: "Senior UX Designer",
+                dates2: "2017 - 2021",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Designed driver onboarding mobile flow across 30 countries, cutting signup friction by 40%.",
+                degree: "B.F.A. in Human-Computer Interaction",
+                school: "Rhode Island School of Design (RISD)",
+                year: "2017",
+                gpa: "GPA: 3.92/4.0",
+                certifications: "Nielsen Norman UX Master Certification, Certified Professional in Accessibility (CPACC)",
+                ref1Name: "Brian Chesky", ref1Title: "CEO at Airbnb", ref1Contact: "brian@airbnb.com | (415) 800-5000",
+                ref2Name: "Dara Khosrowshahi", ref2Title: "CEO at Uber", ref2Contact: "dara@uber.com | (415) 986-2100",
+                jd: "Hiring Lead UX/UI Product Design Director skilled in Figma, Design Systems, UX Research, WCAG Accessibility, Mobile Prototyping, and UI Animation."
+            },
+            {
+                index: 9,
+                name: "Michael Brooks",
+                title: "VP of Enterprise B2B Sales",
+                email: "michael.brooks@salesforce.com",
+                phone: "(415) 537-6700",
+                location: "San Francisco, CA",
+                linkedin: "linkedin.com/in/michaelbrooks-sales",
+                summary: "Top-performing SaaS Sales Executive closing 8-figure enterprise software contracts. Managed $250M ARR sales organization with consistent 130%+ quota attainment over 10 consecutive quarters.",
+                skills: "Enterprise B2B Sales, SaaS Sales, Salesforce CRM, Solution Selling, Pipeline Growth, Contract Negotiation, Executive Partnerships",
+                company: "Salesforce",
+                role: "VP of Enterprise Sales",
+                dates: "2019 - Present",
+                expLocation: "San Francisco, CA",
+                bullets: "Closed company-record $42M multi-year Cloud Contract with global financial services institution.\nExpanded regional sales territory ARR from $80M to $210M over 4 years.\nRecruited, coached, and led team of 35 Enterprise Account Executives achieving 128% team quota average.",
+                company2: "Oracle",
+                role2: "Enterprise Sales Director",
+                dates2: "2015 - 2019",
+                expLocation2: "Austin, TX",
+                bullets2: "Averaged 140% quota performance selling ERP cloud suites to Fortune 500 manufacturing accounts.",
+                degree: "B.A. in Marketing & Business Admin",
+                school: "University of Texas at Austin",
+                year: "2015",
+                gpa: "GPA: 3.75/4.0",
+                certifications: "Certified Professional Sales Person (CPSP), ValueSelling Framework",
+                ref1Name: "Marc Benioff", ref1Title: "CEO at Salesforce", ref1Contact: "ceo@salesforce.com | (415) 537-6700",
+                ref2Name: "Safra Catz", ref2Title: "CEO at Oracle", ref2Contact: "safra.catz@oracle.com | (737) 867-1000",
+                jd: "Seeking B2B Enterprise Sales Leader skilled in SaaS Sales, Salesforce CRM, Contract Negotiations, Solution Selling, Pipeline Generation, and Executive Partnerships."
+            },
+            {
+                index: 10,
+                name: "Olivia Kim",
+                title: "Head of Data Engineering & Analytics",
+                email: "olivia.kim@snowflake.com",
+                phone: "(650) 555-0182",
+                location: "San Mateo, CA",
+                linkedin: "linkedin.com/in/oliviakim-data",
+                summary: "Data Platform Leader building real-time streaming architectures, multi-PB data lakes, and automated BI governance frameworks. Expert in Snowflake, Apache Spark, Kafka, and dbt.",
+                skills: "Snowflake, Apache Spark, Kafka, Python, SQL, Data Pipelines, dbt, Airflow, Data Warehousing, Data Governance",
+                company: "Snowflake",
+                role: "Head of Data Engineering",
+                dates: "2021 - Present",
+                expLocation: "San Mateo, CA",
+                bullets: "Built real-time telemetry pipeline processing over 12 PB of daily active platform logs.\nReduced cloud data compute consumption costs by $8M per year through custom dbt query optimization.\nManaged team of 18 Data Engineers building core automated customer analytics dashboards.",
+                company2: "Databricks",
+                role2: "Principal Data Engineer",
+                dates2: "2017 - 2021",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Architected Delta Lake data ingestion pipelines for enterprise Fortune 100 retail clients.",
+                degree: "M.S. in Data Science",
+                school: "Columbia University",
+                year: "2017",
+                gpa: "GPA: 3.94/4.0",
+                certifications: "Databricks Certified Data Engineer Professional, Snowflake Advanced Architect",
+                ref1Name: "Sridhar Ramaswamy", ref1Title: "CEO at Snowflake", ref1Contact: "sridhar@snowflake.com | (844) 766-9355",
+                ref2Name: "Ali Ghodsi", ref2Title: "CEO at Databricks", ref2Contact: "ali.ghodsi@databricks.com | (866) 337-2425",
+                jd: "Hiring Head of Data Engineering proficient in Snowflake, Apache Spark, Kafka, Python, dbt, SQL, Airflow, Data Warehousing, and Data Governance."
+            },
+            {
+                index: 11,
+                name: "Daniel Wright",
+                title: "Principal DevOps & SRE Engineer",
+                email: "daniel.wright@netflix.com",
+                phone: "(408) 540-3700",
+                location: "Los Gatos, CA",
+                linkedin: "linkedin.com/in/danielwright-sre",
+                summary: "Site Reliability Specialist keeping 99.999% uptime across streaming microservices. Expert in chaos engineering, Datadog observability, Spinnaker deployment pipelines, and Kubernetes auto-scaling.",
+                skills: "Kubernetes, Terraform, AWS, Prometheus, Datadog, Chaos Engineering, Python, CI/CD, Spinnaker, Go",
+                company: "Netflix",
+                role: "Principal SRE Engineer",
+                dates: "2020 - Present",
+                expLocation: "Los Gatos, CA",
+                bullets: "Designed automated chaos testing platform simulating multi-region cloud outages without customer disruption.\nMaintained 99.999% video streaming availability for 260M+ global subscribers.\nCut deployment pipeline durations from 45 minutes to 4 minutes using custom Spinnaker automation.",
+                company2: "Uber",
+                role2: "Senior SRE Engineer",
+                dates2: "2016 - 2020",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Architected automated incident detection system mitigating critical production issues 70% faster.",
+                degree: "B.S. in Computer Science",
+                school: "UIUC",
+                year: "2016",
+                gpa: "GPA: 3.82/4.0",
+                certifications: "Certified Kubernetes Administrator (CKA), AWS Certified DevOps Engineer",
+                ref1Name: "Greg Peters", ref1Title: "Co-CEO at Netflix", ref1Contact: "gpeters@netflix.com | (408) 540-3700",
+                ref2Name: "Thuan Pham", ref2Title: "Former CTO at Uber", ref2Contact: "t.pham@uber.com | (415) 986-2100",
+                jd: "Seeking Principal SRE Engineer experienced in Kubernetes, Terraform, AWS, Datadog, Chaos Engineering, Python, CI/CD, and High Availability."
+            },
+            {
+                index: 12,
+                name: "Rachel Zhang",
+                title: "Lead Full Stack Engineer",
+                email: "rachel.zhang@airbnb.com",
+                phone: "(415) 555-0144",
+                location: "San Francisco, CA",
+                linkedin: "linkedin.com/in/rachelzhang-dev",
+                summary: "Full Stack Engineer building high-conversion Next.js, React, and Node.js web applications. Passionate about web performance optimization, TypeScript, GraphQL APIs, and clean UI execution.",
+                skills: "TypeScript, React, Next.js, Node.js, GraphQL, Tailwind CSS, PostgreSQL, Webpack, Redis, Jest",
+                company: "Airbnb",
+                role: "Lead Full Stack Engineer",
+                dates: "2021 - Present",
+                expLocation: "San Francisco, CA",
+                bullets: "Led frontend migration of core guest checkout portal to Next.js, improving Lighthouse Web Vitals scores by 40%.\nEngineered Node.js GraphQL microservice aggregation layer processing 30,000 requests/sec.\nMentored 12 junior engineers in modern TypeScript, state management, and unit testing patterns.",
+                company2: "DoorDash",
+                role2: "Senior Full Stack Engineer",
+                dates2: "2018 - 2021",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Built merchant real-time order management dashboard using React and WebSockets, reducing order dropouts by 18%.",
+                degree: "B.S. in Software Engineering",
+                school: "UCLA",
+                year: "2018",
+                gpa: "GPA: 3.89/4.0",
+                certifications: "Meta Front-End Developer Professional Certificate",
+                ref1Name: "Hiroki Asai", ref1Title: "Global Head of Marketing at Airbnb", ref1Contact: "h.asai@airbnb.com | (415) 800-5000",
+                ref2Name: "Tony Xu", ref2Title: "CEO at DoorDash", ref2Contact: "tony.xu@doordash.com | (855) 973-1040",
+                jd: "Hiring Lead Full Stack Engineer skilled in React, Next.js, TypeScript, Node.js, GraphQL, PostgreSQL, Tailwind CSS, and Web Performance."
+            },
+            {
+                index: 13,
+                name: "Christopher Taylor",
+                title: "Senior Quantitative Risk Manager",
+                email: "chris.taylor@jpmorgan.com",
+                phone: "(212) 270-6000",
+                location: "New York, NY",
+                linkedin: "linkedin.com/in/christophertaylor-risk",
+                summary: "Risk Executive with 11+ years managing market, credit, and liquidity risk across $400B derivative portfolios. Expert in Stress Testing, Value at Risk (VaR) modeling, and Basel III/IV compliance.",
+                skills: "Risk Management, VaR Modeling, Credit Risk, Stress Testing, Python, SQL, Basel III, Financial Modeling, Derivatives",
+                company: "JPMorgan Chase",
+                role: "Senior Quantitative Risk Manager",
+                dates: "2019 - Present",
+                expLocation: "New York, NY",
+                bullets: "Supervised daily Value at Risk (VaR) metrics and stress-testing protocols for $400B fixed income trading desk.\nEngineered automated Python risk engine replacing legacy spreadsheets, saving 20 hours weekly.\nLed regulatory alignment efforts ensuring 100% compliance with Federal Reserve CCAR stress tests.",
+                company2: "Goldman Sachs",
+                role2: "Risk Analyst",
+                dates2: "2015 - 2019",
+                expLocation2: "New York, NY",
+                bullets2: "Evaluated counterparty credit risk exposure across complex interest rate derivative contracts.",
+                degree: "M.S. in Financial Engineering",
+                school: "NYU Courant",
+                year: "2015",
+                gpa: "GPA: 3.91/4.0",
+                certifications: "Financial Risk Manager (FRM), CFA Charterholder",
+                ref1Name: "Jamie Dimon", ref1Title: "CEO at JPMorgan Chase", ref1Contact: "jamie.dimon@jpmorgan.com | (212) 270-6000",
+                ref2Name: "David Solomon", ref2Title: "CEO at Goldman Sachs", ref2Contact: "d.solomon@gs.com | (212) 902-1000",
+                jd: "Seeking Senior Quantitative Risk Manager experienced in VaR Modeling, Stress Testing, Python, Derivatives, Basel III, and Credit Risk."
+            },
+            {
+                index: 14,
+                name: "Amanda White",
+                title: "Global Human Resources Director",
+                email: "amanda.white@microsoft.com",
+                phone: "(425) 882-8080",
+                location: "Redmond, WA",
+                linkedin: "linkedin.com/in/amandawhite-hr",
+                summary: "Strategic HR Leader managing global talent operations for 15,000+ employee organizations. Expert in Workday HRIS, executive compensation, organizational culture design, and retention strategies.",
+                skills: "HRIS, Workday, Executive Compensation, Talent Acquisition, Labor Laws, Change Management, Employee Engagement, Strategic HR",
+                company: "Microsoft",
+                role: "Global HR Director",
+                dates: "2020 - Present",
+                expLocation: "Redmond, WA",
+                bullets: "Oversaw HR strategy and talent acquisition for Microsoft Cloud & AI division (15,000+ personnel).\nReduced key engineering attrition by 22% through redesigned equity compensation and career growth paths.\nLed global rollout of enterprise Workday HRIS system across 24 international subsidiaries.",
+                company2: "Amazon",
+                role2: "Senior HR Business Partner",
+                dates2: "2016 - 2020",
+                expLocation2: "Seattle, WA",
+                bullets2: "Managed HR operations supporting 4,000+ AWS software engineers and product managers.",
+                degree: "M.A. in Industrial-Organizational Psychology",
+                school: "Cornell University",
+                year: "2016",
+                gpa: "GPA: 3.87/4.0",
+                certifications: "SHRM-SCP, SPHR Certification",
+                ref1Name: "Kathleen Hogan", ref1Title: "Chief People Officer at Microsoft", ref1Contact: "khogan@microsoft.com | (425) 882-8080",
+                ref2Name: "Beth Galetti", ref2Title: "SVP of People Experience at Amazon", ref2Contact: "bgaletti@amazon.com | (206) 266-1000",
+                jd: "Hiring Global HR Director skilled in Workday HRIS, Executive Compensation, Talent Acquisition, Labor Laws, Employee Engagement, and Change Management."
+            },
+            {
+                index: 15,
+                name: "Kevin Patel",
+                title: "Lead iOS & Mobile Architect",
+                email: "kevin.patel@apple.com",
+                phone: "(408) 996-1010",
+                location: "Cupertino, CA",
+                linkedin: "linkedin.com/in/kevinpatel-ios",
+                summary: "Mobile Architect building Swift, SwiftUI, and Combine apps reaching 50M+ downloads. Specialist in iOS memory management, modular architecture, and custom UI frameworks.",
+                skills: "Swift, SwiftUI, iOS Development, Combine, Xcode, Modular Architecture, REST APIs, Unit Testing, CI/CD, Git",
+                company: "Apple",
+                role: "Lead iOS Architect",
+                dates: "2021 - Present",
+                expLocation: "Cupertino, CA",
+                bullets: "Architected core Swift UI components for Apple Services apps utilized by 50M+ monthly users.\nDecreased app launch cold-start times by 35% through dynamic framework loading optimization.\nImplemented automated XCTest CI/CD workflows elevating test coverage across codebase to 88%.",
+                company2: "Spotify",
+                role2: "Senior iOS Engineer",
+                dates2: "2017 - 2021",
+                expLocation2: "New York, NY",
+                bullets2: "Spearheaded offline audio caching engine in iOS app, reducing playback buffering errors by 50%.",
+                degree: "B.S. in Computer Science",
+                school: "University of Washington",
+                year: "2017",
+                gpa: "GPA: 3.88/4.0",
+                certifications: "Apple Certified iOS Developer",
+                ref1Name: "Craig Federighi", ref1Title: "SVP of Software Engineering at Apple", ref1Contact: "craig@apple.com | (408) 996-1010",
+                ref2Name: "Daniel Ek", ref2Title: "CEO at Spotify", ref2Contact: "daniel@spotify.com | (212) 653-8800",
+                jd: "Seeking Lead iOS Mobile Architect proficient in Swift, SwiftUI, Combine, Modular Architecture, Xcode, CI/CD, and iOS performance tuning."
+            },
+            {
+                index: 16,
+                name: "Jessica Brown",
+                title: "Director of Digital Marketing & Growth",
+                email: "jessica.brown@meta.com",
+                phone: "(650) 543-4800",
+                location: "Menlo Park, CA",
+                linkedin: "linkedin.com/in/jessicabrown-marketing",
+                summary: "Growth Marketer managing $50M+ digital ad budgets across Paid Social, SEO, and SEM. Generated over $300M in direct consumer revenue through data-driven performance marketing.",
+                skills: "Digital Marketing, Growth Hacking, Google Ads, Meta Ads, SEO, Analytics, Conversion Rate Optimization (CRO), A/B Testing",
+                company: "Meta",
+                role: "Director of Growth Marketing",
+                dates: "2020 - Present",
+                expLocation: "Menlo Park, CA",
+                bullets: "Directed $50M annual performance marketing budget driving 12M new user acquisitions for Quest platform.\nIncreased ad return on spend (ROAS) by 45% using AI-driven audience targeting models.\nEngineered rigorous A/B testing strategy optimizing landing page conversion rate from 3.2% to 5.8%.",
+                company2: "HubSpot",
+                role2: "Senior Marketing Manager",
+                dates2: "2016 - 2020",
+                expLocation2: "Cambridge, MA",
+                bullets2: "Grew organic blog search traffic from 1M to 5M monthly visitors via targeted Technical SEO campaigns.",
+                degree: "B.S. in Advertising & Data Analytics",
+                school: "Northwestern University",
+                year: "2016",
+                gpa: "GPA: 3.82/4.0",
+                certifications: "Google Ads Certified, Meta Certified Digital Marketing Associate, HubSpot Certified",
+                ref1Name: "Mark Zuckerberg", ref1Title: "CEO at Meta", ref1Contact: "zuck@meta.com | (650) 543-4800",
+                ref2Name: "Yamini Rangan", ref2Title: "CEO at HubSpot", ref2Contact: "yrangan@hubspot.com | (888) 482-7768",
+                jd: "Looking for a Growth Marketing Director skilled in Google Ads, Meta Ads, SEO, Conversion Rate Optimization (CRO), Analytics, and A/B Testing."
+            },
+            {
+                index: 17,
+                name: "Robert Taylor",
+                title: "Chief Executive Officer & Founder",
+                email: "robert.taylor@apextech.com",
+                phone: "(212) 555-0100",
+                location: "New York, NY",
+                linkedin: "linkedin.com/in/roberttaylor-ceo",
+                summary: "Executive Founder with proven track record scaling venture-backed tech startups from seed to Series C ($100M+ valuation). Expert in board governance, investor relations, and enterprise vision execution.",
+                skills: "Executive Leadership, Venture Capital, Corporate Strategy, Board Governance, M&A, Enterprise Vision, Revenue Growth",
+                company: "Apex Tech Labs",
+                role: "Chief Executive Officer",
+                dates: "2018 - Present",
+                expLocation: "New York, NY",
+                bullets: "Raised $65M in venture funding from top-tier Sequoia Capital and Andreessen Horowitz partners.\nScaled company revenue from zero to $30M ARR in 4 years while expanding workforce to 180 employees.\nExecuted strategic acquisition of European SaaS competitor, opening 12 new international markets.",
+                company2: "McKinsey & Company",
+                role2: "Engagement Manager",
+                dates2: "2014 - 2018",
+                expLocation2: "New York, NY",
+                bullets2: "Advised Fortune 50 CEOs on digital transformation initiatives, M&A strategies, and cost restructuring.",
+                degree: "MBA",
+                school: "Stanford Graduate School of Business",
+                year: "2014",
+                gpa: "GPA: 3.95/4.0",
+                certifications: "Executive Leadership Program, PMP",
+                ref1Name: "Roelof Botha", ref1Title: "Managing Partner at Sequoia Capital", ref1Contact: "roelof@sequoiacap.com | (650) 854-3920",
+                ref2Name: "Marc Andreessen", ref2Title: "General Partner at Andreessen Horowitz", ref2Contact: "marc@a16z.com | (650) 798-5800",
+                jd: "Seeking Chief Executive Officer proficient in Venture Capital funding, Corporate Strategy, Board Governance, M&A, Executive Leadership, and Revenue Growth."
+            },
+            {
+                index: 18,
+                name: "Emily Watson",
+                title: "Principal BioInformatics Scientist",
+                email: "emily.watson@pfizer.com",
+                phone: "(212) 733-2323",
+                location: "New York, NY",
+                linkedin: "linkedin.com/in/emilywatson-bio",
+                summary: "Bioinformatics Scientist leveraging Python, R, and Next-Generation Sequencing (NGS) algorithms for genomic drug target discovery. Led computational research supporting 3 FDA-approved clinical trials.",
+                skills: "Python, R, Next-Gen Sequencing (NGS), Bioinformatics, Genomics, Machine Learning, Biostatistics, Molecular Biology",
+                company: "Pfizer",
+                role: "Principal Bioinformatics Scientist",
+                dates: "2020 - Present",
+                expLocation: "New York, NY",
+                bullets: "Developed proprietary genomic sequence analysis pipeline identifying 4 novel oncology therapeutic targets.\nProcessed 50,000+ patient RNA-seq samples using cloud HPC clusters running Python and Nextflow.\nCo-authored 10 papers in Nature Genetics and Cell regarding computational drug discovery.",
+                company2: "Illumina",
+                role2: "Senior Staff Bioinformatician",
+                dates2: "2016 - 2020",
+                expLocation2: "San Diego, CA",
+                bullets2: "Optimized variant calling algorithm accuracy for high-throughput genome sequencing platforms.",
+                degree: "Ph.D. in Computational Biology",
+                school: "Johns Hopkins University",
+                year: "2016",
+                gpa: "GPA: 3.98/4.0",
+                certifications: "Certified Clinical Data Manager (CCDM)",
+                ref1Name: "Albert Bourla", ref1Title: "CEO at Pfizer", ref1Contact: "albert.bourla@pfizer.com | (212) 733-2323",
+                ref2Name: "Francis deSouza", ref2Title: "Former CEO at Illumina", ref2Contact: "f.desouza@illumina.com | (858) 202-4500",
+                jd: "Hiring Principal Bioinformatics Scientist skilled in Python, R, Next-Gen Sequencing (NGS), Genomics, Biostatistics, Computational Biology, and Target Discovery."
+            },
+            {
+                index: 19,
+                name: "Andrew Miller",
+                title: "Lead Hardware & Embedded Systems Engineer",
+                email: "andrew.miller@nvidia.com",
+                phone: "(408) 486-2000",
+                location: "Santa Clara, CA",
+                linkedin: "linkedin.com/in/andrewmiller-hardware",
+                summary: "Hardware Engineer with 10+ years expertise designing GPU microarchitecture, PCB layout, C/C++ RTOS embedded firmware, and Verilog/SystemVerilog ASIC chips.",
+                skills: "Verilog, C/C++, Embedded Systems, PCB Layout, RTOS, Microarchitecture, FPGA, ASIC Design, Debugging",
+                company: "NVIDIA",
+                role: "Lead Hardware Engineer",
+                dates: "2019 - Present",
+                expLocation: "Santa Clara, CA",
+                bullets: "Designed high-speed interconnect silicon microarchitecture for Next-Gen Blackwell GPU Tensor cores.\nEngineered low-latency C++ RTOS microcode firmware deployed on automotive Autonomous Driving chips.\nReduced PCB power consumption by 18% through advanced power-gating layout strategies.",
+                company2: "Intel",
+                role2: "Senior ASIC Design Engineer",
+                dates2: "2015 - 2019",
+                expLocation2: "Santa Clara, CA",
+                bullets2: "Authored SystemVerilog RTL code for Xeon server processor memory controllers.",
+                degree: "M.S. in Electrical Engineering",
+                school: "Georgia Institute of Technology",
+                year: "2015",
+                gpa: "GPA: 3.92/4.0",
+                certifications: "FE/PE Electrical Engineering, Certified IPC Specialist",
+                ref1Name: "Jensen Huang", ref1Title: "CEO at NVIDIA", ref1Contact: "jensen@nvidia.com | (408) 486-2000",
+                ref2Name: "Pat Gelsinger", ref2Title: "CEO at Intel", ref2Contact: "pat.gelsinger@intel.com | (408) 765-8080",
+                jd: "Seeking Lead Hardware Engineer skilled in Verilog, SystemVerilog, C/C++, Embedded RTOS, ASIC Design, PCB Layout, and GPU Microarchitecture."
+            },
+            {
+                index: 20,
+                name: "Natalie Brooks",
+                title: "Lead Legal Counsel & IP Attorney",
+                email: "natalie.brooks@google.com",
+                phone: "(650) 253-0000",
+                location: "Mountain View, CA",
+                linkedin: "linkedin.com/in/nataliebrooks-esq",
+                summary: "Senior Corporate Counsel specializing in technology licensing, international IP protection, AI patent portfolio strategy, and GDPR/CCPA regulatory compliance.",
+                skills: "Intellectual Property, Licensing, Patent Strategy, Corporate Law, GDPR Compliance, Contract Negotiation, Privacy Law",
+                company: "Google",
+                role: "Lead IP Counsel",
+                dates: "2020 - Present",
+                expLocation: "Mountain View, CA",
+                bullets: "Managed $1B international intellectual property patent portfolio covering artificial intelligence models.\nNegotiated 100+ high-stakes commercial technology cross-licensing deals with global enterprise partners.\nDesigned comprehensive global privacy framework ensuring 100% compliance with evolving GDPR and CCPA rules.",
+                company2: "Latham & Watkins LLP",
+                role2: "Senior IP Associate",
+                dates2: "2015 - 2020",
+                expLocation2: "San Francisco, CA",
+                bullets2: "Litigated high-profile patent infringement disputes before Federal Courts and US Patent Office (USPTO).",
+                degree: "Juris Doctor (J.D.)",
+                school: "Harvard Law School",
+                year: "2015",
+                gpa: "GPA: 3.90/4.0",
+                certifications: "California State Bar License, USPTO Registered Patent Attorney",
+                ref1Name: "Kent Walker", ref1Title: "President of Global Affairs at Google", ref1Contact: "kentwalker@google.com | (650) 253-0000",
+                ref2Name: "Rich Trobman", ref2Title: "Chair & Managing Partner at Latham & Watkins", ref2Contact: "r.trobman@lw.com | (213) 485-1234",
+                jd: "Hiring Lead Corporate Counsel with expertise in Intellectual Property, Patent Litigation, Technology Licensing, Privacy Law, GDPR, and Corporate Law."
+            }
         ];
-
-        const sampleProfiles = roleData.map((item, i) => {
-            const idx = i + 1;
-            const firstName = ["Alex", "Sarah", "David", "Elena", "Marcus", "Priya", "James", "Sophia", "Michael", "Olivia"][i % 10];
-            const lastName = ["Mercer", "Jenkins", "Chen", "Rostova", "Vance", "Sharma", "Harrison", "Martinez", "Brooks", "Kim"][i % 10];
-            const fullName = `${firstName} ${lastName}`;
-            const company = ["TechCorp", "CloudScale", "DataDynamics", "Apex Solutions", "NextGen Labs", "Vanguard Global", "Nexus Media", "Starlight Interactive", "Omni Health", "Quantum Fin"][i % 10];
-            const company2 = ["Global Enterprise Inc", "Innovate Tech", "Pioneer Systems", "Frontier Digital", "Summit Group"][i % 5];
-            
-            // Skill array array for exact JD matching
-            const skillArray = item.skills.split(', ');
-            const top5Skills = skillArray.slice(0, 5).join(', ');
-
-            return {
-                index: idx,
-                name: fullName,
-                title: `Senior ${item.title}`,
-                email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`,
-                phone: `(555) ${100 + idx}-${2000 + idx}`,
-                location: ["San Francisco, CA", "New York, NY", "Seattle, WA", "Austin, TX", "Chicago, IL", "Boston, MA", "Denver, CO", "Los Angeles, CA"][i % 8],
-                linkedin: `linkedin.com/in/${firstName.toLowerCase()}${lastName.toLowerCase()}`,
-                
-                summary: `Results-driven Senior ${item.title} with 7+ years of experience specializing in ${top5Skills}. Demonstrated success leading cross-functional teams, optimizing workflows, and delivering high-impact projects at ${company}.`,
-                skills: item.skills,
-                
-                // Role 1
-                company: company,
-                role: `Senior ${item.title}`,
-                dates: `2021 - Present`,
-                expLocation: ["San Francisco, CA", "New York, NY", "Remote"][i % 3],
-                bullets: `Spearheaded core operations focusing on ${skillArray[0]} and ${skillArray[1]}, raising team efficiency by ${20 + (i % 15)}%.\nArchitected and executed multi-phase initiatives incorporating ${skillArray[2]} to improve platform reliable scaling.\nManaged cross-functional teams, aligning ${skillArray[3]} workflows with global business objectives.`,
-
-                // Role 2
-                company2: company2,
-                role2: `${item.title}`,
-                dates2: `2018 - 2021`,
-                expLocation2: ["Chicago, IL", "Austin, TX", "Boston, MA"][i % 3],
-                bullets2: `Executed strategic deliverables relying on ${skillArray[4] || 'advanced tools'} and ${skillArray[5] || 'analytics'}, driving a ${15 + (i % 10)}% revenue boost.\nCollaborated with executive leaders to deploy standardized ${skillArray[6] || 'processes'} across divisions.`,
-
-                // Education & Certifications
-                degree: `B.S. in ${item.title.includes("Engineer") || item.title.includes("Data") || item.title.includes("Developer") ? "Computer Science" : "Business Administration"}`,
-                school: ["UC Berkeley", "Columbia University", "University of Washington", "MIT", "Stanford University"][i % 5],
-                year: `${2016 - (i % 3)}`,
-                gpa: "GPA: 3.8/4.0",
-                certifications: item.certs,
-
-                // References
-                ref1Name: "Dr. Robert Vance",
-                ref1Title: `VP of Engineering at ${company}`,
-                ref1Contact: `r.vance@${company.toLowerCase().replace(/\s+/g, '')}.com | (555) 987-6543`,
-                
-                ref2Name: "Samantha Reed",
-                ref2Title: `Director of Operations at ${company2}`,
-                ref2Contact: `s.reed@${company2.toLowerCase().replace(/\s+/g, '')}.com | (555) 876-5432`,
-
-                // Target JD built specifically to match ALL top skills 100%
-                jd: `We are seeking an experienced Senior ${item.title} skilled in ${item.skills}. The ideal candidate must have proven expertise in driving projects using ${top5Skills}, leading teams, and delivering measurable enterprise performance.`
-            };
-        });
 
         let currentProfileIndex = 0;
 
@@ -632,13 +1109,13 @@
             if (tab === 'resume') {
                 document.getElementById('form-tab-resume').classList.remove('hidden');
                 document.getElementById('form-tab-cover').classList.add('hidden');
-                document.getElementById('tab-btn-resume').className = "flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
-                document.getElementById('tab-btn-cover').className = "flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
+                document.getElementById('tab-btn-resume').className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
+                document.getElementById('tab-btn-cover').className = "flex-1 py-1.5 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
             } else {
                 document.getElementById('form-tab-resume').classList.add('hidden');
                 document.getElementById('form-tab-cover').classList.remove('hidden');
-                document.getElementById('tab-btn-cover').className = "flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
-                document.getElementById('tab-btn-resume').className = "flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
+                document.getElementById('tab-btn-cover').className = "flex-1 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
+                document.getElementById('tab-btn-resume').className = "flex-1 py-1.5 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
             }
         }
 
@@ -716,12 +1193,12 @@
             document.getElementById('cl-pv-phone').innerText = phone;
             document.getElementById('cl-pv-location').innerText = location;
 
-            document.getElementById('cl-pv-recipient').innerText = document.getElementById('form-cl-recipient').value || 'Hiring Manager';
+            document.getElementById('cl-pv-recipient').innerText = document.getElementById('form-cl-recipient').value || 'Hiring Committee';
             document.getElementById('cl-pv-company').innerText = document.getElementById('form-cl-company').value || 'Company Name';
             document.getElementById('cl-pv-body').innerText = document.getElementById('form-cl-body').value || '';
         }
 
-        // 4. Sequential 50 Samples Loader Engine
+        // 4. Sequential 20 Samples Loader Engine
         function cycleSampleProfiles() {
             const profile = sampleProfiles[currentProfileIndex];
             document.getElementById('sample-index-badge').innerText = profile.index;
@@ -768,7 +1245,7 @@
             // Cover Letter Generation
             document.getElementById('form-cl-recipient').value = "Hiring Committee";
             document.getElementById('form-cl-company').value = profile.company;
-            document.getElementById('form-cl-body').value = `Dear Hiring Committee,\n\nI am writing to express my eager interest in the ${profile.title} role at ${profile.company}. With a strong background in ${profile.skills.split(', ').slice(0,3).join(', ')}, and a proven track record of driving operational excellence, I am confident in my ability to immediately add value to your team.\n\nIn my previous role as ${profile.role} at ${profile.company}, I spearheaded major strategic operational frameworks that increased measurable team output and scalable platform resilience. My technical expertise combined with leadership certifications make me uniquely prepared to excel in this role.\n\nThank you for reviewing my application. I look forward to discussing how my experience aligns with the long-term goals at ${profile.company}.\n\nSincerely,\n${profile.name}`;
+            document.getElementById('form-cl-body').value = `Dear Hiring Committee,\n\nI am writing to express my eager interest in the ${profile.title} role at ${profile.company}. With a strong background in ${profile.skills.split(', ').slice(0,3).join(', ')}, and a proven track record of driving operational excellence, I am confident in my ability to immediately add value to your team.\n\nIn my previous role as ${profile.role} at ${profile.company}, I spearheaded major strategic operational frameworks that increased measurable output and platform resilience. My technical expertise combined with executive certifications make me uniquely prepared to excel in this role.\n\nThank you for reviewing my application. I look forward to discussing how my experience aligns with the long-term goals at ${profile.company}.\n\nSincerely,\n${profile.name}`;
 
             document.getElementById('job-description').value = profile.jd;
 
@@ -778,7 +1255,7 @@
             currentProfileIndex = (currentProfileIndex + 1) % sampleProfiles.length;
         }
 
-        // 5. Automated File Importer (.pdf, .docx, .txt)
+        // 5. AUTOMATED AUTO-FILL FILE IMPORTER ENGINE (.pdf, .docx, .txt)
         async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -807,11 +1284,27 @@
                 }
 
                 if (extractedText.trim().length > 0) {
-                    document.getElementById('form-summary').value = extractedText.substring(0, 250) + "...";
-                    document.getElementById('form-exp-bullets').value = extractedText.substring(250, 600);
+                    // Extract Details via Smart RegEx Parsing
+                    const emailMatch = extractedText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+                    const phoneMatch = extractedText.match(/(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/);
+                    const linkedinMatch = extractedText.match(/(linkedin\.com\/in\/[a-zA-Z0-9_-]+)/i);
+
+                    // Name heuristic: Usually first line or phrase
+                    const lines = extractedText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+                    if (lines.length > 0 && lines[0].length < 35) {
+                        document.getElementById('form-name').value = lines[0];
+                    }
+                    if (emailMatch) document.getElementById('form-email').value = emailMatch[0];
+                    if (phoneMatch) document.getElementById('form-phone').value = phoneMatch[0];
+                    if (linkedinMatch) document.getElementById('form-linkedin').value = linkedinMatch[0];
+
+                    // Fallback to auto-fill main blocks
+                    document.getElementById('form-summary').value = extractedText.substring(0, 300) + "...";
+                    document.getElementById('form-exp-bullets').value = extractedText.substring(300, 700);
+
                     updateDocuments();
                     runATSScan();
-                    alert("Resume content parsed into workspace!");
+                    alert("Document parsed & auto-filled successfully!");
                 }
             } catch (err) {
                 console.error(err);
@@ -840,7 +1333,7 @@
             runATSScan();
         }
 
-        // 7. Perfect 100% Guaranteed ATS Score Scanner Engine
+        // 7. Perfect ATS Score Scanner Engine
         function runATSScan() {
             const fullResumeText = (
                 document.getElementById('form-summary').value + ' ' +
@@ -851,7 +1344,6 @@
 
             const jdText = document.getElementById('job-description').value;
             
-            // Extract core skill keyphrases comma or space delimited
             const rawTokens = jdText.toLowerCase().replace(/[^a-z0-9, ]/g, '').split(/,| /).filter(w => w.length > 3);
             const jdKeywords = Array.from(new Set(rawTokens)).slice(0, 10);
 
@@ -892,7 +1384,7 @@
             }
         }
 
-        // 8. Multi-Page Perfectly Aligned PDF Export Engine
+        // 8. NEW REPLACEMENT EXPORT FUNCTION: PDF ENGINE
         function exportMultiPagePDF() {
             const element = document.getElementById('export-container');
             const name = document.getElementById('form-name').value || 'Candidate';
@@ -901,19 +1393,26 @@
                 margin:       0,
                 filename:     `${name.replace(/\s+/g, '_')}_Application_Package.pdf`,
                 image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { 
-                    scale: 2, 
-                    useCORS: true, 
-                    scrollY: 0,
-                    windowWidth: 794
-                },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowWidth: 794 },
                 jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save();
         }
 
-        // 9. Direct Email Handler
+        // 9. NEW REPLACEMENT EXPORT FUNCTION: RAW HTML FILE EXPORT ENGINE
+        function exportHTMLDoc() {
+            const documentContent = document.getElementById('export-container').outerHTML;
+            const name = document.getElementById('form-name').value || 'Candidate';
+            const htmlBlob = new Blob([`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Resume</title><script src="https://cdn.tailwindcss.com"><\/script></head><body>${documentContent}</body></html>`], { type: 'text/html' });
+            
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(htmlBlob);
+            downloadLink.download = `${name.replace(/\s+/g, '_')}_Resume.html`;
+            downloadLink.click();
+        }
+
+        // 10. Direct Email Handler
         function sendViaEmail() {
             const email = document.getElementById('form-email').value;
             const name = document.getElementById('form-name').value;
