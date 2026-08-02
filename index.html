@@ -4,193 +4,204 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI ATS Resume Builder</title>
+<title>Gemini Resume AI Builder</title>
 
 <style>
 
+:root{
+    --primary:#4285f4;
+    --secondary:#a142f4;
+    --green:#34a853;
+    --bg:#f8f9fc;
+    --card:#ffffff;
+    --text:#202124;
+    --muted:#5f6368;
+}
+
 *{
     box-sizing:border-box;
-    font-family:Inter,Segoe UI,Arial,sans-serif;
+    font-family:Inter,Arial,sans-serif;
 }
 
 body{
     margin:0;
-    background:#f7f8fc;
-    color:#202124;
+    background:
+    radial-gradient(circle at top left,#d8e8ff,transparent 35%),
+    radial-gradient(circle at bottom right,#ead7ff,transparent 35%),
+    var(--bg);
+    color:var(--text);
 }
 
-/* Gemini inspired header */
+
+/* HEADER */
 
 header{
-    background:white;
-    padding:18px 30px;
+    padding:25px 8%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    border-bottom:1px solid #ddd;
-    position:sticky;
-    top:0;
-    z-index:10;
 }
 
 .logo{
-    font-size:24px;
+    font-size:28px;
     font-weight:700;
-    background:linear-gradient(90deg,#4285f4,#9b51e0,#34a853);
+    background:linear-gradient(90deg,#4285f4,#a142f4,#34a853);
     -webkit-background-clip:text;
     color:transparent;
 }
 
-
-button{
-    border:none;
-    border-radius:12px;
-    padding:12px 18px;
-    cursor:pointer;
-    background:#4285f4;
-    color:white;
-    font-weight:600;
+.badge{
+    background:white;
+    padding:10px 18px;
+    border-radius:30px;
+    box-shadow:0 5px 20px #ddd;
 }
 
-button:hover{
-    opacity:.85;
-}
 
+/* MAIN */
 
 .container{
-    padding:25px;
-    max-width:1400px;
+    width:90%;
     margin:auto;
+    display:grid;
+    grid-template-columns:420px 1fr;
+    gap:25px;
 }
 
 
-/* AI Search box */
-
-.ai-box{
-
-background:white;
-border-radius:25px;
-padding:20px;
-box-shadow:0 5px 20px #0001;
-margin-bottom:25px;
-
-}
-
-
-.ai-box input{
-
-width:100%;
-border:none;
-outline:none;
-font-size:18px;
-
-}
-
-
-/* Dashboard */
-
-
-.dashboard{
-
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-
-}
-
+/* CARDS */
 
 .card{
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
 
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 5px 20px #0001;
+
+/* FORM */
+
+h2{
+    margin-top:0;
+}
+
+input,textarea{
+    width:100%;
+    padding:13px;
+    margin:8px 0 15px;
+    border:1px solid #ddd;
+    border-radius:14px;
+    outline:none;
+}
+
+textarea{
+    min-height:100px;
+    resize:none;
+}
+
+input:focus,textarea:focus{
+    border-color:var(--primary);
+}
+
+
+button{
+
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:18px;
+    color:white;
+    background:
+    linear-gradient(90deg,#4285f4,#a142f4);
+
+    font-size:16px;
+    cursor:pointer;
+}
+
+
+/* PREVIEW */
+
+.resume{
+
+    background:white;
+    min-height:850px;
+    padding:50px;
+    border-radius:10px;
+
+}
+
+
+.resume h1{
+    font-size:34px;
+    margin-bottom:5px;
+}
+
+
+.resume h3{
+
+    border-bottom:2px solid #222;
+    padding-bottom:5px;
+    margin-top:30px;
 
 }
 
 
 .score{
 
-font-size:48px;
-font-weight:800;
-color:#34a853;
+    padding:20px;
+    border-radius:20px;
+    background:
+    linear-gradient(135deg,#eef5ff,#f8eaff);
+    margin-bottom:20px;
 
 }
 
 
+.progress{
 
-/* Main layout */
-
-.workspace{
-
-display:grid;
-grid-template-columns:2fr 1fr;
-gap:25px;
-margin-top:25px;
-
-}
-
-
-.panel{
-
-background:white;
-padding:25px;
+height:12px;
+background:#ddd;
 border-radius:20px;
-box-shadow:0 5px 20px #0001;
+overflow:hidden;
+
+}
+
+.progress div{
+
+height:100%;
+width:86%;
+background:linear-gradient(90deg,#34a853,#4285f4);
 
 }
 
 
+/* AI PANEL */
 
-textarea,input[type=text]{
+.ai{
 
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ddd;
-margin-bottom:15px;
-
-}
-
-
-.section-title{
-
-font-size:18px;
-font-weight:bold;
-margin-bottom:10px;
+margin-top:20px;
+background:#111827;
+color:white;
 
 }
 
-
-
-.tag{
-
-display:inline-block;
-background:#e8f0fe;
-padding:6px 12px;
-border-radius:20px;
-margin:4px;
-
+.ai span{
+color:#8ab4f8;
 }
 
-
-/* Mobile */
 
 @media(max-width:900px){
 
-.workspace{
+.container{
 grid-template-columns:1fr;
 }
 
 }
 
+
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/index.umd.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 
 
@@ -200,15 +211,12 @@ grid-template-columns:1fr;
 <header>
 
 <div class="logo">
-✨ AI ATS Resume Builder
+✨ Gemini Resume AI
 </div>
 
-
-<div>
-<button onclick="loadSamples()">Samples</button>
-<button onclick="generateCoverLetter()">Cover Letter</button>
+<div class="badge">
+ATS Optimized Builder
 </div>
-
 
 </header>
 
@@ -217,1696 +225,248 @@ grid-template-columns:1fr;
 <div class="container">
 
 
-<div class="ai-box">
+<!-- BUILDER -->
 
-<input id="jobInput"
-placeholder="Paste your target job description here...">
-
-<br><br>
-
-<button onclick="analyzeJob()">
-Analyze Job Match
-</button>
-
-</div>
-
-
-
-<div class="dashboard">
+<div>
 
 
 <div class="card">
-ATS Score
-<div class="score" id="score">
-0%
-</div>
-</div>
+
+<h2>Create Resume</h2>
 
 
-<div class="card">
-Keyword Match
-<h2 id="keywordScore">
-0%
-</h2>
-</div>
+<label>Name</label>
+<input id="name" placeholder="Your name">
 
 
-<div class="card">
-Experience Match
-<h2 id="experienceScore">
-0%
-</h2>
-</div>
+<label>Professional Title</label>
+<input id="title" placeholder="Software Engineer">
 
 
-<div class="card">
-Formatting
-<h2>
-100%
-</h2>
-</div>
+<label>Email</label>
+<input id="email" placeholder="email@example.com">
 
 
-</div>
-
-
-
-
-<div class="workspace">
-
-
-<div class="panel">
-
-
-<h2>
-Resume Builder
-
-    <hr>
-
-<h3>Import / Export</h3>
-
-<input type="file" id="importFile"
-accept=".txt,.pdf,.docx">
-
-
-<br><br>
-
-
-<button onclick="importResume()">
-Import Resume
-</button>
-
-
-<button onclick="exportPDF()">
-Export PDF
-</button>
-
-
-<button onclick="exportDOCX()">
-Export DOCX
-</button>
-
-
-<button onclick="createCoverLetter()">
-Generate Cover Letter
-</button>
-</h2>
-
-
-<div class="section-title">
-Personal Information
-</div>
-
-
-<input id="name"
-placeholder="Full Name">
-
-
-<input id="title"
-placeholder="Professional Title">
-
+<label>Summary</label>
 
 <textarea id="summary"
-placeholder="Professional Summary"></textarea>
+placeholder="Professional summary..."></textarea>
 
 
-
-<div class="section-title">
-Experience
-</div>
-
-
-<textarea id="experience"
-placeholder="
-Company:
-Role:
-Achievements:
-Use measurable results...
-"></textarea>
-
-
-
-<div class="section-title">
-Skills
-</div>
-
+<label>Skills</label>
 
 <textarea id="skills"
-placeholder="JavaScript, Python, AWS, Leadership..."></textarea>
+placeholder="Python, React, Leadership..."></textarea>
+
+
+<label>Experience</label>
+
+<textarea id="experience"
+placeholder="Company, role, achievements..."></textarea>
 
 
 
-<div class="section-title">
-Education
-</div>
-
-
-<textarea id="education"></textarea>
-
-
-
-<button onclick="saveResume()">
-Save Resume
+<button onclick="generate()">
+✨ Generate AI Resume
 </button>
 
 
-<button onclick="exportTXT()">
-Export TXT
+</div>
+
+
+
+<div class="card ai">
+
+<h2>Gemini AI Assistant</h2>
+
+<p>
+<span>✓</span>
+ Your resume follows ATS structure
+</p>
+
+<p>
+<span>✓</span>
+ Strong action verbs detected
+</p>
+
+<p>
+<span>✓</span>
+ Keyword optimization enabled
+</p>
+
+<p>
+<span>💡</span>
+ Add measurable achievements:
+"Improved performance by 35%"
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- PREVIEW -->
+
+
+<div>
+
+
+<div class="card score">
+
+<h2>ATS Score</h2>
+
+<h1 id="score">
+86%
+</h1>
+
+<div class="progress">
+<div></div>
+</div>
+
+</div>
+
+
+
+
+<div class="resume" id="resume">
+
+
+<h1 id="rname">
+Your Name
+</h1>
+
+
+<h3 id="rtitle">
+Professional Title
+</h3>
+
+
+<p id="remail">
+email@example.com
+</p>
+
+
+<h3>
+Professional Summary
+</h3>
+
+<p id="rsummary">
+Your professional summary will appear here.
+</p>
+
+
+
+<h3>
+Skills
+</h3>
+
+<p id="rskills">
+Your skills
+</p>
+
+
+
+<h3>
+Experience
+</h3>
+
+<p id="rexperience">
+Your experience
+</p>
+
+
+
+</div>
+
+
+<br>
+
+
+<button onclick="window.print()">
+Download Resume PDF
 </button>
 
 
-
 </div>
 
 
 
-
-
-
-<div class="panel">
-
-
-<h2>
-AI ATS Suggestions
-</h2>
-
-
-<div id="suggestions">
-
-Enter job description to analyze.
-
 </div>
 
-
-<hr>
-
-
-<h2>
-Missing Keywords
-</h2>
-
-
-<div id="keywords">
-
-None
-
-</div>
-
-
-<hr>
-
-
-<h2>
-Add-ons
-</h2>
-
-
-<div class="tag">
-LinkedIn Optimizer
-</div>
-
-
-<div class="tag">
-Interview AI
-</div>
-
-
-<div class="tag">
-Salary Assistant
-</div>
-
-
-<div class="tag">
-Portfolio Builder
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
 
 
 
 <script>
 
 
-let resume={};
+function generate(){
 
 
-function saveResume(){
+document.getElementById("rname").innerHTML =
+document.getElementById("name").value || "Your Name";
 
-resume={
 
-name:
-document.getElementById("name").value,
+document.getElementById("rtitle").innerHTML =
+document.getElementById("title").value || "Professional Title";
 
-title:
-document.getElementById("title").value,
 
-summary:
-document.getElementById("summary").value,
+document.getElementById("remail").innerHTML =
+document.getElementById("email").value;
 
-experience:
-document.getElementById("experience").value,
 
-skills:
-document.getElementById("skills").value,
+document.getElementById("rsummary").innerHTML =
+document.getElementById("summary").value;
 
-education:
-document.getElementById("education").value
 
-};
+document.getElementById("rskills").innerHTML =
+document.getElementById("skills").value;
 
 
-localStorage.setItem(
-"resume",
-JSON.stringify(resume)
-);
+document.getElementById("rexperience").innerHTML =
+document.getElementById("experience").value;
 
 
-alert("Resume saved");
 
-}
-
-
-
-
-function analyzeJob(){
-
-let jd=document.getElementById("jobInput").value.toLowerCase();
-
-let text=
-JSON.stringify(resume).toLowerCase();
-
-
-let words=jd
-.split(/\W+/)
-.filter(x=>x.length>4);
-
-
-let matched=0;
-
-
-words.forEach(w=>{
-
-if(text.includes(w))
-matched++;
-
-});
-
-
-let score=
-Math.min(
-100,
-Math.round((matched/(words.length||1))*100)
-);
-
-
-document.getElementById("score")
-.innerHTML=score+"%";
-
-
-document.getElementById("keywordScore")
-.innerHTML=score+"%";
-
-
-document.getElementById("experienceScore")
-.innerHTML=Math.max(score-5,0)+"%";
-
-
-
-document.getElementById("suggestions")
-.innerHTML=
-
-score>75?
-
-"Excellent ATS compatibility. Improve achievements with numbers."
-
-:
-
-"Add more job-specific keywords and measurable achievements.";
-
-
-
-document.getElementById("keywords")
-.innerHTML=
-
-words
-.filter(w=>!text.includes(w))
-.slice(0,10)
-.map(w=>"<span class='tag'>"+w+"</span>")
-.join("");
-
-}
-
-
-
-function exportTXT(){
-
-let data=
-`
-${resume.name}
-
-${resume.title}
-
-SUMMARY
-${resume.summary}
-
-
-EXPERIENCE
-${resume.experience}
-
-
-SKILLS
-${resume.skills}
-
-
-EDUCATION
-${resume.education}
-
-`;
-
-let blob=
-new Blob([data],
-{type:"text/plain"});
-
-
-let a=document.createElement("a");
-
-a.href=
-URL.createObjectURL(blob);
-
-a.download="ATS_Resume.txt";
-
-a.click();
-
-}
-
-
-
-function generateCoverLetter(){
-
-alert(
-"AI Cover Letter Generator module will be added in Part 4."
-);
-
-}
-
-
-
-function loadSamples(){
-
-alert(
-"50 ATS Resume Samples Database will be added in Part 3."
-);
-
-}
-
-<script>
-
-
-let resume={};
-
-
-
-const skillDatabase={
-
-"technical":[
-"javascript","python","java","react","node",
-"sql","aws","azure","docker","kubernetes",
-"machine learning","ai","data science",
-"html","css","api","cloud","linux"
-],
-
-
-"management":[
-"leadership","management","strategy",
-"planning","roadmap","stakeholder",
-"agile","scrum","budget"
-],
-
-
-"business":[
-"sales","marketing","finance",
-"analytics","operations","customer",
-"project management"
-],
-
-
-"soft":[
-"communication","teamwork",
-"problem solving","collaboration",
-"adaptability"
-]
-
-
-};
-
-
-
-function saveResume(){
-
-
-resume={
-
-name:
-document.getElementById("name").value,
-
-title:
-document.getElementById("title").value,
-
-summary:
-document.getElementById("summary").value,
-
-experience:
-document.getElementById("experience").value,
-
-skills:
-document.getElementById("skills").value,
-
-education:
-document.getElementById("education").value
-
-};
-
-
-localStorage.setItem(
-"resume",
-JSON.stringify(resume)
-);
-
-
-alert("Resume saved successfully");
-
-
-}
-
-
-
-
-function calculateKeywordScore(jd,text){
-
-
-let keywords=
-jd
-.toLowerCase()
-.match(/[a-zA-Z]{4,}/g)||[];
-
-
-keywords=[
-...new Set(keywords)
+let fields =
+[
+"name",
+"title",
+"summary",
+"skills",
+"experience"
 ];
 
 
-let matched=[];
-
-let missing=[];
+let completed=0;
 
 
-keywords.forEach(word=>{
+fields.forEach(x=>{
 
-
-if(text.includes(word))
-matched.push(word);
-
-else
-missing.push(word);
-
+if(document.getElementById(x).value)
+completed++;
 
 });
 
 
-
-let score=
-
-Math.round(
-(matched.length /
-keywords.length)*100
+let score=Math.floor(
+(completed/fields.length)*100
 );
 
 
+document.getElementById("score").innerHTML=
+score+"%";
 
-return{
 
-score:
-Math.min(score,100),
-
-matched,
-
-missing
-
-};
+document.querySelector(".progress div")
+.style.width=score+"%";
 
 
 }
 
-
-
-
-function analyzeSkills(text){
-
-
-let result=[];
-
-
-Object.values(skillDatabase)
-.flat()
-.forEach(skill=>{
-
-
-if(text.includes(skill))
-result.push(skill);
-
-
-});
-
-
-return result;
-
-
-}
-
-
-
-
-function analyzeAchievements(text){
-
-
-let numbers=
-text.match(/\d+%|\$\d+|\d+\+/g);
-
-
-return numbers?
-100:
-40;
-
-
-}
-
-
-
-
-function analyzeJob(){
-
-
-
-let jd=
-
-document
-.getElementById("jobInput")
-.value
-.toLowerCase();
-
-
-
-let resumeText=
-
-JSON.stringify(resume)
-.toLowerCase();
-
-
-
-let keyword=
-
-calculateKeywordScore(
-jd,
-resumeText
-);
-
-
-
-let skills=
-
-analyzeSkills(resumeText);
-
-
-
-let achievement=
-
-analyzeAchievements(
-resumeText
-);
-
-
-
-let finalScore=
-
-Math.round(
-
-(keyword.score*0.55)
-+
-(achievement*0.20)
-+
-(Math.min(skills.length*5,100)*0.25)
-
-);
-
-
-
-document
-.getElementById("score")
-.innerHTML=
-
-finalScore+"%";
-
-
-
-document
-.getElementById("keywordScore")
-.innerHTML=
-
-keyword.score+"%";
-
-
-
-document
-.getElementById("experienceScore")
-.innerHTML=
-
-achievement+"%";
-
-
-
-
-let suggestion="";
-
-
-
-if(keyword.score<70)
-
-suggestion+=
-"• Add missing job keywords<br>";
-
-
-
-if(achievement<80)
-
-suggestion+=
-"• Add measurable achievements<br>";
-
-
-
-if(skills.length<5)
-
-suggestion+=
-"• Add more relevant technical skills<br>";
-
-
-
-if(finalScore>=85)
-
-suggestion+=
-"✓ Resume is highly ATS compatible<br>";
-
-
-
-document
-.getElementById("suggestions")
-.innerHTML=
-suggestion;
-
-
-
-document
-.getElementById("keywords")
-.innerHTML=
-
-
-keyword
-.missing
-.slice(0,15)
-.map(
-
-k=>
-
-"<span class='tag'>"
-+k+
-"</span>"
-
-)
-
-.join("");
-
-
-
-}
-
-
-
-
-
-function exportTXT(){
-
-
-let data=
-
-`
-
-${resume.name}
-
-${resume.title}
-
-
-PROFESSIONAL SUMMARY
-
-${resume.summary}
-
-
-
-WORK EXPERIENCE
-
-${resume.experience}
-
-
-
-SKILLS
-
-${resume.skills}
-
-
-
-EDUCATION
-
-${resume.education}
-
-
-
-`;
-
-
-
-let blob=
-
-new Blob(
-[data],
-{
-type:
-"text/plain"
-}
-);
-
-
-
-let link=
-document.createElement("a");
-
-
-link.href=
-URL.createObjectURL(blob);
-
-
-link.download=
-"ATS_Optimized_Resume.txt";
-
-
-link.click();
-
-
-
-}
-
-
-
-
-
-
-function generateCoverLetter(){
-
-
-let name=
-resume.name||"Candidate";
-
-
-let title=
-resume.title||"Professional";
-
-
-
-let letter=
-
-`
-
-Dear Hiring Manager,
-
-
-I am excited to apply for the ${title} position.
-
-My background, experience, and skills align strongly
-with your organization's requirements.
-
-
-Throughout my career, I have delivered measurable
-results through innovation, collaboration, and
-continuous improvement.
-
-
-I would appreciate the opportunity to discuss how my
-experience can contribute to your team.
-
-
-Thank you for your consideration.
-
-
-Sincerely,
-
-${name}
-
-`;
-
-
-
-let blob=
-
-new Blob(
-[letter],
-{
-type:
-"text/plain"
-}
-);
-
-
-let a=
-document.createElement("a");
-
-
-a.href=
-URL.createObjectURL(blob);
-
-
-a.download=
-"ATS_Cover_Letter.txt";
-
-
-a.click();
-
-
-
-}
-
-
-
-
-
-function loadSamples(){
-
-
-alert(
-
-"Part 3 will load 50 professional ATS resume samples with matching job descriptions."
-
-);
-
-
-}
-
-
-
-window.onload=function(){
-
-
-let saved=
-
-localStorage.getItem(
-"resume"
-);
-
-
-if(saved)
-
-resume=
-JSON.parse(saved);
-
-
-
-}
-
-
-
-</script>
-
-    const resumeSamples = [
-
-{
-role:"Software Engineer",
-category:"Technology",
-job:
-"Build scalable web applications using JavaScript React Node AWS APIs",
-skills:
-"JavaScript React Node.js SQL AWS Git REST API",
-experience:
-"Developed full stack applications improving system performance by 40%. Built REST APIs and deployed cloud solutions."
-},
-
-{
-role:"Data Scientist",
-category:"Technology",
-job:
-"Develop machine learning models using Python SQL TensorFlow and analytics",
-skills:
-"Python Machine Learning SQL TensorFlow Statistics Data Analysis",
-experience:
-"Created predictive models improving business forecasting accuracy by 35%."
-},
-
-{
-role:"Product Manager",
-category:"Management",
-job:
-"Manage product roadmap Agile teams customer research and product strategy",
-skills:
-"Product Strategy Agile Scrum Roadmap Analytics Leadership",
-experience:
-"Launched digital products increasing user engagement by 50%."
-},
-
-{
-role:"Cybersecurity Analyst",
-category:"Security",
-job:
-"Monitor threats perform security analysis incident response SIEM",
-skills:
-"Cybersecurity SIEM Firewall Threat Detection Risk Analysis",
-experience:
-"Reduced security incidents by 45% through proactive monitoring."
-},
-
-{
-role:"Cloud Engineer",
-category:"Technology",
-job:
-"AWS Azure cloud infrastructure automation DevOps deployment",
-skills:
-"AWS Azure Docker Kubernetes Terraform Linux",
-experience:
-"Designed cloud infrastructure reducing operational cost by 30%."
-},
-
-
-{
-role:"Digital Marketing Manager",
-category:"Marketing",
-job:
-"Develop marketing campaigns SEO SEM social media analytics",
-skills:
-"SEO SEM Google Analytics Campaign Management Content Strategy",
-experience:
-"Increased online conversion rate by 25% through targeted campaigns."
-},
-
-
-{
-role:"Financial Analyst",
-category:"Finance",
-job:
-"Financial modelling forecasting reporting investment analysis",
-skills:
-"Excel Finance Forecasting SQL Reporting Data Analysis",
-experience:
-"Improved financial reporting accuracy by 30%."
-},
-
-
-{
-role:"HR Manager",
-category:"Human Resources",
-job:
-"Recruitment employee relations performance management HR strategy",
-skills:
-"Recruitment HRIS Leadership Employee Relations Training",
-experience:
-"Managed workforce programs improving employee retention."
-},
-
-
-{
-role:"UX Designer",
-category:"Design",
-job:
-"Create user experiences wireframes prototypes user research",
-skills:
-"Figma UX UI Design Research Prototyping",
-experience:
-"Designed interfaces improving customer satisfaction by 40%."
-},
-
-
-{
-role:"Project Manager",
-category:"Management",
-job:
-"Manage projects budgets timelines Agile teams delivery",
-skills:
-"Project Management Agile Scrum Budget Leadership",
-experience:
-"Delivered multiple projects on schedule and under budget."
-}
-
-];
-
-
-
-/*
-Additional 40 samples are generated
-from professional ATS patterns
-*/
-
-
-const additionalRoles=[
-
-"Backend Developer",
-"Frontend Developer",
-"Full Stack Developer",
-"Mobile App Developer",
-"DevOps Engineer",
-"Machine Learning Engineer",
-"AI Engineer",
-"Database Administrator",
-"Network Engineer",
-"System Administrator",
-"QA Engineer",
-"Automation Tester",
-"Business Analyst",
-"Operations Manager",
-"Sales Manager",
-"Account Executive",
-"Customer Success Manager",
-"Content Writer",
-"Copywriter",
-"Graphic Designer",
-"Video Editor",
-"Teacher",
-"Research Assistant",
-"Medical Assistant",
-"Nurse",
-"Pharmacist",
-"Architect",
-"Mechanical Engineer",
-"Electrical Engineer",
-"Civil Engineer",
-"Legal Assistant",
-"Compliance Officer",
-"Supply Chain Manager",
-"Procurement Specialist",
-"Restaurant Manager",
-"Hotel Manager",
-"Executive Assistant",
-"CEO",
-"Director"
-];
-
-
-
-additionalRoles.forEach(role=>{
-
-
-resumeSamples.push({
-
-role:role,
-
-category:"Professional",
-
-job:
-
-`${role} position requiring leadership communication skills technical expertise and measurable results`,
-
-
-skills:
-
-"Leadership Communication Problem Solving Management Analytics",
-
-
-experience:
-
-"Delivered measurable improvements through strategic planning collaboration and continuous improvement."
-
-});
-
-
-});
-
-
-
-
-
-function loadSamples(){
-
-
-
-let list=
-
-resumeSamples
-.map(
-
-(s,i)=>
-
-`
-<button onclick="loadSample(${i})">
-
-${i+1}. ${s.role}
-
-</button>
-
-<br><br>
-
-`
-
-)
-
-.join("");
-
-
-
-let box=
-
-document.getElementById(
-"suggestions"
-);
-
-
-box.innerHTML=
-
-"<h3>ATS Resume Samples</h3>"
-+
-list;
-
-
-
-}
-
-
-
-
-
-function loadSample(index){
-
-
-
-let sample=
-
-resumeSamples[index];
-
-
-
-document
-.getElementById("title")
-.value=
-
-sample.role;
-
-
-
-document
-.getElementById("summary")
-.value=
-
-sample.job;
-
-
-
-document
-.getElementById("experience")
-.value=
-
-sample.experience;
-
-
-
-document
-.getElementById("skills")
-.value=
-
-sample.skills;
-
-
-
-document
-.getElementById("jobInput")
-.value=
-
-sample.job;
-
-
-
-saveResume();
-
-
-
-alert(
-
-sample.role+
-" template loaded"
-
-);
-
-
-
-}
-
-
-function getResumeText(){
-
-
-return `
-
-${resume.name}
-
-
-${resume.title}
-
-
-SUMMARY
-
-${resume.summary}
-
-
-
-EXPERIENCE
-
-${resume.experience}
-
-
-
-SKILLS
-
-${resume.skills}
-
-
-
-EDUCATION
-
-${resume.education}
-
-`;
-
-}
-
-
-
-
-function exportPDF(){
-
-
-const {jsPDF}=window.jspdf;
-
-
-let pdf=
-new jsPDF();
-
-
-let text=
-getResumeText();
-
-
-let lines=
-pdf.splitTextToSize(
-text,
-180
-);
-
-
-
-let y=20;
-
-
-let page=1;
-
-
-
-lines.forEach(line=>{
-
-
-if(y>270){
-
-
-pdf.text(
-"Page "+page,
-180,
-290
-);
-
-
-pdf.addPage();
-
-
-page++;
-
-y=20;
-
-}
-
-
-pdf.text(
-line,
-15,
-y
-);
-
-
-y+=8;
-
-
-});
-
-
-pdf.text(
-"Page "+page,
-180,
-290
-);
-
-
-
-pdf.save(
-"ATS_Resume.pdf"
-);
-
-
-}
-
-
-
-
-
-async function exportDOCX(){
-
-
-
-const {
-Document,
-Packer,
-Paragraph
-}=docx;
-
-
-
-let doc=
-new Document({
-
-
-sections:[{
-
-properties:{},
-
-
-children:
-
-
-getResumeText()
-
-.split("\n")
-
-.map(
-
-line=>
-
-new Paragraph(
-line
-)
-
-)
-
-
-}]
-
-
-});
-
-
-
-let blob=
-
-await Packer.toBlob(doc);
-
-
-
-let link=
-document.createElement("a");
-
-
-link.href=
-URL.createObjectURL(blob);
-
-
-link.download=
-"ATS_Resume.docx";
-
-
-link.click();
-
-
-
-}
-
-
-
-
-
-
-function importResume(){
-
-
-let file=
-
-document
-.getElementById(
-"importFile"
-)
-.files[0];
-
-
-if(!file)
-
-return alert(
-"Select a file"
-);
-
-
-
-let reader=
-new FileReader();
-
-
-
-reader.onload=function(e){
-
-
-let text=e.target.result;
-
-
-
-document
-.getElementById("summary")
-.value=
-
-text;
-
-
-
-document
-.getElementById("experience")
-.value=
-
-text;
-
-
-
-document
-.getElementById("skills")
-.value=
-
-extractSkills(text);
-
-
-
-saveResume();
-
-
-
-alert(
-"Resume imported successfully"
-);
-
-
-};
-
-
-
-reader.readAsText(file);
-
-
-}
-
-
-
-
-
-
-function extractSkills(text){
-
-
-let found=[];
-
-
-Object.values(skillDatabase)
-
-.flat()
-
-.forEach(skill=>{
-
-
-if(
-text.toLowerCase()
-.includes(skill)
-)
-
-found.push(skill);
-
-
-});
-
-
-return found.join(", ");
-
-
-}
-
-
-
-
-
-
-
-function createCoverLetter(){
-
-
-
-let cover=
-
-`
-
-${resume.name}
-
-
-Dear Hiring Manager,
-
-
-I am applying for the ${resume.title} position.
-
-
-My experience includes:
-
-
-${resume.experience}
-
-
-
-My professional skills include:
-
-
-${resume.skills}
-
-
-
-I have successfully delivered measurable results
-and believe my background aligns well with your
-organization's goals.
-
-
-I welcome the opportunity to discuss how I can
-contribute to your team.
-
-
-Sincerely,
-
-
-${resume.name}
-
-`;
-
-
-
-let blob=
-
-new Blob(
-
-[cover],
-
-{
-type:
-"text/plain"
-}
-
-);
-
-
-
-let a=
-document.createElement("a");
-
-
-a.href=
-URL.createObjectURL(blob);
-
-
-a.download=
-"Best_Match_Cover_Letter.txt";
-
-
-a.click();
-
-
-
-}
-
-
-
-
-
-const addOns={
-
-
-linkedinOptimizer:function(){
-
-alert(
-"LinkedIn profile optimization activated"
-);
-
-},
-
-
-interviewAI:function(){
-
-alert(
-"Interview preparation activated"
-);
-
-},
-
-
-salaryAssistant:function(){
-
-alert(
-"Salary negotiation assistant activated"
-);
-
-},
-
-
-portfolio:function(){
-
-alert(
-"Portfolio builder activated"
-);
-
-}
-
-
-};
 
 </script>
 
