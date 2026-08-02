@@ -4,52 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResuMatch AI - Advanced ATS Resume & Cover Letter Engine</title>
-    
-    <!-- UI Styling -->
+        
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- External Libraries for File Import & Export -->
-    <!-- PDF.js for Reading PDFs -->
+        
+    <!-- File Import & Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- Mammoth.js for Reading DOCX -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
-    <!-- html2pdf.js for Clean Multi-Page Exports -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <!-- Google ATS Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* ATS Font Families Stacks */
+        /* Font Stacks */
         .font-calibri { font-family: 'Calibri', 'Candara', 'Segoe', 'Segoe UI', 'Optima', sans-serif; }
         .font-arial { font-family: 'Arial', 'Helvetica Neue', 'Helvetica', sans-serif; }
         .font-garamond { font-family: 'EB Garamond', 'Garamond', 'Georgia', serif; }
         .font-georgia { font-family: 'Georgia', 'Cambria', 'Times New Roman', serif; }
         .font-helvetica { font-family: 'Helvetica', 'Arial', sans-serif; }
         .font-verdana { font-family: 'Verdana', 'Geneva', sans-serif; }
-
-        body { font-family: 'Arial', sans-serif; }
-
-        /* A4 Page Formatting for Export Precision */
+        
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Strict A4 Document Dimensions (794px width is standard 96DPI standard A4 width) */
         .document-page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 18mm 18mm 18mm 18mm;
-            margin: 0 auto 1.5rem auto;
-            background: white;
+            width: 794px;
+            min-height: 1123px;
+            padding: 48px;
+            margin: 0 auto 2rem auto;
+            background: #ffffff;
             box-sizing: border-box;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             position: relative;
+            color: #1e293b;
         }
 
-        /* Page Break Boundaries */
+        /* Custom UI Scrollbars */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #60a5fa;
+        }
+
+        /* Keyframe Animations */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(99, 102, 241, 0.7); }
+        }
+        .animated-glow {
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page Break Rule */
         .page-break {
             page-break-before: always;
             break-before: page;
-        }
-        .avoid-break {
-            page-break-inside: avoid;
-            break-inside: avoid;
         }
 
         @media print {
@@ -59,7 +85,7 @@
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100%;
+                width: 794px;
                 margin: 0;
                 padding: 0;
                 box-shadow: none;
@@ -68,174 +94,196 @@
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 h-screen flex flex-col overflow-hidden">
 
     <!-- Top Navigation Header -->
-    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 no-print">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-3">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-lg">R</div>
-                <span class="font-bold text-xl tracking-tight">ResuMatch <span class="text-indigo-400">Pro</span></span>
-                <span class="text-xs bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/20 font-medium">ATS Multi-Page Engine</span>
-            </div>
+    <header class="border-b border-indigo-500/30 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 no-print shadow-lg shadow-indigo-950/50 flex-none">
+        <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap justify-between items-center gap-3">
             
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-500 flex items-center justify-center font-black text-white text-xl shadow-md shadow-cyan-500/30 transform hover:rotate-6 transition">R</div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-extrabold text-xl tracking-tight text-white">ResuMatch <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">Pro</span></span>
+                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 px-2 py-0.5 rounded-full font-semibold tracking-wide uppercase">ATS Engine v3.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Control Controls Array -->
             <div class="flex flex-wrap items-center gap-2">
-                <!-- One Click Profile Cycling -->
-                <button onclick="cycleSampleProfiles()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
-                    <span>⚡ Load Next Sample Profile</span>
+                <!-- 1. IMPORT BUTTON (Moved Left beside Load Sample) -->
+                <label class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 rounded-lg text-xs font-semibold cursor-pointer transition-all duration-200 flex items-center gap-1.5 shadow-sm active:scale-95">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    <span>Import File</span>
+                    <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleFileUpload(event)">
+                </label>
+
+                <!-- 2. LOAD NEXT SAMPLE BUTTON -->
+                <button onclick="cycleSampleProfiles()" class="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-md shadow-indigo-500/20 active:scale-95 border border-indigo-400/30">
+                    <span class="animate-spin text-cyan-300 text-sm">⚡</span>
+                    <span>Load Next Sample (<span id="sample-index-badge">1</span>/50)</span>
                 </button>
 
-                <!-- Email PDF Directly -->
-                <button onclick="sendViaEmail()" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                <!-- 3. ATS FONT SELECTOR DROPDOWN (Moved Right beside Load Sample) -->
+                <div class="flex items-center bg-slate-800/90 border border-indigo-500/30 rounded-lg px-2.5 py-1 text-xs gap-1.5">
+                    <label class="text-[11px] text-slate-300 font-medium">ATS Font:</label>
+                    <select id="font-selector" onchange="changeATSFont(this.value)" class="bg-slate-900 border border-slate-700 rounded px-2 py-0.5 text-xs text-cyan-300 font-semibold focus:outline-none focus:ring-1 focus:ring-cyan-400 cursor-pointer">
+                        <option value="font-arial" selected>Arial (Universal)</option>
+                        <option value="font-calibri">Calibri (Clean)</option>
+                        <option value="font-garamond">Garamond (Executive)</option>
+                        <option value="font-georgia">Georgia (Classic)</option>
+                        <option value="font-helvetica">Helvetica (Modern)</option>
+                        <option value="font-verdana">Verdana (Compact)</option>
+                    </select>
+                </div>
+
+                <!-- EMAIL APPLICATION BUTTON -->
+                <button onclick="sendViaEmail()" class="px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-sm active:scale-95">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    <span>Email Application</span>
+                    <span>Email Package</span>
                 </button>
 
-                <!-- PDF Export -->
-                <button onclick="exportMultiPagePDF()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-lg text-xs flex items-center gap-1.5 transition shadow-lg shadow-indigo-600/20">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span>Export Multi-Page PDF</span>
+                <!-- PERFECT MULTI-PAGE PDF EXPORT -->
+                <button onclick="exportMultiPagePDF()" class="px-4 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-cyan-500/25 active:scale-95 border border-cyan-300/30">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Export Perfect PDF</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-        <!-- Left Control Panel (7 Columns) -->
-        <section class="lg:col-span-6 space-y-6 no-print">
+    <!-- Main Workspace Container with fixed height calculations for scroll mechanics -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-12 gap-6 h-[calc(100vh-65px)] overflow-hidden">
+        
+        <!-- LEFT CONTROL PANEL (6 Columns with independent scroll) -->
+        <section class="lg:col-span-6 h-full overflow-y-auto custom-scroll pr-2 space-y-5 pb-12 no-print">
             
-            <!-- Global Config & Import Hub -->
-            <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 shadow-xl space-y-4">
-                <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-                    <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                        <span>⚙️ ATS Settings & Import</span>
-                    </h2>
-                    
-                    <!-- Font Family Dropdown Selector -->
+            <!-- REPLACED: ATS SCOREBOARD DASHBOARD ENGINE -->
+            <div class="bg-slate-800/90 border border-indigo-500/30 rounded-2xl p-4 shadow-xl backdrop-blur-md animated-glow relative overflow-hidden transition-all">
+                <div class="flex items-center justify-between border-b border-slate-700/80 pb-3 mb-3">
                     <div class="flex items-center gap-2">
-                        <label class="text-xs text-slate-400">ATS Font:</label>
-                        <select id="font-selector" onchange="changeATSFont(this.value)" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-xs text-indigo-300 font-medium focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                            <option value="font-calibri">Calibri</option>
-                            <option value="font-arial" selected>Arial</option>
-                            <option value="font-garamond">Garamond</option>
-                            <option value="font-georgia">Georgia</option>
-                            <option value="font-helvetica">Helvetica</option>
-                            <option value="font-verdana">Verdana</option>
-                        </select>
+                        <span class="p-1.5 bg-indigo-500/20 text-indigo-400 rounded-lg font-bold text-sm">📊</span>
+                        <div>
+                            <h2 class="text-xs font-bold text-white uppercase tracking-wider">ATS Scoreboard & Keyword Matching</h2>
+                            <p class="text-[11px] text-slate-400">Live optimization score based on Target Job Description</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div id="score-grade-badge" class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">Strong Match</div>
+                        <div class="text-right">
+                            <span class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-300" id="ats-score">85</span>
+                            <span class="text-slate-400 text-xs font-semibold">/100</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Auto Fill File Importer -->
-                <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700/60 flex flex-col sm:flex-row justify-between items-center gap-3">
-                    <div class="text-xs">
-                        <div class="font-semibold text-slate-200">Auto-Fill Resume from File</div>
-                        <div class="text-slate-400">Upload existing .PDF, .DOCX, or .TXT resume</div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-[11px]">
+                        <span class="text-slate-300 font-medium">Target Job Description:</span>
+                        <span class="text-cyan-400 text-[10px]" id="kw-match-count">0 / 0 Keywords Matched</span>
                     </div>
-                    <label class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 border border-indigo-500/30 rounded text-xs font-medium cursor-pointer transition flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                        <span>Import File</span>
-                        <input type="file" id="resume-file-input" accept=".pdf,.doc,.docx,.txt" class="hidden" onchange="handleFileUpload(event)">
-                    </label>
+                    <textarea id="job-description" oninput="runATSScan()" rows="3" class="w-full bg-slate-900/90 border border-slate-700 focus:border-cyan-400 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition" placeholder="Paste target Job Description here to analyze keyword density..."></textarea>
+                </div>
+
+                <div class="mt-3">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 mb-1.5 tracking-wider">Keyword Match Matrix</div>
+                    <div class="flex flex-wrap gap-1.5" id="keyword-chips">
+                        <!-- Keywords populated dynamically -->
+                    </div>
                 </div>
             </div>
 
-            <!-- ATS Score Dashboard -->
-            <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 shadow-xl">
-                <div class="flex items-center justify-between mb-3">
-                    <div>
-                        <h2 class="text-sm font-semibold text-white">Target ATS Match Scanner</h2>
-                        <p class="text-xs text-slate-400">Scans against current Job Description keywords</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-2xl font-extrabold text-indigo-400" id="ats-score">85</span>
-                        <span class="text-slate-400 text-xs">/100</span>
-                    </div>
-                </div>
-
-                <textarea id="job-description" oninput="runATSScan()" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 mb-2" placeholder="Paste target Job Description here..."></textarea>
+            <!-- CONTENT EDIT FORM BUILDER -->
+            <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-4 shadow-xl backdrop-blur-md space-y-4">
                 
-                <div class="flex flex-wrap gap-1" id="keyword-chips"></div>
-            </div>
-
-            <!-- Content Builder Form -->
-            <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-4 space-y-4">
-                
-                <!-- View Toggle: Resume vs Cover Letter -->
-                <div class="flex border-b border-slate-700">
-                    <button id="tab-btn-resume" onclick="switchTab('resume')" class="px-4 py-2 text-xs font-bold border-b-2 border-indigo-500 text-indigo-400">1. Resume Details</button>
-                    <button id="tab-btn-cover" onclick="switchTab('cover')" class="px-4 py-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200">2. Cover Letter Details</button>
+                <!-- View Navigation Tab Controls -->
+                <div class="flex border-b border-slate-700/80 bg-slate-900/40 p-1 rounded-xl">
+                    <button id="tab-btn-resume" onclick="switchTab('resume')" class="flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md">1. Resume Content</button>
+                    <button id="tab-btn-cover" onclick="switchTab('cover')" class="flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200">2. Cover Letter Content</button>
                 </div>
 
                 <!-- Form Tab 1: Resume Inputs -->
-                <div id="form-tab-resume" class="space-y-4">
-                    <!-- Contact Information -->
+                <div id="form-tab-resume" class="space-y-4 animate-fade-in">
+                    
+                    <!-- Header Info -->
                     <div class="space-y-2">
-                        <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Contact Header</h3>
+                        <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>👤</span> Personal & Contact Info
+                        </h3>
                         <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="form-name" oninput="updateDocuments()" placeholder="Full Name" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="Alex Mercer">
-                            <input type="text" id="form-title" oninput="updateDocuments()" placeholder="Target Title" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="Senior Software Engineer">
-                            <input type="email" id="form-email" oninput="updateDocuments()" placeholder="Email Address" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="alex.mercer@email.com">
-                            <input type="text" id="form-phone" oninput="updateDocuments()" placeholder="Phone Number" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="(555) 019-2834">
-                            <input type="text" id="form-location" oninput="updateDocuments()" placeholder="City, State" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="San Francisco, CA">
-                            <input type="text" id="form-linkedin" oninput="updateDocuments()" placeholder="LinkedIn URL" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="linkedin.com/in/alexmercer">
+                            <input type="text" id="form-name" oninput="updateDocuments()" placeholder="Full Name" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="Alex Mercer">
+                            <input type="text" id="form-title" oninput="updateDocuments()" placeholder="Target Job Title" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="Senior Software Engineer">
+                            <input type="email" id="form-email" oninput="updateDocuments()" placeholder="Email Address" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="alex.mercer@email.com">
+                            <input type="text" id="form-phone" oninput="updateDocuments()" placeholder="Phone Number" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="(555) 019-2834">
+                            <input type="text" id="form-location" oninput="updateDocuments()" placeholder="City, State" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="San Francisco, CA">
+                            <input type="text" id="form-linkedin" oninput="updateDocuments()" placeholder="LinkedIn / Portfolio" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="linkedin.com/in/alexmercer">
                         </div>
                     </div>
 
                     <!-- Summary -->
-                    <div class="space-y-1">
-                        <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Professional Summary</h3>
-                        <textarea id="form-summary" oninput="updateDocuments(); runATSScan();" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white">Results-driven Software Engineer with 6+ years of experience designing scalable microservices and web applications. Proven track record of optimizing database performance by 40% and deploying React/Node.js systems serving 1M+ active users.</textarea>
+                    <div class="space-y-1.5">
+                        <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>📝</span> Professional Summary
+                        </h3>
+                        <textarea id="form-summary" oninput="updateDocuments(); runATSScan();" rows="3" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-slate-100 focus:border-cyan-400 focus:outline-none">Results-driven Software Engineer with 6+ years of experience designing scalable microservices and web applications. Proven track record of optimizing database performance by 40% and deploying React/Node.js systems serving 1M+ active users.</textarea>
                     </div>
 
                     <!-- Skills -->
-                    <div class="space-y-1">
-                        <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Technical Skills (Comma Separated)</h3>
-                        <input type="text" id="form-skills" oninput="updateDocuments(); runATSScan();" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="React, TypeScript, Next.js, Node.js, GraphQL, PostgreSQL, AWS, Docker, Microservices, CI/CD, REST APIs">
+                    <div class="space-y-1.5">
+                        <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>🛠️</span> Core Skills (Comma Separated)
+                        </h3>
+                        <input type="text" id="form-skills" oninput="updateDocuments(); runATSScan();" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="React, TypeScript, Next.js, Node.js, GraphQL, PostgreSQL, AWS, Docker, Microservices, CI/CD, REST APIs">
                     </div>
 
                     <!-- Work Experience -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center">
-                            <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Work Experience</h3>
-                            <button onclick="aiOptimizeBullets()" class="text-[11px] bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded">✨ Optimize Verbs</button>
+                            <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <span>💼</span> Work Experience
+                            </h3>
+                            <button onclick="aiOptimizeBullets()" class="text-[10px] font-semibold bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 hover:from-cyan-500/30 hover:to-indigo-500/30 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-lg transition active:scale-95">✨ Action-Verb Boost</button>
                         </div>
-                        <div class="space-y-2 bg-slate-900/50 p-2.5 rounded border border-slate-700">
+                        <div class="space-y-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
                             <div class="grid grid-cols-2 gap-2">
-                                <input type="text" id="form-exp-company" oninput="updateDocuments()" placeholder="Company" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="TechCorp Solutions">
-                                <input type="text" id="form-exp-role" oninput="updateDocuments()" placeholder="Role Title" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="Senior Software Engineer">
-                                <input type="text" id="form-exp-dates" oninput="updateDocuments()" placeholder="Dates" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="2021 - Present">
-                                <input type="text" id="form-exp-location" oninput="updateDocuments()" placeholder="Location" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="San Francisco, CA">
+                                <input type="text" id="form-exp-company" oninput="updateDocuments()" placeholder="Company" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="TechCorp Solutions">
+                                <input type="text" id="form-exp-role" oninput="updateDocuments()" placeholder="Role Title" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="Senior Software Engineer">
+                                <input type="text" id="form-exp-dates" oninput="updateDocuments()" placeholder="Dates (e.g., 2021 - Present)" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="2021 - Present">
+                                <input type="text" id="form-exp-location" oninput="updateDocuments()" placeholder="Location" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="San Francisco, CA">
                             </div>
-                            <textarea id="form-exp-bullets" oninput="updateDocuments(); runATSScan();" rows="4" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-slate-200 font-mono">Spearheaded transition from legacy monolith to React/Next.js frontend, improving page speeds by 45%.
+                            <textarea id="form-exp-bullets" oninput="updateDocuments(); runATSScan();" rows="4" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-slate-200 font-mono focus:border-cyan-400 focus:outline-none">Spearheaded transition from legacy monolith to React/Next.js frontend, improving page speeds by 45%.
 Architected GraphQL APIs and PostgreSQL schemas handling over 10,000 requests per minute with 99.9% uptime.
 Managed cross-functional team of 5 developers and instituted automated CI/CD pipelines using AWS.</textarea>
                         </div>
                     </div>
 
                     <!-- Education -->
-                    <div class="space-y-1">
-                        <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Education</h3>
-                        <div class="grid grid-cols-2 gap-2 bg-slate-900/50 p-2.5 rounded border border-slate-700">
-                            <input type="text" id="form-edu-degree" oninput="updateDocuments()" placeholder="Degree" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="B.S. in Computer Science">
-                            <input type="text" id="form-edu-school" oninput="updateDocuments()" placeholder="University" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="UC Berkeley">
-                            <input type="text" id="form-edu-year" oninput="updateDocuments()" placeholder="Graduation Year" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="2018">
-                            <input type="text" id="form-edu-gpa" oninput="updateDocuments()" placeholder="GPA / Honors" class="bg-slate-900 border border-slate-700 rounded p-1.5 text-xs text-white" value="GPA: 3.8/4.0">
+                    <div class="space-y-1.5">
+                        <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <span>🎓</span> Education & Certifications
+                        </h3>
+                        <div class="grid grid-cols-2 gap-2 bg-slate-900/50 p-3 rounded-xl border border-slate-700/80">
+                            <input type="text" id="form-edu-degree" oninput="updateDocuments()" placeholder="Degree / Certification" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="B.S. in Computer Science">
+                            <input type="text" id="form-edu-school" oninput="updateDocuments()" placeholder="University / Provider" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="UC Berkeley">
+                            <input type="text" id="form-edu-year" oninput="updateDocuments()" placeholder="Year" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="2018">
+                            <input type="text" id="form-edu-gpa" oninput="updateDocuments()" placeholder="GPA / Distinction" class="bg-slate-900/80 border border-slate-700/80 rounded p-1.5 text-xs text-white focus:border-cyan-400 focus:outline-none" value="GPA: 3.8/4.0">
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Form Tab 2: Cover Letter Inputs -->
-                <div id="form-tab-cover" class="space-y-3 hidden">
-                    <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Recipient Details</h3>
+                <div id="form-tab-cover" class="space-y-3 hidden animate-fade-in">
+                    <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider">Recipient Details</h3>
                     <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="form-cl-recipient" oninput="updateDocuments()" placeholder="Hiring Manager / Recipient Name" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="Hiring Manager">
-                        <input type="text" id="form-cl-company" oninput="updateDocuments()" placeholder="Company Name" class="bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white" value="Acme Innovations Inc.">
+                        <input type="text" id="form-cl-recipient" oninput="updateDocuments()" placeholder="Hiring Manager / Recipient Name" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="Hiring Manager">
+                        <input type="text" id="form-cl-company" oninput="updateDocuments()" placeholder="Company Name" class="bg-slate-900/80 border border-slate-700/80 rounded-lg p-2 text-xs text-white focus:border-cyan-400 focus:outline-none" value="Acme Innovations Inc.">
                     </div>
-                    <div class="space-y-1">
-                        <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Cover Letter Body</h3>
-                        <textarea id="form-cl-body" oninput="updateDocuments()" rows="10" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white leading-relaxed">Dear Hiring Manager,
+                    
+                    <div class="space-y-1.5">
+                        <h3 class="text-[11px] font-bold text-cyan-400 uppercase tracking-wider">Cover Letter Body</h3>
+                        <textarea id="form-cl-body" oninput="updateDocuments()" rows="12" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-lg p-2.5 text-xs text-slate-100 leading-relaxed focus:border-cyan-400 focus:outline-none">Dear Hiring Manager,
 
 I am writing to express my strong enthusiasm for the Senior Software Engineer position at Acme Innovations Inc. With over six years of experience building scalable web infrastructure and modern web applications, I have developed a deep expertise in high-performance frontend and backend development.
 
@@ -253,25 +301,28 @@ Alex Mercer</textarea>
             </div>
         </section>
 
-        <!-- Right Column: Canvas Live Preview (6 Columns) -->
-        <section class="lg:col-span-6 flex flex-col items-center">
+        <!-- RIGHT CANVAS PREVIEW PANEL (6 Columns with independent scroll) -->
+        <section class="lg:col-span-6 h-full overflow-y-auto custom-scroll flex flex-col items-center pb-12">
             
-            <div class="sticky top-16 w-full space-y-2">
-                <div class="flex justify-between items-center text-xs text-slate-400 no-print px-1">
-                    <span>A4 Document Live Render Layout</span>
-                    <span id="page-count-badge" class="bg-slate-800 px-2 py-0.5 rounded border border-slate-700 text-indigo-400 font-medium">Page 1 & 2 Preview</span>
+            <div class="w-full max-w-[794px] space-y-2">
+                <div class="flex justify-between items-center text-xs text-slate-300 no-print px-1 py-0.5">
+                    <span class="flex items-center gap-1.5 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        Standard A4 Document Live Render
+                    </span>
+                    <span id="page-count-badge" class="bg-slate-800/90 border border-slate-700 px-2.5 py-0.5 rounded-full text-cyan-300 text-[10px] font-semibold">2 Pages Ready (Resume + Cover)</span>
                 </div>
 
-                <!-- Export Canvas Wrapper Container -->
-                <div id="export-container" class="font-arial text-slate-900 text-xs">
-
+                <!-- Export Canvas Wrapper Container for html2pdf -->
+                <div id="export-container" class="font-arial text-slate-900 text-xs shadow-2xl rounded-sm">
+                    
                     <!-- PAGE 1: RESUME DOCUMENT -->
                     <div id="resume-page" class="document-page">
-                        <!-- Contact Header -->
-                        <div class="border-b border-slate-400 pb-3 mb-3 text-center">
-                            <h1 id="pv-name" class="text-xl font-bold uppercase tracking-wide text-slate-900">Alex Mercer</h1>
-                            <p id="pv-title" class="text-xs font-semibold text-slate-700 mb-1">Senior Software Engineer</p>
-                            <div class="flex flex-wrap justify-center gap-x-2 text-[10px] text-slate-600" id="pv-contact">
+                        <!-- Header -->
+                        <div class="border-b-2 border-slate-800 pb-3 mb-4 text-center">
+                            <h1 id="pv-name" class="text-2xl font-bold uppercase tracking-wide text-slate-900">Alex Mercer</h1>
+                            <p id="pv-title" class="text-xs font-bold text-indigo-700 mb-1">Senior Software Engineer</p>
+                            <div class="flex flex-wrap justify-center gap-x-2 text-[10px] text-slate-600 font-medium" id="pv-contact">
                                 <span id="pv-email">alex.mercer@email.com</span> • 
                                 <span id="pv-phone">(555) 019-2834</span> • 
                                 <span id="pv-location">San Francisco, CA</span> • 
@@ -279,42 +330,42 @@ Alex Mercer</textarea>
                             </div>
                         </div>
 
-                        <!-- Summary -->
-                        <div class="mb-3 avoid-break">
-                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1 text-slate-800 tracking-wider">Professional Summary</h2>
-                            <p id="pv-summary" class="text-slate-700 leading-normal">Results-driven Software Engineer with 6+ years of experience...</p>
+                        <!-- Professional Summary -->
+                        <div class="mb-4">
+                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1.5 text-slate-900 tracking-wider">Professional Summary</h2>
+                            <p id="pv-summary" class="text-slate-700 text-xs leading-normal">Results-driven Software Engineer with 6+ years of experience...</p>
                         </div>
 
-                        <!-- Technical Skills -->
-                        <div class="mb-3 avoid-break">
-                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1 text-slate-800 tracking-wider">Technical Skills</h2>
-                            <p id="pv-skills" class="text-slate-700">React, TypeScript, Next.js, Node.js, GraphQL, PostgreSQL, AWS</p>
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1.5 text-slate-900 tracking-wider">Technical Skills</h2>
+                            <p id="pv-skills" class="text-slate-800 text-xs leading-snug">React, TypeScript, Next.js, Node.js, GraphQL, PostgreSQL, AWS</p>
                         </div>
 
-                        <!-- Experience -->
-                        <div class="mb-3 avoid-break">
-                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1 text-slate-800 tracking-wider">Work Experience</h2>
+                        <!-- Work Experience -->
+                        <div class="mb-4">
+                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1.5 text-slate-900 tracking-wider">Work Experience</h2>
                             <div>
-                                <div class="flex justify-between font-bold text-slate-800">
+                                <div class="flex justify-between font-bold text-slate-900 text-xs">
                                     <span id="pv-exp-role">Senior Software Engineer</span>
                                     <span id="pv-exp-dates">2021 - Present</span>
                                 </div>
-                                <div class="flex justify-between italic text-slate-600 mb-1">
+                                <div class="flex justify-between italic text-slate-700 text-xs mb-1.5">
                                     <span id="pv-exp-company">TechCorp Solutions</span>
                                     <span id="pv-exp-location">San Francisco, CA</span>
                                 </div>
-                                <ul id="pv-exp-bullets" class="list-disc pl-4 space-y-0.5 text-slate-700"></ul>
+                                <ul id="pv-exp-bullets" class="list-disc pl-4 space-y-1 text-slate-700 text-xs leading-normal"></ul>
                             </div>
                         </div>
 
                         <!-- Education -->
-                        <div class="avoid-break">
-                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1 text-slate-800 tracking-wider">Education</h2>
-                            <div class="flex justify-between font-bold text-slate-800">
+                        <div>
+                            <h2 class="font-bold text-[11px] uppercase border-b border-slate-300 pb-0.5 mb-1.5 text-slate-900 tracking-wider">Education & Certifications</h2>
+                            <div class="flex justify-between font-bold text-slate-900 text-xs">
                                 <span id="pv-edu-degree">B.S. in Computer Science</span>
                                 <span id="pv-edu-year">2018</span>
                             </div>
-                            <div class="flex justify-between italic text-slate-600">
+                            <div class="flex justify-between italic text-slate-700 text-xs">
                                 <span id="pv-edu-school">UC Berkeley</span>
                                 <span id="pv-edu-gpa">GPA: 3.8/4.0</span>
                             </div>
@@ -323,27 +374,27 @@ Alex Mercer</textarea>
 
                     <!-- PAGE 2: COVER LETTER DOCUMENT -->
                     <div id="cover-page" class="document-page page-break">
-                        <!-- Header Matching Resume Header -->
-                        <div class="border-b border-slate-400 pb-3 mb-6 text-center">
-                            <h1 id="cl-pv-name" class="text-xl font-bold uppercase tracking-wide text-slate-900">Alex Mercer</h1>
-                            <p id="cl-pv-title" class="text-xs font-semibold text-slate-700 mb-1">Senior Software Engineer</p>
-                            <div class="flex flex-wrap justify-center gap-x-2 text-[10px] text-slate-600">
+                        <!-- Cover Letter Header -->
+                        <div class="border-b-2 border-slate-800 pb-3 mb-6 text-center">
+                            <h1 id="cl-pv-name" class="text-2xl font-bold uppercase tracking-wide text-slate-900">Alex Mercer</h1>
+                            <p id="cl-pv-title" class="text-xs font-bold text-indigo-700 mb-1">Senior Software Engineer</p>
+                            <div class="flex flex-wrap justify-center gap-x-2 text-[10px] text-slate-600 font-medium">
                                 <span id="cl-pv-email">alex.mercer@email.com</span> • 
                                 <span id="cl-pv-phone">(555) 019-2834</span> • 
                                 <span id="cl-pv-location">San Francisco, CA</span>
                             </div>
                         </div>
 
-                        <!-- Recipient Date & Info -->
-                        <div class="mb-6 space-y-1 text-slate-800">
-                            <div id="cl-pv-date" class="font-medium text-slate-500 mb-3">August 2, 2026</div>
-                            <div id="cl-pv-recipient" class="font-bold">Hiring Manager</div>
+                        <!-- Recipient Details -->
+                        <div class="mb-6 space-y-1 text-xs text-slate-800">
+                            <div id="cl-pv-date" class="font-medium text-slate-500 mb-4">August 2, 2026</div>
+                            <div id="cl-pv-recipient" class="font-bold text-slate-900">Hiring Manager</div>
                             <div id="cl-pv-company" class="italic text-slate-700">Acme Innovations Inc.</div>
                         </div>
 
-                        <!-- Letter Content -->
-                        <div id="cl-pv-body" class="text-slate-700 leading-relaxed whitespace-pre-line text-justify">
-                            <!-- Dynamic Cover Letter Body -->
+                        <!-- Cover Letter Body -->
+                        <div id="cl-pv-body" class="text-slate-800 text-xs leading-relaxed whitespace-pre-line text-justify space-y-3">
+                            <!-- Dynamic Body Content -->
                         </div>
                     </div>
 
@@ -351,108 +402,88 @@ Alex Mercer</textarea>
             </div>
 
         </section>
+
     </main>
 
-    <!-- JavaScript Core Engine -->
+    <!-- JavaScript Core Application Engine -->
     <script>
-        // Sample Job Profiles Sequence Array
-        const sampleProfiles = [
-            {
-                name: "Alex Mercer",
-                title: "Senior Software Engineer",
-                email: "alex.mercer@email.com",
-                phone: "(555) 019-2834",
-                location: "San Francisco, CA",
-                linkedin: "linkedin.com/in/alexmercer",
-                summary: "Results-driven Software Engineer with 6+ years of experience designing scalable microservices and web applications. Proven track record of optimizing database performance by 40% and deploying React/Node.js systems serving 1M+ active users.",
-                skills: "React, TypeScript, Next.js, Node.js, GraphQL, PostgreSQL, AWS, Docker, Microservices, CI/CD, REST APIs",
-                company: "TechCorp Solutions",
-                role: "Senior Software Engineer",
-                dates: "2021 - Present",
-                expLocation: "San Francisco, CA",
-                bullets: "Spearheaded transition from legacy monolith to React/Next.js frontend, improving page speeds by 45%.\nArchitected GraphQL APIs and PostgreSQL schemas handling over 10,000 requests per minute with 99.9% uptime.\nManaged cross-functional team of 5 developers and instituted automated CI/CD pipelines using AWS.",
-                degree: "B.S. in Computer Science",
-                school: "UC Berkeley",
-                year: "2018",
-                gpa: "GPA: 3.8/4.0",
-                jd: "We are seeking a Senior Software Engineer proficient in React, TypeScript, Next.js, and Node.js. Experience with PostgreSQL databases, Microservices, and GraphQL APIs is required. AWS experience is a major plus."
-            },
-            {
-                name: "Sarah Jenkins",
-                title: "Lead Product Manager",
-                email: "sarah.jenkins@email.com",
-                phone: "(555) 432-8765",
-                location: "New York, NY",
-                linkedin: "linkedin.com/in/sarahjenkins",
-                summary: "Data-obsessed Lead Product Manager with 8+ years scaling B2B SaaS products from concept to $15M ARR. Expertise in Agile product lifecycle, customer discovery, funnel conversion optimization, and cross-functional team leadership.",
-                skills: "Product Strategy, Roadmap Development, Agile/Scrum, A/B Testing, SQL, Mixpanel, User Research, JIRA, Go-To-Market",
-                company: "CloudScale Systems",
-                role: "Lead Product Manager",
-                dates: "2020 - Present",
-                expLocation: "New York, NY",
-                bullets: "Orchestrated product roadmap for flagship enterprise SaaS product, scaling ARR from $5M to $15M in 24 months.\nEngineered user onboarding flow revamp that reduced churn by 22% and increased 30-day retention by 18%.\nLed 3 agile squads consisting of 18 engineers and designers to deliver major features on schedule.",
-                degree: "B.A. in Economics & Business",
-                school: "Columbia University",
-                year: "2016",
-                gpa: "Honors Graduate",
-                jd: "Seeking a Lead Product Manager skilled in SaaS product lifecycle management, user retention analytics, Agile methodologies, and revenue growth. Experience with SQL and product analytics tools required."
-            },
-            {
-                name: "David Chen",
-                title: "Senior Data Scientist",
-                email: "david.chen@email.com",
-                phone: "(555) 888-1234",
-                location: "Seattle, WA",
-                linkedin: "linkedin.com/in/davidchen-ds",
-                summary: "Senior Data Scientist specializing in Predictive Machine Learning models, Natural Language Processing, and large-scale data pipelines. Demonstrated history of deploying AI solutions that cut operational costs by $2M annually.",
-                skills: "Python, PyTorch, TensorFlow, SQL, Scikit-Learn, Machine Learning, Apache Spark, NLP, AWS SageMaker, Data Modeling",
-                company: "DataDynamics Lab",
-                role: "Senior Data Scientist",
-                dates: "2019 - Present",
-                expLocation: "Seattle, WA",
-                bullets: "Designed machine learning recommendation algorithm that boosted cross-selling revenue by 28% across 500k e-commerce users.\nEngineered ETL pipelines using Spark and SQL processing 50TB+ daily unstructured log data.\nDeployed PyTorch NLP sentiment models to AWS SageMaker for real-time customer feedback categorization.",
-                degree: "M.S. in Data Science & Machine Learning",
-                school: "University of Washington",
-                year: "2017",
-                gpa: "GPA: 3.9/4.0",
-                jd: "Looking for a Data Scientist proficient in Python, SQL, Machine Learning pipelines, PyTorch or TensorFlow, and Apache Spark. Experience deploying models to cloud environments like AWS SageMaker required."
-            }
+        // Generating 50 Realistic Sequential Profile Samples
+        const titles = [
+            "Software Engineer", "Product Manager", "Data Scientist", "DevOps Engineer", "UX/UI Designer", 
+            "Marketing Manager", "Financial Analyst", "HR Specialist", "Cybersecurity Specialist", "Full Stack Developer",
+            "Project Manager", "Sales Operations Specialist", "Cloud Architect", "Business Analyst", "QA Automation Engineer",
+            "Content Strategy Manager", "Account Executive", "Scrum Master", "Machine Learning Engineer", "Solutions Architect",
+            "Customer Success Manager", "Network Engineer", "Data Engineer", "Brand Specialist", "Operations Manager",
+            "Mobile App Developer", "Systems Administrator", "SEO Strategist", "Technical Writer", "Risk Analyst",
+            "Supply Chain Analyst", "Social Media Strategist", "Database Administrator", "Product Marketing Manager", "Backend Engineer",
+            "Frontend Engineer", "E-commerce Manager", "Talent Acquisition Lead", "Business Development Manager", "IT Director",
+            "Growth Marketer", "Security Operations Analyst", "SRE Engineer", "Clinical Data Associate", "Electrical Engineer",
+            "Mechanical Engineer", "Corporate Recruiter", "BI Analyst", "Payroll Specialist", "Chief of Staff"
         ];
+
+        const sampleProfiles = titles.map((title, i) => {
+            const idx = i + 1;
+            const firstName = ["Alex", "Sarah", "David", "Elena", "Marcus", "Priya", "James", "Sophia", "Michael", "Olivia"][i % 10];
+            const lastName = ["Mercer", "Jenkins", "Chen", "Rostova", "Vance", "Sharma", "Harrison", "Martinez", "Brooks", "Kim"][i % 10];
+            const fullName = `${firstName} ${lastName}`;
+            const company = ["TechCorp", "CloudScale", "DataDynamics", "Apex Solutions", "NextGen Labs", "Vanguard Global", "Nexus Media", "Starlight Interactive", "Omni Health", "Quantum Fin"][i % 10];
+            
+            return {
+                index: idx,
+                name: fullName,
+                title: `Senior ${title}`,
+                email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@example.com`,
+                phone: `(555) ${100 + idx}-${2000 + idx}`,
+                location: ["San Francisco, CA", "New York, NY", "Seattle, WA", "Austin, TX", "Chicago, IL", "Boston, MA", "Denver, CO", "Los Angeles, CA"][i % 8],
+                linkedin: `linkedin.com/in/${firstName.toLowerCase()}${lastName.toLowerCase()}`,
+                summary: `Highly accomplished ${title} with ${4 + (i % 8)}+ years of proven track record in ${company}. Demonstrated success driving key operational metrics, cross-functional project execution, and enterprise scaling.`,
+                skills: `${title.split(' ')[0]}, Management, Strategy, SQL, Cloud Architecture, Analytics, Performance Optimization, Team Leadership, Agile Workflow`,
+                company: company,
+                role: `Lead ${title}`,
+                dates: `${2020 - (i % 4)} - Present`,
+                expLocation: ["San Francisco, CA", "New York, NY", "Remote"][i % 3],
+                bullets: `Spearheaded enterprise strategy for ${title} operations, raising team output by ${15 + i}%.\nDelivered multi-phase implementations for ${company} under tight budget allocations.\nCollaborated with executive leadership to refine core deliverables and workflow architectures.`,
+                degree: `B.S. in ${title.includes("Engineer") || title.includes("Data") ? "Computer Science" : "Business Administration"}`,
+                school: ["UC Berkeley", "Columbia University", "University of Washington", "MIT", "Stanford University"][i % 5],
+                year: `${2016 - (i % 5)}`,
+                gpa: "GPA: 3.8/4.0",
+                jd: `We are looking for a ${title} with hands-on experience in Management, SQL, Strategy, and performance analytics. Proven expertise with cross-functional execution and Agile methods is strictly required.`
+            };
+        });
 
         let currentProfileIndex = 0;
 
-        // 1. ATS Font Selector Logic
+        // 1. Change Font Logic
         function changeATSFont(fontClass) {
             const documentContainer = document.getElementById('export-container');
-            documentContainer.className = `${fontClass} text-slate-900 text-xs`;
+            documentContainer.className = `${fontClass} text-slate-900 text-xs shadow-2xl rounded-sm`;
         }
 
-        // 2. Tab Navigation Toggle
+        // 2. Navigation Tab Switcher
         function switchTab(tab) {
             if (tab === 'resume') {
                 document.getElementById('form-tab-resume').classList.remove('hidden');
                 document.getElementById('form-tab-cover').classList.add('hidden');
-                document.getElementById('tab-btn-resume').className = "px-4 py-2 text-xs font-bold border-b-2 border-indigo-500 text-indigo-400";
-                document.getElementById('tab-btn-cover').className = "px-4 py-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200";
+                document.getElementById('tab-btn-resume').className = "flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
+                document.getElementById('tab-btn-cover').className = "flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
             } else {
                 document.getElementById('form-tab-resume').classList.add('hidden');
                 document.getElementById('form-tab-cover').classList.remove('hidden');
-                document.getElementById('tab-btn-cover').className = "px-4 py-2 text-xs font-bold border-b-2 border-indigo-500 text-indigo-400";
-                document.getElementById('tab-btn-resume').className = "px-4 py-2 text-xs font-bold border-b-2 border-transparent text-slate-400 hover:text-slate-200";
+                document.getElementById('tab-btn-cover').className = "flex-1 py-2 text-xs font-bold rounded-lg transition-all duration-200 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white shadow-md";
+                document.getElementById('tab-btn-resume').className = "flex-1 py-2 text-xs font-bold text-slate-400 hover:text-white rounded-lg transition-all duration-200";
             }
         }
 
-        // 3. Live Document Preview Synchronizer
+        // 3. Document Render Synchronizer Engine
         function updateDocuments() {
-            // Personal Details
-            const name = document.getElementById('form-name').value || 'Your Name';
+            const name = document.getElementById('form-name').value || 'Candidate Name';
             const title = document.getElementById('form-title').value || 'Target Title';
             const email = document.getElementById('form-email').value || 'email@example.com';
             const phone = document.getElementById('form-phone').value || '';
             const location = document.getElementById('form-location').value || '';
             const linkedin = document.getElementById('form-linkedin').value || '';
 
-            // Update Resume Page Header
+            // Resume Elements
             document.getElementById('pv-name').innerText = name;
             document.getElementById('pv-title').innerText = title;
             document.getElementById('pv-email').innerText = email;
@@ -460,7 +491,6 @@ Alex Mercer</textarea>
             document.getElementById('pv-location').innerText = location;
             document.getElementById('pv-linkedin').innerText = linkedin;
 
-            // Update Resume Body
             document.getElementById('pv-summary').innerText = document.getElementById('form-summary').value || '';
             document.getElementById('pv-skills').innerText = document.getElementById('form-skills').value || '';
             document.getElementById('pv-exp-company').innerText = document.getElementById('form-exp-company').value || '';
@@ -468,7 +498,6 @@ Alex Mercer</textarea>
             document.getElementById('pv-exp-dates').innerText = document.getElementById('form-exp-dates').value || '';
             document.getElementById('pv-exp-location').innerText = document.getElementById('form-exp-location').value || '';
 
-            // Update Bullets
             const bulletLines = document.getElementById('form-exp-bullets').value.split('\n').filter(line => line.trim() !== '');
             const bulletListUI = document.getElementById('pv-exp-bullets');
             bulletListUI.innerHTML = '';
@@ -478,28 +507,27 @@ Alex Mercer</textarea>
                 bulletListUI.appendChild(li);
             });
 
-            // Education
             document.getElementById('pv-edu-degree').innerText = document.getElementById('form-edu-degree').value || '';
             document.getElementById('pv-edu-school').innerText = document.getElementById('form-edu-school').value || '';
             document.getElementById('pv-edu-year').innerText = document.getElementById('form-edu-year').value || '';
             document.getElementById('pv-edu-gpa').innerText = document.getElementById('form-edu-gpa').value || '';
 
-            // Cover Letter Page Synchronizer
+            // Cover Letter Elements
             document.getElementById('cl-pv-name').innerText = name;
             document.getElementById('cl-pv-title').innerText = title;
             document.getElementById('cl-pv-email').innerText = email;
             document.getElementById('cl-pv-phone').innerText = phone;
             document.getElementById('cl-pv-location').innerText = location;
-            
+
             document.getElementById('cl-pv-recipient').innerText = document.getElementById('form-cl-recipient').value || 'Hiring Manager';
             document.getElementById('cl-pv-company').innerText = document.getElementById('form-cl-company').value || 'Company Name';
             document.getElementById('cl-pv-body').innerText = document.getElementById('form-cl-body').value || '';
         }
 
-        // 4. One Click Sequential Sample Loader
+        // 4. Sequential 50 Samples Loader Engine
         function cycleSampleProfiles() {
-            currentProfileIndex = (currentProfileIndex + 1) % sampleProfiles.length;
             const profile = sampleProfiles[currentProfileIndex];
+            document.getElementById('sample-index-badge').innerText = profile.index;
 
             document.getElementById('form-name').value = profile.name;
             document.getElementById('form-title').value = profile.title;
@@ -522,9 +550,11 @@ Alex Mercer</textarea>
 
             updateDocuments();
             runATSScan();
+
+            currentProfileIndex = (currentProfileIndex + 1) % sampleProfiles.length;
         }
 
-        // 5. Automated File Import Parser (.pdf, .docx, .txt)
+        // 5. Automated File Importer (.pdf, .docx, .txt)
         async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -552,21 +582,20 @@ Alex Mercer</textarea>
                     }
                 }
 
-                // Simple Auto Fill Heuristics
                 if (extractedText.trim().length > 0) {
                     document.getElementById('form-summary').value = extractedText.substring(0, 300) + "...";
-                    document.getElementById('form-exp-bullets').value = extractedText.substring(300, 700);
+                    document.getElementById('form-exp-bullets').value = extractedText.substring(300, 750);
                     updateDocuments();
                     runATSScan();
-                    alert("Resume file content extracted and mapped successfully!");
+                    alert("Resume content successfully parsed into workspace!");
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error reading file format. Please upload a standard text or PDF document.");
+                alert("Error reading file. Please upload standard .pdf, .docx, or .txt format.");
             }
         }
 
-        // 6. Action Verb Optimizer
+        // 6. Bullet Verbs Optimizer
         function aiOptimizeBullets() {
             const textarea = document.getElementById('form-exp-bullets');
             let lines = textarea.value.split('\n');
@@ -576,8 +605,9 @@ Alex Mercer</textarea>
                 trimmed = trimmed.replace(/^responsible for/i, "Orchestrated");
                 trimmed = trimmed.replace(/^worked on/i, "Engineered");
                 trimmed = trimmed.replace(/^helped with/i, "Optimized");
+                trimmed = trimmed.replace(/^managed/i, "Spearheaded");
                 if (!/\d+%|\d+|\$\d+/.test(trimmed)) {
-                    trimmed += ", resulting in a 25% performance optimization";
+                    trimmed += ", driving a 20% growth metric";
                 }
                 return trimmed;
             });
@@ -586,22 +616,28 @@ Alex Mercer</textarea>
             runATSScan();
         }
 
-        // 7. ATS Scanner Engine
+        // 7. ATS Score Scanner Engine
         function runATSScan() {
-            const fullResume = (
+            const fullResumeText = (
                 document.getElementById('form-summary').value + ' ' +
                 document.getElementById('form-skills').value + ' ' +
                 document.getElementById('form-exp-bullets').value
             ).toLowerCase();
 
-            const keywords = ["react", "typescript", "next.js", "node.js", "graphql", "postgresql", "aws", "docker", "microservices", "agile", "sql", "python"];
-            let matched = 0;
+            const jdText = document.getElementById('job-description').value.toLowerCase();
+            
+            // Extract unique words longer than 3 characters from JD
+            const jdKeywords = Array.from(new Set(
+                jdText.match(/\b[a-z]{4,}\b/g) || ["management", "strategy", "sql", "agile", "analytics", "performance"]
+            ));
+
+            let matchedCount = 0;
             const container = document.getElementById('keyword-chips');
             container.innerHTML = '';
 
-            keywords.forEach(kw => {
-                const isMatch = fullResume.includes(kw);
-                if (isMatch) matched++;
+            jdKeywords.slice(0, 12).forEach(kw => {
+                const isMatch = fullResumeText.includes(kw);
+                if (isMatch) matchedCount++;
 
                 const chip = document.createElement('span');
                 chip.className = `px-2 py-0.5 rounded text-[10px] font-medium border ${
@@ -613,11 +649,26 @@ Alex Mercer</textarea>
                 container.appendChild(chip);
             });
 
-            const score = Math.round((matched / keywords.length) * 100);
+            const totalKeywords = Math.min(jdKeywords.length, 12);
+            const score = totalKeywords > 0 ? Math.round((matchedCount / totalKeywords) * 100) : 100;
+            
             document.getElementById('ats-score').innerText = score;
+            document.getElementById('kw-match-count').innerText = `${matchedCount} / ${totalKeywords} Keywords Matched`;
+
+            const gradeBadge = document.getElementById('score-grade-badge');
+            if (score >= 80) {
+                gradeBadge.innerText = "Strong Match";
+                gradeBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+            } else if (score >= 50) {
+                gradeBadge.innerText = "Moderate Match";
+                gradeBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/40";
+            } else {
+                gradeBadge.innerText = "Low Match";
+                gradeBadge.className = "px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/40";
+            }
         }
 
-        // 8. Multi-Page Well Aligned PDF Export Function
+        // 8. Multi-Page Perfectly Aligned PDF Export Engine
         function exportMultiPagePDF() {
             const element = document.getElementById('export-container');
             const name = document.getElementById('form-name').value || 'Candidate';
@@ -625,27 +676,31 @@ Alex Mercer</textarea>
             const opt = {
                 margin:       0,
                 filename:     `${name.replace(/\s+/g, '_')}_Application_Package.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0,
+                    windowWidth: 794
+                },
+                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save();
         }
 
-        // 9. Send Export via Email Trigger
+        // 9. Direct Email Handler
         function sendViaEmail() {
             const email = document.getElementById('form-email').value;
             const name = document.getElementById('form-name').value;
             const title = document.getElementById('form-title').value;
-
             const subject = encodeURIComponent(`Application for ${title} - ${name}`);
             const body = encodeURIComponent(`Hello,\n\nPlease find attached my resume and cover letter for the ${title} position.\n\nBest regards,\n${name}\n${email}`);
             
             window.location.href = `mailto:recruiter@company.com?subject=${subject}&body=${body}`;
         }
 
-        // Initialize setup
+        // Initial Runtime Setup
         updateDocuments();
         runATSScan();
     </script>
