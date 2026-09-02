@@ -22,16 +22,16 @@
             theme: {
                 extend: {
                     colors: {
-                        neu: {
-                            base: '#1a1d24',
-                            surface: '#1e222a',
-                            light: '#242932',
-                            dark: '#14161c',
-                            accent: '#3b82f6',
-                            purple: '#8b5cf6',
-                            pink: '#ec4899',
-                            text: '#e2e8f0',
-                            muted: '#94a3b8'
+                        pale: {
+                            bg: '#e6e9ef',
+                            surface: '#e6e9ef',
+                            dark: '#c4c8d3',
+                            light: '#ffffff',
+                            text: '#2d3748',
+                            muted: '#64748b',
+                            accent: '#4f46e5',
+                            purple: '#7c3aed',
+                            pink: '#db2777'
                         }
                     },
                     fontFamily: {
@@ -44,60 +44,60 @@
     </script>
 
     <style>
-        /* Ultrarealistic Neumorphism Utilities */
+        /* Ultrarealistic Pale Neumorphism (Soft Light Theme) */
         body {
-            background-color: #1a1d24;
-            color: #e2e8f0;
+            background-color: #e6e9ef;
+            color: #2d3748;
         }
 
-        .neu-flat {
-            background: #1e222a;
-            box-shadow: 6px 6px 14px #13151a, -6px -6px 14px #252934;
+        .pale-flat {
+            background: #e6e9ef;
+            box-shadow: 7px 7px 15px #c4c8d3, -7px -7px 15px #ffffff;
         }
 
-        .neu-pressed {
-            background: #171a20;
-            box-shadow: inset 3px 3px 7px #101217, inset -3px -3px 7px #20242e;
+        .pale-pressed {
+            background: #e6e9ef;
+            box-shadow: inset 4px 4px 8px #c8cbd2, inset -4px -4px 8px #ffffff;
         }
 
-        .neu-btn {
-            background: linear-gradient(145deg, #20242c, #1b1e25);
-            box-shadow: 5px 5px 10px #13151a, -5px -5px 10px #252934;
+        .pale-btn {
+            background: #e6e9ef;
+            box-shadow: 5px 5px 12px #c4c8d3, -5px -5px 12px #ffffff;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .neu-btn:hover {
-            box-shadow: 3px 3px 6px #13151a, -3px -3px 6px #252934;
+        .pale-btn:hover {
+            box-shadow: 3px 3px 7px #c4c8d3, -3px -3px 7px #ffffff;
             transform: translateY(-1px);
         }
 
-        .neu-btn:active, .neu-btn-active {
-            background: #171a20 !important;
-            box-shadow: inset 3px 3px 6px #101217, inset -3px -3px 6px #20242e !important;
+        .pale-btn:active, .pale-btn-active {
+            background: #e6e9ef !important;
+            box-shadow: inset 3px 3px 6px #c4c8d3, inset -3px -3px 6px #ffffff !important;
             transform: translateY(0);
         }
 
-        .neu-accent-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            box-shadow: 4px 4px 12px rgba(59, 130, 246, 0.3), -3px -3px 8px rgba(255, 255, 255, 0.05);
+        .pale-accent-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            box-shadow: 4px 4px 12px rgba(79, 70, 229, 0.25), -4px -4px 10px #ffffff;
             transition: all 0.2s ease;
         }
 
-        .neu-accent-btn:hover {
+        .pale-accent-btn:hover {
             opacity: 0.95;
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
         }
 
         .gemini-gradient-text {
-            background: linear-gradient(135deg, #60a5fa 0%, #c084fc 50%, #f472b6 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #db2777 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: #171a20; }
-        ::-webkit-scrollbar-thumb { background: #2a2e38; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        ::-webkit-scrollbar-track { background: #e6e9ef; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* Strict Single-Page Standard Letter Print Canvas */
         .ats-document {
@@ -118,115 +118,115 @@
         @media print {
             body { background: white; }
             .no-print { display: none !important; }
-            .ats-document { shadow: none; margin: 0; width: 100%; height: 100%; }
+            .ats-document { box-shadow: none; margin: 0; width: 100%; height: 100%; }
         }
     </style>
 </head>
 <body class="h-full flex flex-col font-sans antialiased overflow-hidden" onload="autoFillByPosition()">
 
     <!-- Header / Top Bar -->
-    <header class="no-print h-16 border-b border-neu-dark/60 bg-neu-surface flex items-center justify-between px-6 z-20 shrink-0">
+    <header class="no-print h-16 border-b border-pale-dark/30 bg-pale-surface flex items-center justify-between px-6 z-20 shrink-0">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl neu-btn flex items-center justify-center font-bold text-gemini-gradient-text text-base">✦</div>
+            <div class="w-9 h-9 rounded-xl pale-btn flex items-center justify-center font-bold text-gemini-gradient-text text-base">✦</div>
             <div>
-                <span class="font-heading font-bold text-lg tracking-wide text-neu-text">Gemini <span class="gemini-gradient-text">ATS Suite</span></span>
-                <span class="text-[10px] text-neu-muted block -mt-1 font-medium">Ultrarealistic Neumorphism Studio • Single Page Fit</span>
+                <span class="font-heading font-bold text-lg tracking-wide text-pale-text">Gemini <span class="gemini-gradient-text">ATS Suite</span></span>
+                <span class="text-[10px] text-pale-muted block -mt-1 font-semibold">Ultrarealistic Pale Neumorphism Studio • Single Page Fit</span>
             </div>
         </div>
 
         <!-- Document Selector & Export Controls -->
         <div class="flex items-center gap-3">
             <!-- View Mode Switcher -->
-            <div class="p-1 rounded-xl neu-pressed flex items-center gap-1">
-                <button id="tab-resume" onclick="switchDoc('resume')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-neu-text neu-btn neu-btn-active">Resume (1-Page)</button>
-                <button id="tab-cover" onclick="switchDoc('cover')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-neu-muted hover:text-neu-text transition">Cover Letter</button>
+            <div class="p-1.5 rounded-xl pale-pressed flex items-center gap-1">
+                <button id="tab-resume" onclick="switchDoc('resume')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-pale-text pale-btn pale-btn-active">Resume (1-Page)</button>
+                <button id="tab-cover" onclick="switchDoc('cover')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-pale-muted hover:text-pale-text transition">Cover Letter</button>
             </div>
 
-            <div class="h-6 w-px bg-neu-dark/80 mx-1"></div>
+            <div class="h-6 w-px bg-pale-dark/40 mx-1"></div>
 
             <!-- Export Buttons -->
-            <button onclick="downloadPDF()" class="neu-accent-btn text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+            <button onclick="downloadPDF()" class="pale-accent-btn text-white px-4 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 PDF
             </button>
-            <button onclick="exportDOC()" class="neu-btn text-neu-text px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <button onclick="exportDOC()" class="pale-btn text-pale-text px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 DOCX
             </button>
-            <button onclick="exportTXT()" class="neu-btn text-neu-text px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <button onclick="exportTXT()" class="pale-btn text-pale-text px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 TXT
             </button>
         </div>
     </header>
 
     <!-- Main Studio Workspace -->
-    <main class="flex-1 flex overflow-hidden p-4 gap-4">
+    <main class="flex-1 flex overflow-hidden p-4 gap-5">
 
         <!-- LEFT CONTROL PANEL -->
         <aside class="no-print w-96 flex flex-col gap-4 overflow-y-auto pr-1 shrink-0">
 
             <!-- Profile & Position Input Panel -->
-            <div class="p-4 rounded-2xl neu-flat space-y-3.5">
+            <div class="p-5 rounded-2xl pale-flat space-y-4">
                 <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-neu-muted uppercase tracking-wider">Candidate Profile</span>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">ATS Match 98%</span>
+                    <span class="text-xs font-bold text-pale-muted uppercase tracking-wider">Candidate Profile</span>
+                    <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 font-bold">ATS Match 98%</span>
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold text-neu-muted mb-1 uppercase tracking-wider">Full Name</label>
-                    <input type="text" id="fullNameInput" value="Alex Morgan" placeholder="e.g. Jane Doe" oninput="autoFillByPosition()" class="w-full neu-pressed rounded-xl px-3.5 py-2 text-xs text-neu-text focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition">
+                    <label class="block text-[11px] font-bold text-pale-muted mb-1 uppercase tracking-wider">Full Name</label>
+                    <input type="text" id="fullNameInput" value="Alex Morgan" placeholder="e.g. Jane Doe" oninput="autoFillByPosition()" class="w-full pale-pressed rounded-xl px-3.5 py-2 text-xs text-pale-text focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition">
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-semibold text-neu-muted mb-1 uppercase tracking-wider">Target Position</label>
-                    <input type="text" id="targetPosition" value="Senior Software Engineer" placeholder="e.g. Data Scientist..." oninput="autoFillByPosition()" class="w-full neu-pressed rounded-xl px-3.5 py-2 text-xs text-neu-text focus:outline-none focus:ring-1 focus:ring-blue-500/50 transition">
+                    <label class="block text-[11px] font-bold text-pale-muted mb-1 uppercase tracking-wider">Target Position</label>
+                    <input type="text" id="targetPosition" value="Senior Software Engineer" placeholder="e.g. Data Scientist..." oninput="autoFillByPosition()" class="w-full pale-pressed rounded-xl px-3.5 py-2 text-xs text-pale-text focus:outline-none focus:ring-2 focus:ring-indigo-500/30 transition">
                 </div>
 
                 <!-- Instant Multi-Format File Upload -->
                 <div class="pt-1">
-                    <label class="block text-[11px] font-semibold text-neu-muted mb-1.5 uppercase tracking-wider">Import File (.TXT, .DOCX, .PDF, .JSON)</label>
-                    <label class="w-full neu-pressed hover:border hover:border-purple-500/30 rounded-xl p-2.5 flex items-center justify-center gap-2 text-xs text-neu-muted cursor-pointer transition group">
-                        <svg class="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                        <span id="importStatus" class="truncate font-medium">Upload File to Auto-Parse</span>
+                    <label class="block text-[11px] font-bold text-pale-muted mb-1.5 uppercase tracking-wider">Import File (.TXT, .DOCX, .PDF, .JSON)</label>
+                    <label class="w-full pale-pressed hover:border hover:border-indigo-400 rounded-xl p-2.5 flex items-center justify-center gap-2 text-xs text-pale-muted cursor-pointer transition group">
+                        <svg class="w-4 h-4 text-indigo-600 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <span id="importStatus" class="truncate font-medium text-pale-text">Upload File to Auto-Parse</span>
                         <input type="file" id="fileInput" accept=".txt,.doc,.docx,.pdf,.json" onchange="handleFileImport(event)" class="hidden">
                     </label>
                 </div>
             </div>
 
             <!-- Position Presets Matrix -->
-            <div class="p-4 rounded-2xl neu-flat space-y-2.5">
-                <span class="text-[11px] font-bold text-neu-muted uppercase tracking-wider block">Role Matrix Presets</span>
-                <div class="flex flex-wrap gap-1.5 text-xs">
-                    <button onclick="quickFill('Fresh Graduate')" class="px-2.5 py-1.5 rounded-lg neu-btn text-emerald-400 font-medium hover:text-emerald-300">🌱 Fresh Graduate</button>
-                    <button onclick="quickFill('Senior Software Engineer')" class="px-2.5 py-1.5 rounded-lg neu-btn text-neu-text hover:text-blue-400 font-medium">💻 Software Engineer</button>
-                    <button onclick="quickFill('Senior Product Manager')" class="px-2.5 py-1.5 rounded-lg neu-btn text-neu-text hover:text-purple-400 font-medium">🎯 Product Manager</button>
-                    <button onclick="quickFill('Lead Data Scientist')" class="px-2.5 py-1.5 rounded-lg neu-btn text-neu-text hover:text-pink-400 font-medium">📊 Data Scientist</button>
-                    <button onclick="quickFill('Cybersecurity Lead')" class="px-2.5 py-1.5 rounded-lg neu-btn text-neu-text hover:text-amber-400 font-medium">🛡️ Cybersecurity</button>
+            <div class="p-5 rounded-2xl pale-flat space-y-3">
+                <span class="text-[11px] font-bold text-pale-muted uppercase tracking-wider block">Role Matrix Presets</span>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="quickFill('Fresh Graduate')" class="px-3 py-1.5 rounded-lg pale-btn text-emerald-600 font-bold hover:text-emerald-700">🌱 Fresh Graduate</button>
+                    <button onclick="quickFill('Senior Software Engineer')" class="px-3 py-1.5 rounded-lg pale-btn text-pale-text hover:text-indigo-600 font-semibold">💻 Software Engineer</button>
+                    <button onclick="quickFill('Senior Product Manager')" class="px-3 py-1.5 rounded-lg pale-btn text-pale-text hover:text-purple-600 font-semibold">🎯 Product Manager</button>
+                    <button onclick="quickFill('Lead Data Scientist')" class="px-3 py-1.5 rounded-lg pale-btn text-pale-text hover:text-pink-600 font-semibold">📊 Data Scientist</button>
+                    <button onclick="quickFill('Cybersecurity Lead')" class="px-3 py-1.5 rounded-lg pale-btn text-pale-text hover:text-amber-600 font-semibold">🛡️ Cybersecurity</button>
                 </div>
             </div>
 
             <!-- Dynamic Layout Fitting Controls -->
-            <div class="p-4 rounded-2xl neu-flat space-y-3">
+            <div class="p-5 rounded-2xl pale-flat space-y-3">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-neu-muted uppercase tracking-wider">1-Page Layout Optimizer</span>
-                    <span id="densityLabel" class="text-[10px] font-bold text-blue-400">Compact</span>
+                    <span class="text-[11px] font-bold text-pale-muted uppercase tracking-wider">1-Page Layout Optimizer</span>
+                    <span id="densityLabel" class="text-[10px] font-bold text-indigo-600">Compact</span>
                 </div>
                 <div>
-                    <label class="block text-[10px] text-neu-muted mb-1">Content Density / Font Scaler</label>
-                    <input type="range" id="densitySlider" min="80" max="100" value="92" oninput="adjustDensity(this.value)" class="w-full accent-blue-500 bg-neu-dark h-1.5 rounded-lg appearance-none cursor-pointer">
+                    <label class="block text-[10px] text-pale-muted mb-1.5 font-medium">Content Scale / Auto-Fit Adjuster</label>
+                    <input type="range" id="densitySlider" min="80" max="100" value="92" oninput="adjustDensity(this.value)" class="w-full accent-indigo-600 h-1.5 rounded-lg appearance-none cursor-pointer pale-pressed">
                 </div>
             </div>
 
         </aside>
 
-        <!-- RIGHT LIVE PAPER CANVAS DISPLAY (Interactive Viewport Centering) -->
-        <section class="flex-1 neu-pressed rounded-2xl p-4 flex justify-center items-start overflow-y-auto relative">
+        <!-- RIGHT LIVE PAPER CANVAS DISPLAY -->
+        <section class="flex-1 pale-pressed rounded-2xl p-4 flex justify-center items-start overflow-y-auto relative">
 
-            <div id="export-container" class="transition-all duration-300 transform scale-95 origin-top my-auto">
+            <div id="export-container" class="transition-all duration-300 transform scale-95 origin-top my-auto shadow-2xl">
 
                 <!-- 1-PAGE RESUME DOCUMENT CONTAINER -->
-                <div id="resume-page" class="ats-document p-8 shadow-2xl rounded-sm">
+                <div id="resume-page" class="ats-document p-8 shadow-xl rounded-sm">
                     
                     <div>
                         <!-- Header -->
@@ -341,7 +341,7 @@
                 </div>
 
                 <!-- 1-PAGE COVER LETTER DOCUMENT CONTAINER -->
-                <div id="cover-letter-page" class="ats-document p-8 shadow-2xl rounded-sm hidden">
+                <div id="cover-letter-page" class="ats-document p-8 shadow-xl rounded-sm hidden">
                     
                     <div>
                         <header class="border-b-2 border-gray-900 pb-2 mb-6 text-center">
@@ -476,17 +476,17 @@
             if (docType === 'resume') {
                 resumePage.classList.remove('hidden');
                 coverPage.classList.add('hidden');
-                tabResume.classList.add('neu-btn', 'neu-btn-active', 'text-neu-text');
-                tabResume.classList.remove('text-neu-muted');
-                tabCover.classList.remove('neu-btn', 'neu-btn-active', 'text-neu-text');
-                tabCover.classList.add('text-neu-muted');
+                tabResume.classList.add('pale-btn', 'pale-btn-active', 'text-pale-text');
+                tabResume.classList.remove('text-pale-muted');
+                tabCover.classList.remove('pale-btn', 'pale-btn-active', 'text-pale-text');
+                tabCover.classList.add('text-pale-muted');
             } else {
                 coverPage.classList.remove('hidden');
                 resumePage.classList.add('hidden');
-                tabCover.classList.add('neu-btn', 'neu-btn-active', 'text-neu-text');
-                tabCover.classList.remove('text-neu-muted');
-                tabResume.classList.remove('neu-btn', 'neu-btn-active', 'text-neu-text');
-                tabResume.classList.add('text-neu-muted');
+                tabCover.classList.add('pale-btn', 'pale-btn-active', 'text-pale-text');
+                tabCover.classList.remove('text-pale-muted');
+                tabResume.classList.remove('pale-btn', 'pale-btn-active', 'text-pale-text');
+                tabResume.classList.add('text-pale-muted');
             }
         }
 
